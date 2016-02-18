@@ -24,3 +24,9 @@
     - different meal per day
   + I want to generate monthly/yearly/varying periods list of meals 
   + I want to see cooking tips for the recipe
+  + I want to include restaurant meals in my meal plan
+  + I want to know driving time and cost to get to the restaurant
+  + I want see other ppl meal plans if they have the same nutritional requests so that I don't have to wait
+  + I want to play a game while the app is loading
+  + I want to adjust the number of meals (and type of meals) so that I can customize my meal plan
+  + I want to review the recipes so that bad recipes won't be selected as frequency
