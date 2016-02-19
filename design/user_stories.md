@@ -30,3 +30,9 @@
   + I want to play a game while the app is loading
   + I want to adjust the number of meals (and type of meals) so that I can customize my meal plan
   + I want to review the recipes so that bad recipes won't be selected as frequency
+
+
+  ## NOTES
+   + NY: I added Amalfi Salad and its associate ingredients by hand
+   + NY: If there is a non a-z letter added, it crashes.  Need to change ç to c, etc
+   + NY: Meal plans should have unique names
