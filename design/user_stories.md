@@ -35,3 +35,4 @@
   ## NOTES
    + NY: I added Amalfi Salad and its associate ingredients by hand
    + NY: If there is a non a-z letter added, it crashes.  Need to change ç to c, etc
+   + NY: Meal plans should have unique names
