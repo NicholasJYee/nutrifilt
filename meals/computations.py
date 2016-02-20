@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 from .models import *
 
 def get_meals(label):
@@ -11,4 +11,7 @@ def get_meals(label):
   return meals
 
 def generate_plan_meeting_nutrition(meals, nutrition):
-  pass
+  for i, meal in enumerate(meals):
+    meals[i] = choice(meals[i])
+    print(meals[i])
+  return meals
