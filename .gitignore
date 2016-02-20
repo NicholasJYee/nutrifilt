@@ -1,1 +1,3 @@
-*.pyc
+final_proj/*.pyc
+meals/*/*.pyc
+meals/computations.pyc
