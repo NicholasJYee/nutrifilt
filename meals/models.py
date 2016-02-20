@@ -104,8 +104,8 @@ class HealthLabel(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.label
-
+    return str(self.recipe.label) + ":\t" + str(self.label)
+    
 class MealLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
   label = models.CharField(max_length=150)
@@ -113,7 +113,7 @@ class MealLabel(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.label
+    return str(self.recipe.label) + ":\t" + str(self.label)
 
 class IngredientRecipe(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

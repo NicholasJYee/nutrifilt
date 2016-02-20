@@ -10,7 +10,7 @@ def demo(request):
     if form.is_valid():
       name = form.cleaned_data['name']
       calories = form.cleaned_data['calories']
-
+      breakfast = get_meals('breakfast')
       return HttpResponseRedirect('/meals/')
   else:
     form = PlanForm()
