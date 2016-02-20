@@ -11,7 +11,18 @@ def get_meals(label):
   return meals
 
 def generate_plan_meeting_nutrition(meals, nutrition):
-  for i, meal in enumerate(meals):
-    meals[i] = choice(meals[i])
-    print(meals[i])
+  tries = 0
+  while True:
+    tries += 1
+    for i, meal in enumerate(meals):
+      meals[i] = choice(meals[i])
+    # if nutrition_met(meals, nutrition):
+    #   break
+    # if tries == 5000:
+    #   print("No meal plans can be generated for nutrional requirements.")
+    #   break
+    break
   return meals
+
+def nutrition_met(meals, nutrition):
+  pass
