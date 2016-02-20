@@ -13,6 +13,14 @@ def demo(request):
       breakfast = get_meals('breakfast')
       snack1 = get_meals('snack')
       lunch = get_meals('lunch')
+      snack2 = get_meals('snack')
+      dinner = get_meals('dinner')
+      print("breakfast:", breakfast)
+      print("snack1:", snack1)
+      print("lunch:", lunch)
+      print("snack2:", snack2)
+      print("dinner:", dinner)
+
       return HttpResponseRedirect('/meals/')
   else:
     form = PlanForm()
