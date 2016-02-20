@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 
 from .forms import PlanForm
+from .computations import *
 
 def demo(request):
   if request.method == 'POST':
@@ -9,6 +10,7 @@ def demo(request):
     if form.is_valid():
       name = form.cleaned_data['name']
       calories = form.cleaned_data['calories']
+
       return HttpResponseRedirect('/meals/')
   else:
     form = PlanForm()
