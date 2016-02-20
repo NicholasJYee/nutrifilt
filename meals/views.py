@@ -1,6 +1,22 @@
 from django.shortcuts import render, HttpResponse
+from django.http import HttpResponseRedirect
 
-# Create your views here.
+from .forms import PlanForm
+from .computations import *
+
+def demo(request):
+  if request.method == 'POST':
+    form = PlanForm(request.POST)
+    if form.is_valid():
+      name = form.cleaned_data['name']
+      calories = form.cleaned_data['calories']
+
+      return HttpResponseRedirect('/meals/')
+  else:
+    form = PlanForm()
+
+  return render(request, 'meals/demo.html', {'form': form})
+
 def index(request):
   context = {
     'first_name': "Hatim"
