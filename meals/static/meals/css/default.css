@@ -1,0 +1,12 @@
+body {
+  background-color: blue;
+}
+.container {
+  margin:auto;  
+}
+
+#fat-nav{
+  margin: -10px 0 0;
+  text-align: center;
+  display: block;
+}
