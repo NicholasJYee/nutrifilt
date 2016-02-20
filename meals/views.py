@@ -15,9 +15,11 @@ def demo(request):
       lunch = get_meals('lunch')
       snack2 = get_meals('snack')
       dinner = get_meals('dinner')
+
       meals = [breakfast, snack1, lunch, snack2, dinner]
-      print(meals)
-      plan = generate_plan_meeting_nutrition(calories)
+      nutrition = [calories]
+      print(nutrition)
+      plan = generate_plan_meeting_nutrition(meals, nutrition)
 
       return HttpResponseRedirect('/meals/')
   else:

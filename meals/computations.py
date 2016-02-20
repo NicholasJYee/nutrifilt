@@ -10,5 +10,5 @@ def get_meals(label):
 
   return meals
 
-def generate_plan_meeting_nutrition(calories):
+def generate_plan_meeting_nutrition(meals, nutrition):
   pass
