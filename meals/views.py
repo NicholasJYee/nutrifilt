@@ -11,6 +11,8 @@ def demo(request):
       name = form.cleaned_data['name']
       calories = form.cleaned_data['calories']
       breakfast = get_meals('breakfast')
+      snack1 = get_meals('snack')
+      lunch = get_meals('lunch')
       return HttpResponseRedirect('/meals/')
   else:
     form = PlanForm()
