@@ -147,4 +147,4 @@ class PlanRecipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.meal_number
+    return self.plan.name + ":\t" + str(self.meal_number)

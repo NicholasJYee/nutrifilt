@@ -1,6 +1,8 @@
 from random import randint, choice
 from .models import *
 
+MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 5000
+
 def get_meals(label):
   meals = []
   labels = MealLabel.objects.filter(label=label)
@@ -15,15 +17,86 @@ def generate_plan_meeting_nutrition(meals, nutrition):
   while True:
     selected_meals = []
     tries += 1
-    for i, meal in enumerate(meals):
 
+    for i, meal in enumerate(meals):
       selected_meals.append(choice(meals[i]))
+
     if nutrition_met(selected_meals, nutrition):
       break
-    if tries == 5000:
+
+    if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
       print("No meal plans can be generated for nutrional requirements.")
       break
   return meals
 
 def nutrition_met(meals, nutrition):
-  pass
+  meals_nutrition = get_nutrition(meals)
+  if :
+    pass
+
+def get_nutrition(meals):
+    meals_nutrition = {
+      'calories': 0,
+      'fat': 0,
+      'sat_fat': 0,
+      'trans_fat': 0,
+      'mono_unsat_fat': 0,
+      'poly_unsat_fat': 0,
+      'carbohydrates': 0,
+      'fiber': 0,
+      'sugar': 0,
+      'protein': 0,
+      'cholesterol': 0,
+      'sodium': 0,
+      'calcium': 0,
+      'magnesium': 0,
+      'potassium': 0,
+      'iron': 0,
+      'zinc': 0,
+      'phosphorus': 0,
+      'vit_a': 0,
+      'vit_c': 0,
+      'thiamin': 0,
+      'riboflavin': 0,
+      'niacin': 0,
+      'vit_b6': 0,
+      'folic_acid': 0,
+      'vit_b12': 0,
+      'vit_d': 0,
+      'vit_e': 0,
+      'vit_k': 0
+    }
+
+    for meal in meals:
+      meals_nutrition['calories'] += meal.calories / meal.servings
+      meals_nutrition['fat'] += meal.fat / meal.servings
+      meals_nutrition['sat_fat'] += meal.sat_fat / meal.servings
+      meals_nutrition['trans_fat'] += meal.trans_fat / meal.servings
+      meals_nutrition['mono_unsat_fat'] += meal.mono_unsat_fat / meal.servings
+      meals_nutrition['poly_unsat_fat'] += meal.poly_unsat_fat / meal.servings
+      meals_nutrition['carbohydrates'] += meal.carbohydrates / meal.servings
+      meals_nutrition['fiber'] += meal.fiber / meal.servings
+      meals_nutrition['sugar'] += meal.sugar / meal.servings
+      meals_nutrition['protein'] += meal.protein / meal.servings
+      meals_nutrition['cholesterol'] += meal.cholesterol / meal.servings
+      meals_nutrition['sodium'] += meal.sodium / meal.servings
+      meals_nutrition['calcium'] += meal.calcium / meal.servings
+      meals_nutrition['magnesium'] += meal.magnesium / meal.servings
+      meals_nutrition['potassium'] += meal.potassium / meal.servings
+      meals_nutrition['iron'] += meal.iron / meal.servings
+      meals_nutrition['zinc'] += meal.zinc / meal.servings
+      meals_nutrition['phosphorus'] += meal.phosphorus / meal.servings
+      meals_nutrition['vit_a'] += meal.vit_a / meal.servings
+      meals_nutrition['vit_c'] += meal.vit_c / meal.servings
+      meals_nutrition['thiamin'] += meal.thiamin / meal.servings
+      meals_nutrition['riboflavin'] += meal.riboflavin / meal.servings
+      meals_nutrition['niacin'] += meal.niacin / meal.servings
+      meals_nutrition['vit_b6'] += meal.vit_b6 / meal.servings
+      meals_nutrition['folic_acid'] += meal.folic_acid / meal.servings
+      meals_nutrition['vit_b12'] += meal.vit_b12 / meal.servings
+      meals_nutrition['vit_d'] += meal.vit_d / meal.servings
+      meals_nutrition['vit_e'] += meal.vit_e / meal.servings
+      meals_nutrition['vit_k'] += meal.vit_k / meal.servings      
+
+    print(meals_nutrition)
+    return meals_nutrition

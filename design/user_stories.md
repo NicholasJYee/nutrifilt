@@ -30,6 +30,7 @@
   + I want to play a game while the app is loading
   + I want to adjust the number of meals (and type of meals) so that I can customize my meal plan
   + I want to review the recipes so that bad recipes won't be selected as frequency
+  + I want a weekly email of my grocery list and associated recipes so I get my choice meals every week.
 
 
   ## NOTES
