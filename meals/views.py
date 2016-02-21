@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 
+import secret
+
 from .forms import *
 from .computations import *
 
@@ -9,7 +11,9 @@ def populate(request):
     form = PopulateForm(request.POST)
     if form.is_valid():
       terms = form.cleaned_data['terms']
-      print terms
+      key = {'app_key': secret.app_key, 'app_id': secret.app_id}
+      print(key)
+      # recipes = requests.get('https://api.edamam.com/search')
       return HttpResponseRedirect('/meals/')
   else:
     form = PopulateForm()
