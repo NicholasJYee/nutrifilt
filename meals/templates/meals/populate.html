@@ -5,6 +5,10 @@
   <title>Populate database</title>
 </head>
 <body>
-  Hello World
+  <form action="/meals/populate/" method="post">
+    {% csrf_token %}
+    {{ populate.as_p }}
+    <input type="submit" value="Generate Meal Plan">
+  </form>
 </body>
 </html>
