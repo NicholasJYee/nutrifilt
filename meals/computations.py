@@ -1,7 +1,7 @@
 from random import randint, choice
 from .models import *
 
-MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 5000
+MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1
 
 def get_meals(label):
   meals = []
