@@ -12,7 +12,7 @@ def get_meals(label):
 
   return meals
 
-def generate_plan_meeting_nutrition(meals, nutrition):
+def generate_plan_meeting_nutrition(meals, nutrition_req):
   tries = 0
   while True:
     selected_meals = []
@@ -21,18 +21,29 @@ def generate_plan_meeting_nutrition(meals, nutrition):
     for i, meal in enumerate(meals):
       selected_meals.append(choice(meals[i]))
 
-    if nutrition_met(selected_meals, nutrition):
+    if nutrition_met(selected_meals, nutrition_req):
       break
 
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
       print("No meal plans can be generated for nutrional requirements.")
       break
-  return meals
 
-def nutrition_met(meals, nutrition):
+  return selected_meals
+
+def nutrition_met(meals, nutrition_req):
+  matches = 0
   meals_nutrition = get_nutrition(meals)
-  if :
-    pass
+
+  for nutrition in nutrition_req:
+    if nutrition in meals_nutrition:
+      print(nutrition)
+
+  if matches >= (len(nutrition_req)/2):
+    return True
+  else:
+    return False
+
+
 
 def get_nutrition(meals):
     meals_nutrition = {
@@ -98,5 +109,4 @@ def get_nutrition(meals):
       meals_nutrition['vit_e'] += meal.vit_e / meal.servings
       meals_nutrition['vit_k'] += meal.vit_k / meal.servings      
 
-    print(meals_nutrition)
     return meals_nutrition
