@@ -1,7 +1,7 @@
 from random import randint, choice
 from .models import *
 
-MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1
+MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 5000
 
 def get_meals(label):
   meals = []
@@ -25,20 +25,20 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
       break
 
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
-      print("No meal plans can be generated for nutrional requirements.")
       break
 
   return selected_meals
 
 def nutrition_met(meals, nutrition_req):
-  matches = 0
+  nutrition_met = []
   meals_nutrition = get_nutrition(meals)
 
   for nutrition in nutrition_req:
     if nutrition in meals_nutrition:
-      print(nutrition)
+      if meals_nutrition[nutrition] >= nutrition_req[nutrition]:
+        nutrition_met.append(nutrition)
 
-  if matches >= (len(nutrition_req)/2):
+  if len(nutrition_met) >= (len(nutrition_req)/2.0):
     return True
   else:
     return False

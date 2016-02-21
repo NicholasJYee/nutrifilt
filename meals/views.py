@@ -10,7 +10,8 @@ def demo(request):
     if form.is_valid():
       nutrition_req = {}
 
-      name = form.cleaned_data['name']
+      if form.cleaned_data['name'] is not None:
+        name = form.cleaned_data['name']
       if form.cleaned_data['calories'] is not None:
         nutrition_req['calories'] = form.cleaned_data['calories']
       if form.cleaned_data['fat'] is not None:
