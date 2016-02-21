@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
   # Nick's test page
-  url(r'^demo/', views.demo, name='demo'),
+  url(r'^form/', views.form, name='form'),
+  url(r'^populate/', views.populate, name='populate'),
 
   # App homepage
   url(r'^$', views.index, name='index'),

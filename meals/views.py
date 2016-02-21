@@ -4,7 +4,10 @@ from django.http import HttpResponseRedirect
 from .forms import PlanForm
 from .computations import *
 
-def demo(request):
+def populate(request):
+  return render(request, 'meals/populate.html')
+
+def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
@@ -86,7 +89,7 @@ def demo(request):
   else:
     form = PlanForm()
 
-  return render(request, 'meals/demo.html', {'form': form})
+  return render(request, 'meals/form.html', {'form': form})
 
 def index(request):
   context = {
