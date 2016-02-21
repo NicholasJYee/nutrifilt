@@ -31,3 +31,6 @@ class PlanForm(forms.Form):
   vit_d = forms.FloatField(label="Vitamin D:", required=False)
   vit_e = forms.FloatField(label="Vitamin E:", required=False)
   vit_k = forms.FloatField(label="Vitamin K:", required=False)
+
+class PopulateForm(forms.Form):
+  terms = forms.CharField(label="Recipe terms:", max_length=150)

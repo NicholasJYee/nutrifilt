@@ -1,11 +1,18 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 
-from .forms import PlanForm
+from .forms import *
 from .computations import *
 
 def populate(request):
-  return render(request, 'meals/populate.html')
+  if request.method == 'POST':
+    form = PopulateForm(request.POST)
+    if form.is_valid():
+      return HttpResponseRedirect('/meals/')
+  else:
+    form = PopulateForm()
+
+  return render(request, 'meals/populate.html', {'form': form})
 
 def form(request):
   if request.method == 'POST':

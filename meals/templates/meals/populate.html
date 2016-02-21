@@ -7,8 +7,7 @@
 <body>
   <form action="/meals/populate/" method="post">
     {% csrf_token %}
-    <label for="terms">Recipe Search Terms</label> <br />
-    <input type="text" name="terms" /> <br />
+    {{ form.as_p }}
     <input type="submit" value="Populate Database">
   </form>
 </body>
