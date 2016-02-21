@@ -8,6 +8,8 @@ def populate(request):
   if request.method == 'POST':
     form = PopulateForm(request.POST)
     if form.is_valid():
+      terms = form.cleaned_data['terms']
+      print terms
       return HttpResponseRedirect('/meals/')
   else:
     form = PopulateForm()
