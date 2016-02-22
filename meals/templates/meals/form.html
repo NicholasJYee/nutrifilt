@@ -20,7 +20,7 @@
             <ul>
               <u>Meals</u>
               {% for meal in plan.planrecipe_set.all %}
-                <li>{{ meal.recipe.label }}</li>
+                <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
               {% endfor %}
             </ul>
         {% endfor %}
