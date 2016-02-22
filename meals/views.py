@@ -30,178 +30,7 @@ def store_recipes(recipes):
   for i, recipe in enumerate(recipes[u'hits']):
     recipe = recipe[u'recipe']
 
-    try:
-      image = str(recipe[u'image'])
-    except KeyError:
-      image = ""
-    try:
-      url = str(recipe[u'url'])
-    except KeyError:
-      url = ""
-    try:
-      servings = float(str(recipe[u'yield']))
-    except KeyError:
-      servings = 0
-    try:
-      calories = float(str(recipe[u'totalNutrients'][u'ENERC_KCAL'][u'quantity']))
-    except KeyError:
-      calories = 0
-    try:
-      fat = float(str(recipe[u'totalNutrients'][u'FAT'][u'quantity']))
-    except KeyError:
-      fat = 0
-    try:
-      sat_fat = float(str(recipe[u'totalNutrients'][u'FASAT'][u'quantity']))
-    except KeyError:
-      sat_fat = 0
-    try:
-      trans_fat = float(str(recipe[u'totalNutrients'][u'FATRN'][u'quantity']))
-    except KeyError:
-      trans_fat = 0
-    try:
-      mono_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAMS'][u'quantity']))
-    except KeyError:
-      mono_unsat_fat = 0
-    try:
-      poly_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAPU'][u'quantity']))
-    except KeyError:
-      poly_unsat_fat = 0
-    try:
-      carbohydrates = float(str(recipe[u'totalNutrients'][u'CHOCDF'][u'quantity']))
-    except KeyError:
-      carbohydrates = 0
-    try:
-      fiber = float(str(recipe[u'totalNutrients'][u'FIBTG'][u'quantity']))
-    except KeyError:
-      fiber = 0
-    try:
-      sugar = float(str(recipe[u'totalNutrients'][u'SUGAR'][u'quantity']))
-    except KeyError:
-      sugar = 0
-    try:
-      protein = float(str(recipe[u'totalNutrients'][u'PROCNT'][u'quantity']))
-    except KeyError:
-      protein = 0
-    try:
-      cholesterol = float(str(recipe[u'totalNutrients'][u'CHOLE'][u'quantity']))
-    except KeyError:
-      cholesterol = 0
-    try:
-      sodium = float(str(recipe[u'totalNutrients'][u'NA'][u'quantity']))
-    except KeyError:
-      sodium = 0
-    try:
-      calcium = float(str(recipe[u'totalNutrients'][u'CA'][u'quantity']))
-    except KeyError:
-      calcium = 0
-    try:
-      magnesium = float(str(recipe[u'totalNutrients'][u'MG'][u'quantity']))
-    except KeyError:
-      magnesium = 0
-    try:
-      potassium = float(str(recipe[u'totalNutrients'][u'K'][u'quantity']))
-    except KeyError:
-      potassium = 0
-    try:
-      iron = float(str(recipe[u'totalNutrients'][u'FE'][u'quantity']))
-    except KeyError:
-      iron = 0
-    try:
-      zinc = float(str(recipe[u'totalNutrients'][u'ZN'][u'quantity']))
-    except KeyError:
-      zinc = 0
-    try:
-      phosphorus = float(str(recipe[u'totalNutrients'][u'P'][u'quantity']))
-    except KeyError:
-      phosphorus = 0
-    try:
-      vit_a = float(str(recipe[u'totalNutrients'][u'VITA_RAE'][u'quantity']))
-    except KeyError:
-      vit_a = 0
-    try:
-      vit_c = float(str(recipe[u'totalNutrients'][u'VITC'][u'quantity']))
-    except KeyError:
-      vit_c = 0
-    try:
-      thiamin = float(str(recipe[u'totalNutrients'][u'THIA'][u'quantity']))
-    except KeyError:
-      thiamin = 0
-    try:
-      riboflavin = float(str(recipe[u'totalNutrients'][u'RIBF'][u'quantity']))
-    except KeyError:
-      riboflavin = 0
-    try:
-      niacin = float(str(recipe[u'totalNutrients'][u'NIA'][u'quantity']))
-    except KeyError:
-      niacin = 0
-    try:
-      vit_b6 = float(str(recipe[u'totalNutrients'][u'VITB6A'][u'quantity']))
-    except KeyError:
-      vit_b6 = 0
-    try:
-      folic_acid = float(str(recipe[u'totalNutrients'][u'FOL'][u'quantity']))
-    except KeyError:
-      folic_acid = 0
-    try:
-      vit_b12 = float(str(recipe[u'totalNutrients'][u'VITB12'][u'quantity']))
-    except KeyError:
-      vit_b12 = 0
-    try:
-      vit_d = float(str(recipe[u'totalNutrients'][u'VITD'][u'quantity']))
-    except KeyError:
-      vit_d = 0
-    try:
-      vit_e = float(str(recipe[u'totalNutrients'][u'TOCPHA'][u'quantity']))
-    except KeyError:
-      vit_e = 0
-    try:
-      vit_k = float(str(recipe[u'totalNutrients'][u'VITK1'][u'quantity']))
-    except KeyError:
-      vit_k = 0
-
-    r, created = Recipe.objects.get_or_create(
-      label = str(recipe[u'label']),
-    )
-
-    print("before", created, r.label)
-    if created:
-      r.delete()
-      r, created = Recipe.objects.get_or_create(
-        label = str(recipe[u'label']),
-        image = image,
-        url = url,
-        servings = servings,
-        calories = calories,
-        fat = fat,
-        sat_fat = sat_fat,
-        trans_fat = trans_fat,
-        mono_unsat_fat = mono_unsat_fat,
-        poly_unsat_fat = poly_unsat_fat,
-        carbohydrates = carbohydrates,
-        fiber = fiber,
-        sugar = sugar,
-        protein = protein,
-        cholesterol = cholesterol,
-        sodium = sodium,
-        calcium = calcium,
-        magnesium = magnesium,
-        potassium = potassium,
-        iron = iron,
-        zinc = zinc,
-        phosphorus = phosphorus,
-        vit_a = vit_a,
-        vit_c = vit_c,
-        thiamin = thiamin,
-        riboflavin = riboflavin,
-        niacin = niacin,
-        vit_b6 = vit_b6,
-        folic_acid = folic_acid,
-        vit_b12 = vit_b12,
-        vit_d = vit_d,
-        vit_e = vit_e,
-        vit_k = vit_k
-      )
-    print("after", r.label)
+    r = create_recipe(recipe)
 
     for ingredient in recipe[u'ingredients']:
       r.ingredientrecipe_set.get_or_create(
@@ -212,6 +41,180 @@ def store_recipes(recipes):
 
     for healthlabel in recipe[u'healthLabels']:
       r.healthlabel_set.get_or_create(label = healthlabel)
+
+def create_recipe(recipe):
+  try:
+    image = str(recipe[u'image'])
+  except KeyError:
+    image = ""
+  try:
+    url = str(recipe[u'url'])
+  except KeyError:
+    url = ""
+  try:
+    servings = float(str(recipe[u'yield']))
+  except KeyError:
+    servings = 0
+  try:
+    calories = float(str(recipe[u'totalNutrients'][u'ENERC_KCAL'][u'quantity']))
+  except KeyError:
+    calories = 0
+  try:
+    fat = float(str(recipe[u'totalNutrients'][u'FAT'][u'quantity']))
+  except KeyError:
+    fat = 0
+  try:
+    sat_fat = float(str(recipe[u'totalNutrients'][u'FASAT'][u'quantity']))
+  except KeyError:
+    sat_fat = 0
+  try:
+    trans_fat = float(str(recipe[u'totalNutrients'][u'FATRN'][u'quantity']))
+  except KeyError:
+    trans_fat = 0
+  try:
+    mono_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAMS'][u'quantity']))
+  except KeyError:
+    mono_unsat_fat = 0
+  try:
+    poly_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAPU'][u'quantity']))
+  except KeyError:
+    poly_unsat_fat = 0
+  try:
+    carbohydrates = float(str(recipe[u'totalNutrients'][u'CHOCDF'][u'quantity']))
+  except KeyError:
+    carbohydrates = 0
+  try:
+    fiber = float(str(recipe[u'totalNutrients'][u'FIBTG'][u'quantity']))
+  except KeyError:
+    fiber = 0
+  try:
+    sugar = float(str(recipe[u'totalNutrients'][u'SUGAR'][u'quantity']))
+  except KeyError:
+    sugar = 0
+  try:
+    protein = float(str(recipe[u'totalNutrients'][u'PROCNT'][u'quantity']))
+  except KeyError:
+    protein = 0
+  try:
+    cholesterol = float(str(recipe[u'totalNutrients'][u'CHOLE'][u'quantity']))
+  except KeyError:
+    cholesterol = 0
+  try:
+    sodium = float(str(recipe[u'totalNutrients'][u'NA'][u'quantity']))
+  except KeyError:
+    sodium = 0
+  try:
+    calcium = float(str(recipe[u'totalNutrients'][u'CA'][u'quantity']))
+  except KeyError:
+    calcium = 0
+  try:
+    magnesium = float(str(recipe[u'totalNutrients'][u'MG'][u'quantity']))
+  except KeyError:
+    magnesium = 0
+  try:
+    potassium = float(str(recipe[u'totalNutrients'][u'K'][u'quantity']))
+  except KeyError:
+    potassium = 0
+  try:
+    iron = float(str(recipe[u'totalNutrients'][u'FE'][u'quantity']))
+  except KeyError:
+    iron = 0
+  try:
+    zinc = float(str(recipe[u'totalNutrients'][u'ZN'][u'quantity']))
+  except KeyError:
+    zinc = 0
+  try:
+    phosphorus = float(str(recipe[u'totalNutrients'][u'P'][u'quantity']))
+  except KeyError:
+    phosphorus = 0
+  try:
+    vit_a = float(str(recipe[u'totalNutrients'][u'VITA_RAE'][u'quantity']))
+  except KeyError:
+    vit_a = 0
+  try:
+    vit_c = float(str(recipe[u'totalNutrients'][u'VITC'][u'quantity']))
+  except KeyError:
+    vit_c = 0
+  try:
+    thiamin = float(str(recipe[u'totalNutrients'][u'THIA'][u'quantity']))
+  except KeyError:
+    thiamin = 0
+  try:
+    riboflavin = float(str(recipe[u'totalNutrients'][u'RIBF'][u'quantity']))
+  except KeyError:
+    riboflavin = 0
+  try:
+    niacin = float(str(recipe[u'totalNutrients'][u'NIA'][u'quantity']))
+  except KeyError:
+    niacin = 0
+  try:
+    vit_b6 = float(str(recipe[u'totalNutrients'][u'VITB6A'][u'quantity']))
+  except KeyError:
+    vit_b6 = 0
+  try:
+    folic_acid = float(str(recipe[u'totalNutrients'][u'FOL'][u'quantity']))
+  except KeyError:
+    folic_acid = 0
+  try:
+    vit_b12 = float(str(recipe[u'totalNutrients'][u'VITB12'][u'quantity']))
+  except KeyError:
+    vit_b12 = 0
+  try:
+    vit_d = float(str(recipe[u'totalNutrients'][u'VITD'][u'quantity']))
+  except KeyError:
+    vit_d = 0
+  try:
+    vit_e = float(str(recipe[u'totalNutrients'][u'TOCPHA'][u'quantity']))
+  except KeyError:
+    vit_e = 0
+  try:
+    vit_k = float(str(recipe[u'totalNutrients'][u'VITK1'][u'quantity']))
+  except KeyError:
+    vit_k = 0
+
+  r, created = Recipe.objects.get_or_create(
+    label = str(recipe[u'label']),
+  )
+
+  if created:
+    r.delete()
+    r, created = Recipe.objects.get_or_create(
+      label = str(recipe[u'label']),
+      image = image,
+      url = url,
+      servings = servings,
+      calories = calories,
+      fat = fat,
+      sat_fat = sat_fat,
+      trans_fat = trans_fat,
+      mono_unsat_fat = mono_unsat_fat,
+      poly_unsat_fat = poly_unsat_fat,
+      carbohydrates = carbohydrates,
+      fiber = fiber,
+      sugar = sugar,
+      protein = protein,
+      cholesterol = cholesterol,
+      sodium = sodium,
+      calcium = calcium,
+      magnesium = magnesium,
+      potassium = potassium,
+      iron = iron,
+      zinc = zinc,
+      phosphorus = phosphorus,
+      vit_a = vit_a,
+      vit_c = vit_c,
+      thiamin = thiamin,
+      riboflavin = riboflavin,
+      niacin = niacin,
+      vit_b6 = vit_b6,
+      folic_acid = folic_acid,
+      vit_b12 = vit_b12,
+      vit_d = vit_d,
+      vit_e = vit_e,
+      vit_k = vit_k
+    )
+
+  return r
 
 def form(request):
   if request.method == 'POST':
