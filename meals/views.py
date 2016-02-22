@@ -7,11 +7,11 @@ import secret
 from .forms import *
 from .computations import *
 
-def result(request, plan_id):
+def plan(request, plan_id):
   context = {
     'plan': Plan.objects.get(id=int(plan_id))
   }
-  return render(request, 'meals/result.html', context)
+  return render(request, 'meals/plan.html', context)
 
 def populate(request):
   if request.method == 'POST':
@@ -402,7 +402,7 @@ def form(request):
             meal_number = i
           )
 
-      return HttpResponseRedirect('/meals/result/' + str(p.id))
+      return HttpResponseRedirect('/meals/plan/' + str(p.id))
   else:
     form = PlanForm()
 
