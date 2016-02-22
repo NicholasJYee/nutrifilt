@@ -27,7 +27,7 @@ def populate(request):
   return render(request, 'meals/populate.html', {'form': form})
 
 def store_recipes(recipes):
-  for i, recipe in enumerate(recipes[u'hits']):
+  for recipe in recipes[u'hits']:
     recipe = recipe[u'recipe']
 
     r = create_recipe(recipe)
