@@ -16,14 +16,9 @@
     {% if plans %}
       <ul>
         {% for plan in plans %}
-          <li>{{ plan.name }}</li>
+          <li><strong>Plan name: {{ plan.name }}</strong></li>
             <ul>
-              <u><strong>Nutritional Req</strong></u>
-
-            </ul>
-              
-            <ul>
-              <u><strong>Meals</strong></u>
+              <u>Meals</u>
               {% for meal in plan.planrecipe_set.all %}
                 <li>{{ meal.recipe.label }}</li>
               {% endfor %}
