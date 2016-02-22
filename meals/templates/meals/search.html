@@ -1,8 +1,10 @@
 
   <form action="/meals/demo/" method="post" id = "daForm">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class = 'btn' value="Generate Meal Plan">
+    {{ form.as_table }}
+    <button type="submit" class = 'btn' value="Generate Meal Plan">
+      Generate Meal Plan
+    </button>        
   </form>
   <button id = "test" class = "btn">Test</button>
 
