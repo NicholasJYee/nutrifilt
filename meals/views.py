@@ -231,63 +231,120 @@ def form(request):
         name = form.cleaned_data['name']
       if form.cleaned_data['calories'] is not None:
         nutrition_req['calories'] = form.cleaned_data['calories']
+      else:
+        nutrition_req['calories'] = 0
       if form.cleaned_data['fat'] is not None:
         nutrition_req['fat'] = form.cleaned_data['fat']
+      else:
+        nutrition_req['fat'] = 0
       if form.cleaned_data['sat_fat'] is not None:
         nutrition_req['sat_fat'] = form.cleaned_data['sat_fat']
+      else:
+        nutrition_req['sat_fat'] = 0
       if form.cleaned_data['trans_fat'] is not None:
         nutrition_req['trans_fat'] = form.cleaned_data['trans_fat']
+      else:
+        nutrition_req['trans_fat'] = 0
       if form.cleaned_data['mono_unsat_fat'] is not None:
         nutrition_req['mono_unsat_fat'] = form.cleaned_data['mono_unsat_fat']
+      else:
+        nutrition_req['mono_unsat_fat'] = 0
       if form.cleaned_data['poly_unsat_fat'] is not None:
         nutrition_req['poly_unsat_fat'] = form.cleaned_data['poly_unsat_fat']
+      else:
+        nutrition_req['poly_unsat_fat'] = 0
       if form.cleaned_data['carbohydrates'] is not None:
         nutrition_req['carbohydrates'] = form.cleaned_data['carbohydrates']
+      else:
+        nutrition_req['carbohydrates'] = 0
       if form.cleaned_data['fiber'] is not None:
         nutrition_req['fiber'] = form.cleaned_data['fiber']
+      else:
+        nutrition_req['fiber'] = 0
       if form.cleaned_data['sugar'] is not None:
         nutrition_req['sugar'] = form.cleaned_data['sugar']
+      else:
+        nutrition_req['sugar'] = 0
       if form.cleaned_data['protein'] is not None:
         nutrition_req['protein'] = form.cleaned_data['protein']
+      else:
+        nutrition_req['protein'] = 0
       if form.cleaned_data['cholesterol'] is not None:
         nutrition_req['cholesterol'] = form.cleaned_data['cholesterol']
+      else:
+        nutrition_req['cholesterol'] = 0
       if form.cleaned_data['sodium'] is not None:
         nutrition_req['sodium'] = form.cleaned_data['sodium']
+      else:
+        nutrition_req['sodium'] = 0
       if form.cleaned_data['calcium'] is not None:
         nutrition_req['calcium'] = form.cleaned_data['calcium']
+      else:
+        nutrition_req['calcium'] = 0
       if form.cleaned_data['magnesium'] is not None:
         nutrition_req['magnesium'] = form.cleaned_data['magnesium']
+      else:
+        nutrition_req['magnesium'] = 0
       if form.cleaned_data['potassium'] is not None:
         nutrition_req['potassium'] = form.cleaned_data['potassium']
+      else:
+        nutrition_req['potassium'] = 0
       if form.cleaned_data['iron'] is not None:
         nutrition_req['iron'] = form.cleaned_data['iron']
+      else:
+        nutrition_req['iron'] = 0
       if form.cleaned_data['zinc'] is not None:
         nutrition_req['zinc'] = form.cleaned_data['zinc']
+      else:
+        nutrition_req['zinc'] = 0
       if form.cleaned_data['phosphorus'] is not None:
         nutrition_req['phosphorus'] = form.cleaned_data['phosphorus']
+      else:
+        nutrition_req['phosphorus'] = 0
       if form.cleaned_data['vit_a'] is not None:
         nutrition_req['vit_a'] = form.cleaned_data['vit_a']
+      else:
+        nutrition_req['vit_a'] = 0
       if form.cleaned_data['vit_c'] is not None:
         nutrition_req['vit_c'] = form.cleaned_data['vit_c']
+      else:
+        nutrition_req['vit_c'] = 0
       if form.cleaned_data['thiamin'] is not None:
         nutrition_req['thiamin'] = form.cleaned_data['thiamin']
+      else:
+        nutrition_req['thiamin'] = 0
       if form.cleaned_data['riboflavin'] is not None:
         nutrition_req['riboflavin'] = form.cleaned_data['riboflavin']
+      else:
+        nutrition_req['riboflavin'] = 0
       if form.cleaned_data['niacin'] is not None:
         nutrition_req['niacin'] = form.cleaned_data['niacin']
+      else:
+        nutrition_req['niacin'] = 0
       if form.cleaned_data['vit_b6'] is not None:
         nutrition_req['vit_b6'] = form.cleaned_data['vit_b6']
+      else:
+        nutrition_req['vit_b6'] = 0
       if form.cleaned_data['folic_acid'] is not None:
         nutrition_req['folic_acid'] = form.cleaned_data['folic_acid']
+      else:
+        nutrition_req['folic_acid'] = 0
       if form.cleaned_data['vit_b12'] is not None:
         nutrition_req['vit_b12'] = form.cleaned_data['vit_b12']
+      else:
+        nutrition_req['vit_b12'] = 0
       if form.cleaned_data['vit_d'] is not None:
         nutrition_req['vit_d'] = form.cleaned_data['vit_d']
+      else:
+        nutrition_req['vit_d'] = 0
       if form.cleaned_data['vit_e'] is not None:
         nutrition_req['vit_e'] = form.cleaned_data['vit_e']
+      else:
+        nutrition_req['vit_e'] = 0
       if form.cleaned_data['vit_k'] is not None:
         nutrition_req['vit_k'] = form.cleaned_data['vit_k']
-
+      else:
+        nutrition_req['vit_k'] = 0
 
       breakfast = get_meals('breakfast')
       snack1 = get_meals('snack')
@@ -297,41 +354,46 @@ def form(request):
 
       meals = [breakfast, snack1, lunch, snack2, dinner]
 
-      plan, plan_nutrition = generate_plan_meeting_nutrition(meals, nutrition_req)
+      plan = generate_plan_meeting_nutrition(meals, nutrition_req)
 
-      print(plan_nutrition['calories'])
-      Plan.objects.get_or_create(
+      p, created = Plan.objects.get_or_create(
         name = name,
-        calories = plan_nutrition['calories'],
-        fat = plan_nutrition['fat'],
-        sat_fat = plan_nutrition['sat_fat'],
-        trans_fat = plan_nutrition['trans_fat'],
-        mono_unsat_fat = plan_nutrition['mono_unsat_fat'],
-        poly_unsat_fat = plan_nutrition['poly_unsat_fat'],
-        carbohydrates = plan_nutrition['carbohydrates'],
-        fiber = plan_nutrition['fiber'],
-        sugar = plan_nutrition['sugar'],
-        protein = plan_nutrition['protein'],
-        cholesterol = plan_nutrition['cholesterol'],
-        sodium = plan_nutrition['sodium'],
-        calcium = plan_nutrition['calcium'],
-        magnesium = plan_nutrition['magnesium'],
-        potassium = plan_nutrition['potassium'],
-        iron = plan_nutrition['iron'],
-        zinc = plan_nutrition['zinc'],
-        phosphorus = plan_nutrition['phosphorus'],
-        vit_a = plan_nutrition['vit_a'],
-        vit_c = plan_nutrition['vit_c'],
-        thiamin = plan_nutrition['thiamin'],
-        riboflavin = plan_nutrition['riboflavin'],
-        niacin = plan_nutrition['niacin'],
-        vit_b6 = plan_nutrition['vit_b6'],
-        folic_acid = plan_nutrition['folic_acid'],
-        vit_b12 = plan_nutrition['vit_b12'],
-        vit_d = plan_nutrition['vit_d'],
-        vit_e = plan_nutrition['vit_e'],
-        vit_k = plan_nutrition['vit_k']
+        calories = nutrition_req['calories'],
+        fat = nutrition_req['fat'],
+        sat_fat = nutrition_req['sat_fat'],
+        trans_fat = nutrition_req['trans_fat'],
+        mono_unsat_fat = nutrition_req['mono_unsat_fat'],
+        poly_unsat_fat = nutrition_req['poly_unsat_fat'],
+        carbohydrates = nutrition_req['carbohydrates'],
+        fiber = nutrition_req['fiber'],
+        sugar = nutrition_req['sugar'],
+        protein = nutrition_req['protein'],
+        cholesterol = nutrition_req['cholesterol'],
+        sodium = nutrition_req['sodium'],
+        calcium = nutrition_req['calcium'],
+        magnesium = nutrition_req['magnesium'],
+        potassium = nutrition_req['potassium'],
+        iron = nutrition_req['iron'],
+        zinc = nutrition_req['zinc'],
+        phosphorus = nutrition_req['phosphorus'],
+        vit_a = nutrition_req['vit_a'],
+        vit_c = nutrition_req['vit_c'],
+        thiamin = nutrition_req['thiamin'],
+        riboflavin = nutrition_req['riboflavin'],
+        niacin = nutrition_req['niacin'],
+        vit_b6 = nutrition_req['vit_b6'],
+        folic_acid = nutrition_req['folic_acid'],
+        vit_b12 = nutrition_req['vit_b12'],
+        vit_d = nutrition_req['vit_d'],
+        vit_e = nutrition_req['vit_e'],
+        vit_k = nutrition_req['vit_k']
       )
+
+      for i, meal in enumerate(plan):
+        p.planrecipe_set.get_or_create(
+          recipe = meal,
+          meal_number = i
+        )
 
       return HttpResponseRedirect('/meals/')
   else:
