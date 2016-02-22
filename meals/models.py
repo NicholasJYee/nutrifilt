@@ -125,7 +125,7 @@ class IngredientRecipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.recipe.label + ":\t" + self.text
+    return self.recipe.label + ":\t" + self.food
 
 class IngredientVendor(models.Model):
   vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
