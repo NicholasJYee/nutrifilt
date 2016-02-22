@@ -389,11 +389,12 @@ def form(request):
         vit_k = nutrition_req['vit_k']
       )
 
-      for i, meal in enumerate(plan):
-        p.planrecipe_set.get_or_create(
-          recipe = meal,
-          meal_number = i
-        )
+      if created:
+        for i, meal in enumerate(plan):
+          p.planrecipe_set.get_or_create(
+            recipe = meal,
+            meal_number = i
+          )
 
       return HttpResponseRedirect('/meals/')
   else:
