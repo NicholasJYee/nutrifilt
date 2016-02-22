@@ -39,7 +39,7 @@ def nutrition_met(meals, nutrition_req):
       if meals_nutrition[nutrition] >= nutrition_req[nutrition]:
         nutrition_met.append(nutrition)
 
-  if len(nutrition_met) >= (len(nutrition_req)/2.0):
+  if len(nutrition_met) >= (len(nutrition_req)):
     return True
   else:
     return False
