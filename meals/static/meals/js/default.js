@@ -12,9 +12,8 @@ $(function() {
     $('#loadForm').load('/meals/search/');
   })
 
-  $('body').on('click', '#test',function(){
-    console.log("Hello");
-    $('body').html('');
+  $('body').on('click', '#test',function(){    
+    $('.container').remove();
     var div = $('<div>');
     div.attr("class", "recipes");
     div.addClass("recipes");
