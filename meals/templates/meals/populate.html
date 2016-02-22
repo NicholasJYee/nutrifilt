@@ -10,5 +10,16 @@
     {{ form.as_p }}
     <input type="submit" value="Populate Database">
   </form>
+
+  <div>
+    <h2>Recipes without meal lables:</h2>
+    {% if recipes_without_meal_labels %}
+      <ul>
+        {% for recipe in recipes_without_meal_labels %}
+          <li><a href="{{ recipe.url }}">{{ recipe.label }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
 </body>
 </html>
