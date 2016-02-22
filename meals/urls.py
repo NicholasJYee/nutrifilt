@@ -7,4 +7,8 @@ urlpatterns = [
 
   # App homepage
   url(r'^$', views.index, name='index'),
+
+  #For the search form
+  url(r'^search/$', views.search, name='search'),
+
 ]

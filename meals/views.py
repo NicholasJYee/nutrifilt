@@ -22,3 +22,17 @@ def index(request):
     'first_name': "Hatim"
   }
   return render(request, 'meals/index.html', context)
+
+#modified demo to reflect in search form
+def search(request):
+  if request.method == 'POST':
+    form = PlanForm(request.POST)
+    if form.is_valid():
+      name = form.cleaned_data['name']
+      calories = form.cleaned_data['calories']
+
+      return HttpResponseRedirect('/meals/')
+  else:
+    form = PlanForm()
+
+  return render(request, 'meals/search.html', {'form': form})
