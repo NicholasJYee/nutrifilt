@@ -31,7 +31,39 @@ def store_recipes(recipes):
     recipe = recipe[u'recipe']
 
     Recipe.objects.create(
-      label= str(recipe[u'label'])
+      label = str(recipe[u'label']),
+      image = str(recipe[u'image']),
+      url = str(recipe[u'url']),
+      servings = float(str(recipe[u'yield'])),
+      calories = float(str(recipe[u'totalNutrients'][u'ENERC_KCAL'][u'quantity'])),
+      fat = float(str(recipe[u'totalNutrients'][u'FAT'][u'quantity'])),
+      sat_fat = float(str(recipe[u'totalNutrients'][u'FASAT'][u'quantity'])),
+      trans_fat = float(str(recipe[u'totalNutrients'][u'FATRN'][u'quantity'])),
+      mono_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAMS'][u'quantity'])),
+      poly_unsat_fat = float(str(recipe[u'totalNutrients'][u'FAPU'][u'quantity'])),
+      carbohydrates = float(str(recipe[u'totalNutrients'][u'CHOCDF'][u'quantity'])),
+      fiber = float(str(recipe[u'totalNutrients'][u'FIBTG'][u'quantity'])),
+      sugar = float(str(recipe[u'totalNutrients'][u'SUGAR'][u'quantity'])),
+      protein = float(str(recipe[u'totalNutrients'][u'PROCNT'][u'quantity'])),
+      cholesterol = float(str(recipe[u'totalNutrients'][u'CHOLE'][u'quantity'])),
+      sodium = float(str(recipe[u'totalNutrients'][u'NA'][u'quantity'])),
+      calcium = float(str(recipe[u'totalNutrients'][u'CA'][u'quantity'])),
+      magnesium = float(str(recipe[u'totalNutrients'][u'MG'][u'quantity'])),
+      potassium = float(str(recipe[u'totalNutrients'][u'K'][u'quantity'])),
+      iron = float(str(recipe[u'totalNutrients'][u'FE'][u'quantity'])),
+      zinc = float(str(recipe[u'totalNutrients'][u'ZN'][u'quantity'])),
+      phosphorus = float(str(recipe[u'totalNutrients'][u'P'][u'quantity'])),
+      vit_a = float(str(recipe[u'totalNutrients'][u'VITA_RAE'][u'quantity'])),
+      vit_c = float(str(recipe[u'totalNutrients'][u'VITC'][u'quantity'])),
+      thiamin = float(str(recipe[u'totalNutrients'][u'THIA'][u'quantity'])),
+      riboflavin = float(str(recipe[u'totalNutrients'][u'RIBF'][u'quantity'])),
+      niacin = float(str(recipe[u'totalNutrients'][u'NIA'][u'quantity'])),
+      vit_b6 = float(str(recipe[u'totalNutrients'][u'VITB6A'][u'quantity'])),
+      folic_acid = float(str(recipe[u'totalNutrients'][u'FOL'][u'quantity'])),
+      vit_b12 = float(str(recipe[u'totalNutrients'][u'VITB12'][u'quantity'])),
+      vit_d = float(str(recipe[u'totalNutrients'][u'VITD'][u'quantity'])),
+      vit_e = float(str(recipe[u'totalNutrients'][u'TOCPHA'][u'quantity'])),
+      vit_k = float(str(recipe[u'totalNutrients'][u'VITK1'][u'quantity']))
     )
 
 def form(request):
