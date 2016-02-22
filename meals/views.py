@@ -24,7 +24,12 @@ def populate(request):
   else:
     form = PopulateForm()
 
-  return render(request, 'meals/populate.html', {'form': form})
+  recipes_without_meal_labels = Recipe.objects.filter(meallabel__isnull=True)
+  context = {
+    'form': form,
+    'recipes_without_meal_labels': recipes_without_meal_labels
+  }
+  return render(request, 'meals/populate.html', context)
 
 def store_recipes(recipes):
   for recipe in recipes[u'hits']:
