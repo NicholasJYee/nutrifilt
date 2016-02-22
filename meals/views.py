@@ -16,7 +16,7 @@ def populate(request):
         'app_key': secret.app_key,
         'app_id': secret.app_id,
         'q': terms,
-        'to': 2
+        'to': 5
       }
       recipes = requests.get('https://api.edamam.com/search', params=payload).json()
       store_recipes(recipes)
@@ -30,7 +30,7 @@ def store_recipes(recipes):
   for i, recipe in enumerate(recipes[u'hits']):
     recipe = recipe[u'recipe']
 
-    r = Recipe.objects.create(
+    r, created = Recipe.objects.get_or_create(
       label = str(recipe[u'label']),
       image = str(recipe[u'image']),
       url = str(recipe[u'url']),
@@ -67,14 +67,14 @@ def store_recipes(recipes):
     )
 
     for ingredient in recipe[u'ingredients']:
-      r.ingredientrecipe_set.create(
+      r.ingredientrecipe_set.get_or_create(
         text = str(ingredient[u'text']),
         food = str(ingredient[u'food']),
         weight = float(str(ingredient[u'weight']))
       )
 
     for healthlabel in recipe[u'healthLabels']:
-      r.healthlabel_set.create(label = healthlabel)
+      r.healthlabel_set.get_or_create(label = healthlabel)
 
 def form(request):
   if request.method == 'POST':
