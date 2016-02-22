@@ -29,7 +29,10 @@ def populate(request):
 def store_recipes(recipes):
   for i, recipe in enumerate(recipes[u'hits']):
     recipe = recipe[u'recipe']
-    print(i, str(recipe[u'label']))
+
+    Recipe.objects.create(
+      label= str(recipe[u'label'])
+    )
 
 def form(request):
   if request.method == 'POST':
