@@ -27,9 +27,9 @@ def populate(request):
   return render(request, 'meals/populate.html', {'form': form})
 
 def store_recipes(recipes):
-  print(len(recipes[u'hits']))
-  # for i, recipe in enumerate(recipes.hits):
-  #   print(recipe)
+  for i, recipe in enumerate(recipes[u'hits']):
+    recipe = recipe[u'recipe']
+    print(i, str(recipe[u'label']))
 
 def form(request):
   if request.method == 'POST':
