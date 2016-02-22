@@ -10,5 +10,29 @@
     {{ form.as_p }}
     <input type="submit" value="Generate Meal Plan">
   </form>
+
+  <div>
+    <h2>Plans:</h2>
+    {% if plans %}
+      <ul>
+        {% for plan in plans %}
+          <li>{{ plan.name }}</li>
+            <ul>
+              <u><strong>Nutritional Req</strong></u>
+
+            </ul>
+              
+            <ul>
+              <u><strong>Meals</strong></u>
+              {% for meal in plan.planrecipe_set.all %}
+                <li>{{ meal.recipe.label }}</li>
+              {% endfor %}
+            </ul>
+        {% endfor %}
+      </ul>
+    {% else %}
+      None
+    {% endif %}
+  </div>
 </body>
 </html>

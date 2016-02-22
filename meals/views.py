@@ -303,7 +303,11 @@ def form(request):
   else:
     form = PlanForm()
 
-  return render(request, 'meals/form.html', {'form': form})
+  context = {
+    'form': form,
+    'plans': Plan.objects.all()
+  }
+  return render(request, 'meals/form.html', context)
 
 def index(request):
   context = {
