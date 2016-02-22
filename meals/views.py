@@ -30,7 +30,7 @@ def store_recipes(recipes):
   for i, recipe in enumerate(recipes[u'hits']):
     recipe = recipe[u'recipe']
 
-    Recipe.objects.create(
+    r = Recipe.objects.create(
       label = str(recipe[u'label']),
       image = str(recipe[u'image']),
       url = str(recipe[u'url']),
@@ -65,6 +65,13 @@ def store_recipes(recipes):
       vit_e = float(str(recipe[u'totalNutrients'][u'TOCPHA'][u'quantity'])),
       vit_k = float(str(recipe[u'totalNutrients'][u'VITK1'][u'quantity']))
     )
+
+    for ingredient in recipe[u'ingredients']:
+      r.ingredientrecipe_set.create(
+        text = str(ingredient[u'text']),
+        food = str(ingredient[u'food']),
+        weight = float(str(ingredient[u'weight']))
+      )
 
 def form(request):
   if request.method == 'POST':

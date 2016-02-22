@@ -117,7 +117,7 @@ class MealLabel(models.Model):
 
 class IngredientRecipe(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-  ingredient = models.ForeignKey(Ingredient)
+  ingredient = models.ForeignKey(Ingredient, blank=True, null=True)
   text = models.CharField(max_length=150)
   food = models.CharField(max_length=100)
   weight = models.FloatField()
@@ -125,11 +125,11 @@ class IngredientRecipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.text
+    return self.recipe.label + ":\t" + self.text
 
 class IngredientVendor(models.Model):
   vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-  ingredient = models.ForeignKey(Ingredient)
+  ingredient = models.ForeignKey(Ingredient, blank=True, null=True)
   product = models.CharField(max_length=200)
   weight = models.FloatField()
   price = models.FloatField()
@@ -137,7 +137,7 @@ class IngredientVendor(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.product  
+    return self.vendor.name + ":\t" + self.product  
 
 class PlanRecipe(models.Model):
   plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
