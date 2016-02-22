@@ -297,7 +297,41 @@ def form(request):
 
       meals = [breakfast, snack1, lunch, snack2, dinner]
 
-      plan = generate_plan_meeting_nutrition(meals, nutrition_req)
+      plan, plan_nutrition = generate_plan_meeting_nutrition(meals, nutrition_req)
+
+      print(plan_nutrition['calories'])
+      Plan.objects.get_or_create(
+        name = name,
+        calories = plan_nutrition['calories'],
+        fat = plan_nutrition['fat'],
+        sat_fat = plan_nutrition['sat_fat'],
+        trans_fat = plan_nutrition['trans_fat'],
+        mono_unsat_fat = plan_nutrition['mono_unsat_fat'],
+        poly_unsat_fat = plan_nutrition['poly_unsat_fat'],
+        carbohydrates = plan_nutrition['carbohydrates'],
+        fiber = plan_nutrition['fiber'],
+        sugar = plan_nutrition['sugar'],
+        protein = plan_nutrition['protein'],
+        cholesterol = plan_nutrition['cholesterol'],
+        sodium = plan_nutrition['sodium'],
+        calcium = plan_nutrition['calcium'],
+        magnesium = plan_nutrition['magnesium'],
+        potassium = plan_nutrition['potassium'],
+        iron = plan_nutrition['iron'],
+        zinc = plan_nutrition['zinc'],
+        phosphorus = plan_nutrition['phosphorus'],
+        vit_a = plan_nutrition['vit_a'],
+        vit_c = plan_nutrition['vit_c'],
+        thiamin = plan_nutrition['thiamin'],
+        riboflavin = plan_nutrition['riboflavin'],
+        niacin = plan_nutrition['niacin'],
+        vit_b6 = plan_nutrition['vit_b6'],
+        folic_acid = plan_nutrition['folic_acid'],
+        vit_b12 = plan_nutrition['vit_b12'],
+        vit_d = plan_nutrition['vit_d'],
+        vit_e = plan_nutrition['vit_e'],
+        vit_k = plan_nutrition['vit_k']
+      )
 
       return HttpResponseRedirect('/meals/')
   else:
