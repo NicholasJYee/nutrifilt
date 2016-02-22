@@ -1,0 +1,7 @@
+<strong>Plan name: {{ plan.name }}</strong>
+<ul>
+  <u>Meals</u>
+  {% for meal in plan.planrecipe_set.all %}
+    <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
+  {% endfor %}
+</ul>
