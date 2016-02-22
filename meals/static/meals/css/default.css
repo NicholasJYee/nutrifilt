@@ -1,12 +1,126 @@
 body {
-  background-color: blue;
-}
-.container {
-  margin:auto;  
+  background-color: rgb(230, 230, 230);
+  min-width:300px;
+  height: 100vh;
+  background: url('/static/meals/images/veggies.png') 0 0 repeat-y, url('/static/meals/images/fruit.png')center right repeat-y;
+  background-size:15%;  
 }
 
-#fat-nav{
-  margin: -10px 0 0;
+#bg2 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -5%;
+  width: 100%;  
+  display: block;  
+  -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,1));
+  filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='12' dy='12' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.5)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
+  -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+  filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+}
+
+.container {  
+  font-size: 1.5vw;
+  margin-left: auto;
+  margin-right: auto;  
+  width: 80%;
+  height: 100%;
+}
+
+#navBar {
   text-align: center;
-  display: block;
+  position: relative;
+  width: 65%;  
+  margin-top: -75%;
+  height: 35vw;
+  margin-left: 10%;
+}
+
+#navBar ul {
+  display:block;
+  text-align: left;
+}
+
+#navBar ul li {
+  list-style: none;
+  background: #885F38;
+  color:#E4CCA6;
+  display: inline-block;  
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;  
+  padding-left:2%;
+  padding-right: 2%;
+  padding-bottom: 3%;
+}
+
+#navBar ul li:hover {
+  box-shadow: 2px 0px 2px -1px rgba(0,0,0,1);  
+  background-color: rgb(240,240,240);
+  color:#885F38;
+  cursor:pointer;
+}
+
+#navBar li.active {  
+  box-shadow: 2px 0px 2px -1px rgba(0,0,0,1);  
+  background-color: rgb(240,240,240);
+  color:#885F38;
+}
+
+#contents {  
+  position: relative;
+  background: rgb(240, 240, 240);
+  width: 90%;  
+  margin-top: -4%;
+  height: 70%;
+  border-radius: 10px;
+  -webkit-filter: drop-shadow(8px 8px 3px rgba(0,0,0,0.5));
+  color:#885F38;
+  padding:5%;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn {
+  background: -webkit-gradient(linear, left top, left bottom, from(#E4CCA6), to(#885F38));
+  border-radius: 0.5em;
+  border: none;
+  margin: 1%;
+}
+
+.btn:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#885F38), to(#E4CCA6));  
+}
+
+.btn:focus {outline:0;}
+
+#loadForm {
+  transform: scale(0.8);
+  color:#E4CCA6;
+  background-color: rgba(136, 95, 56,0.55);
+  width: 50%;
+  padding: 5%;  
+  border-radius:10px;
+}
+
+#loadForm input {
+  border-radius:0.5em;
+  margin: 1%;
+  padding: 0.5%;
+  color:#885F38;    
+}
+
+#loadForm label {  
+  margin: 1%;
+  padding:0.5%;
+}
+
+.popup_visible #loadForm {
+  transform: scale(1);
+}
+
+.recipes {
+  height: 100%;
+  background: url('/static/meals/images/tablecloth.jpg') center repeat-y;
+  background-size:55%;
 }

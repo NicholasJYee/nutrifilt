@@ -1,15 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>  
-   <!-- CSS-->    
+   <!-- CSS-->
+  <link rel="stylesheet" href="/static/meals/css/normalize.css">     
   <link rel="stylesheet" href="/static/meals/css/default.css">   
 
   <!--Javascript-->  
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  
+  <script src="/static/meals/js/jquery-2.2.0.js"></script>
+  <script src="/static/meals/js/jquery.popupoverlay.js"></script>
   <script src="/static/meals/js/default.js"></script>  
 
   <title></title>
 </head>
-<body>  
+<body>
+  <div class ="container">
+    <img id = "bg2" src = '/static/meals/images/bg2.png'></img>
+    <div id = "navBar">
+      <ul>
+        <li class = "active">
+          <span class="navText">Home</span>
+        </li>
+        <li>
+          <span class="navText">Search</span>        
+        </li>
+        <li>
+          <span class="navText">About</span>
+        </li>      
+      </ul>
+      <div id = "contents">
+        <div id ='home'>
+          <h2>Welcome to (Logo) </h2>
+          <p>This app allows you to enter your nutritional requirements and return
+          list of recipes that meet your requirements.</p>
+          <p>To get started, click on the 'Search' tab </p>
+          <p>Happy searching!</p>
+        </div>
+        <div id ='search' class = "hidden">          
+          <p>There are many input fields to help you refine your search. </p>
+          <p>Enter the weight amount for specific fields.</p>
+          <p>Click the button below to load the form</p>
+          <button id = 'search' class ='btn loadForm_open' rel="#sheet">Load form</button>
+          <div id="loadForm" > 
+                       
+          </div>
+        </div>
+        <div id ='about' class = "hidden">
+          <p>This awesome app is made by Natim!</p>
+        </div>
+      </div>  
+    </div>       
+  </div>    
 </body>
 </html>
