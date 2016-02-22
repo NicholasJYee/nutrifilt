@@ -19,6 +19,8 @@
           <li><a href="{{ recipe.url }}">{{ recipe.label }}</a></li>
         {% endfor %}
       </ul>
+    {% else %}
+      None
     {% endif %}
   </div>
 </body>
