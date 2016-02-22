@@ -73,6 +73,9 @@ def store_recipes(recipes):
         weight = float(str(ingredient[u'weight']))
       )
 
+    for healthlabel in recipe[u'healthLabels']:
+      r.healthlabel_set.create(label = healthlabel)
+
 def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
