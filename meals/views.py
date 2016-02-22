@@ -16,15 +16,20 @@ def populate(request):
         'app_key': secret.app_key,
         'app_id': secret.app_id,
         'q': terms,
-        'to': 1
+        'to': 2
       }
       recipes = requests.get('https://api.edamam.com/search', params=payload).json()
-      print(recipes)
+      store_recipes(recipes)
       return HttpResponseRedirect('/meals/')
   else:
     form = PopulateForm()
 
   return render(request, 'meals/populate.html', {'form': form})
+
+def store_recipes(recipes):
+  print(len(recipes[u'hits']))
+  # for i, recipe in enumerate(recipes.hits):
+  #   print(recipe)
 
 def form(request):
   if request.method == 'POST':
