@@ -42,7 +42,7 @@ class Recipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.label
+    return self.label.encode('utf-8')
 
 class Ingredient(models.Model):
   food = models.CharField(max_length=100)
@@ -50,7 +50,7 @@ class Ingredient(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.food
+    return self.food.encode('utf-8')
 
 class Vendor(models.Model):
   name = models.CharField(max_length=100)
@@ -58,7 +58,7 @@ class Vendor(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.name
+    return self.name.encode('utf-8')
 
 class Plan(models.Model):
   name = models.CharField(max_length=150)
@@ -95,7 +95,7 @@ class Plan(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.name
+    return self.name.encode('utf-8')
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -104,7 +104,7 @@ class HealthLabel(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return str(self.recipe.label) + ":\t" + str(self.label)
+    return self.recipe.label.encode('utf-8') + ":\t" + self.label.encode('utf-8')
     
 class MealLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -113,7 +113,7 @@ class MealLabel(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return str(self.recipe.label) + ":\t" + str(self.label)
+    return self.recipe.label.encode('utf-8') + ":\t" + self.label.encode('utf-8')
 
 class IngredientRecipe(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -125,7 +125,7 @@ class IngredientRecipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.recipe.label + ":\t" + self.food
+    return self.recipe.label.encode('utf-8') + ":\t" + self.food.encode('utf-8')
 
 class IngredientVendor(models.Model):
   vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
@@ -137,7 +137,7 @@ class IngredientVendor(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.vendor.name + ":\t" + self.product  
+    return self.vendor.name.encode('utf-8') + ":\t" + self.product.encode('utf-8') 
 
 class PlanRecipe(models.Model):
   plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
@@ -147,4 +147,4 @@ class PlanRecipe(models.Model):
   updated_on = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.plan.name + ":\t" + str(self.meal_number)
+    return self.plan.name.encode('utf-8') + ":\t" + str(self.meal_number)

@@ -34,9 +34,9 @@ def store_recipes(recipes):
 
     for ingredient in recipe[u'ingredients']:
       r.ingredientrecipe_set.get_or_create(
-        text = str(ingredient[u'text']),
-        food = str(ingredient[u'food']),
-        weight = float(str(ingredient[u'weight']))
+        text = ingredient[u'text'].encode('utf-8'),
+        food = ingredient[u'food'].encode('utf-8'),
+        weight = str(float(ingredient[u'weight']))
       )
 
     for healthlabel in recipe[u'healthLabels']:
@@ -44,11 +44,11 @@ def store_recipes(recipes):
 
 def create_recipe(recipe):
   try:
-    image = str(recipe[u'image'])
+    image = recipe[u'image'].encode('utf-8')
   except KeyError:
     image = ""
   try:
-    url = str(recipe[u'url'])
+    url = recipe[u'url'].encode('utf-8')
   except KeyError:
     url = ""
   try:
@@ -173,7 +173,7 @@ def create_recipe(recipe):
     vit_k = 0
 
   r, created = Recipe.objects.get_or_create(
-    label = str(recipe[u'label']),
+    label = recipe[u'label'].encode('utf-8'),
   )
 
   if created:
