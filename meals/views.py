@@ -161,39 +161,47 @@ def store_recipes(recipes):
 
     r, created = Recipe.objects.get_or_create(
       label = str(recipe[u'label']),
-      image = image,
-      url = url,
-      servings = servings,
-      calories = calories,
-      fat = fat,
-      sat_fat = sat_fat,
-      trans_fat = trans_fat,
-      mono_unsat_fat = mono_unsat_fat,
-      poly_unsat_fat = poly_unsat_fat,
-      carbohydrates = carbohydrates,
-      fiber = fiber,
-      sugar = sugar,
-      protein = protein,
-      cholesterol = cholesterol,
-      sodium = sodium,
-      calcium = calcium,
-      magnesium = magnesium,
-      potassium = potassium,
-      iron = iron,
-      zinc = zinc,
-      phosphorus = phosphorus,
-      vit_a = vit_a,
-      vit_c = vit_c,
-      thiamin = thiamin,
-      riboflavin = riboflavin,
-      niacin = niacin,
-      vit_b6 = vit_b6,
-      folic_acid = folic_acid,
-      vit_b12 = vit_b12,
-      vit_d = vit_d,
-      vit_e = vit_e,
-      vit_k = vit_k
     )
+
+    print("before", created, r.label)
+    if created:
+      r.delete()
+      r, created = Recipe.objects.get_or_create(
+        label = str(recipe[u'label']),
+        image = image,
+        url = url,
+        servings = servings,
+        calories = calories,
+        fat = fat,
+        sat_fat = sat_fat,
+        trans_fat = trans_fat,
+        mono_unsat_fat = mono_unsat_fat,
+        poly_unsat_fat = poly_unsat_fat,
+        carbohydrates = carbohydrates,
+        fiber = fiber,
+        sugar = sugar,
+        protein = protein,
+        cholesterol = cholesterol,
+        sodium = sodium,
+        calcium = calcium,
+        magnesium = magnesium,
+        potassium = potassium,
+        iron = iron,
+        zinc = zinc,
+        phosphorus = phosphorus,
+        vit_a = vit_a,
+        vit_c = vit_c,
+        thiamin = thiamin,
+        riboflavin = riboflavin,
+        niacin = niacin,
+        vit_b6 = vit_b6,
+        folic_acid = folic_acid,
+        vit_b12 = vit_b12,
+        vit_d = vit_d,
+        vit_e = vit_e,
+        vit_k = vit_k
+      )
+    print("after", r.label)
 
     for ingredient in recipe[u'ingredients']:
       r.ingredientrecipe_set.get_or_create(
