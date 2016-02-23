@@ -1,12 +1,15 @@
 
-  <form action="/meals/demo/" method="post" id = "daForm">
+  <form action="/meals/form/" method="post" id = "daForm">
+  
     {% csrf_token %}
-    {{ form.as_table }}
+    {{ form.as_p }}
     <button type="submit" class = 'btn' value="Generate Meal Plan">
       Generate Meal Plan
     </button>        
   </form>
+
   <button id = "test" class = "btn">Test</button>
+  <button id = "chk" class = 'btn'>Show more fields</button>
 
 <!-- <form class="rounded" id="myform" novalidate="novalidate">
   <fieldset>

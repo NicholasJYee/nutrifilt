@@ -435,3 +435,7 @@ def search(request):
     form = PlanForm()
 
   return render(request, 'meals/search.html', {'form': form})
+
+#Meal plan results front-end test
+def results(request):
+  return render(request, 'meals/results.html')  

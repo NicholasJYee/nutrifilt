@@ -15,9 +15,11 @@ body {
 
 .logo {
   display:block;
+  width:20%;
+
 }
 
-#bg2, .container, .btn, .recipes, .logo {
+#bg2, .container, .btn, .recipes, .logo, .centered {
   margin-left: auto;
   margin-right: auto;  
 }
@@ -64,29 +66,34 @@ body {
   padding-bottom: 3%;
 }
 
-#navBar ul li:hover {
+#navBar li.active, #navBar ul li:hover {
   box-shadow: 2px 0px 2px -1px rgba(0,0,0,1);  
   background-color: rgb(240,240,240);
-  color:#885F38;
+  color:#885F38;  
+}
+
+#navBar li:hover {  
   cursor:pointer;
 }
 
-#navBar li.active {  
-  box-shadow: 2px 0px 2px -1px rgba(0,0,0,1);  
-  background-color: rgb(240,240,240);
-  color:#885F38;
-}
-
-#contents {  
+.contents, .mealplan {  
   position: relative;
   background: rgb(240, 240, 240);
   width: 90%;  
-  margin-top: -4%;
   height: 70%;
   border-radius: 10px;
   -webkit-filter: drop-shadow(8px 8px 3px rgba(0,0,0,0.5));
   color:#885F38;
   padding:5%;
+}
+
+.contents {
+  margin-top: -4%;
+}
+
+.mealplan {
+  margin:2%;
+  font-size:1.5vw;
 }
 
 .hidden {

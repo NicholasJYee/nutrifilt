@@ -1,0 +1,30 @@
+body {
+  background: black;
+}
+
+#gameWindow {
+height: 300px;
+width: 400px;
+border: 5px solid red;
+}
+
+#bar1 {
+  background: green;
+  background-size: 50%;
+}
+
+#bar2 {
+  background: orange;
+}
+
+#bar3 {
+  background: blue;
+}
+
+#bar1, #bar2, #bar3 {
+  width: 50px;
+  height: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+  margin:5px;
+}
