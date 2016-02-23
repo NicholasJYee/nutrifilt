@@ -33,4 +33,11 @@ class PlanForm(forms.Form):
   vit_k = forms.FloatField(label="Vitamin K (micro g):", required=False, widget=forms.HiddenInput())
 
 class PopulateForm(forms.Form):
-  terms = forms.CharField(label="Recipe terms:", max_length=150)
+  terms = forms.CharField(
+    label="Recipe terms:",
+    max_length=150,
+    widget=forms.TextInput(attrs={
+      'class':'form-control',
+      'id':'inputWarning'
+    })
+  )
