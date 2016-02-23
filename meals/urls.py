@@ -12,4 +12,7 @@ urlpatterns = [
   #For the search form
   url(r'^search/$', views.search, name='search'),
 
+  #For results page
+  url(r'^results/$', views.results, name='results'),
+
 ]
