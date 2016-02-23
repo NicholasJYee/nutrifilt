@@ -31,9 +31,13 @@ def populate(request):
     form = PopulateForm()
 
   recipes_without_meal_labels = Recipe.objects.filter(meallabel__isnull=True)
+  ingredientrecipe_without_ingredients = IngredientRecipe.objects.filter(ingredient__isnull=True)
+  ingredient_without_ingredientvendor = Ingredient.objects.filter(ingredientvendor__isnull=True)
   context = {
     'form': form,
-    'recipes_without_meal_labels': recipes_without_meal_labels
+    'recipes_without_meal_labels': recipes_without_meal_labels,
+    'ingredientrecipe_without_ingredients': ingredientrecipe_without_ingredients,
+    'ingredient_without_ingredientvendor': ingredient_without_ingredientvendor
   }
   return render(request, 'meals/populate.html', context)
 
