@@ -59,6 +59,14 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="salt")
       ingredientrecipe.save()
 
+    if "olive oil" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="olive oil")
+      ingredientrecipe.save()
+
+    if "yellow onion" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="yellow onion")
+      ingredientrecipe.save()
+
     for ingredient in ingredients:
       if (ingredientrecipe.food == ingredient.food) or (ingredientrecipe.food == ingredient.food + "s"):
         ingredientrecipe.ingredient = ingredient
