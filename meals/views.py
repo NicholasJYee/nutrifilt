@@ -26,13 +26,15 @@ def populate(request):
       }
       recipes = requests.get('https://api.edamam.com/search', params=payload).json()
       store_recipes(recipes)
-      return HttpResponseRedirect('/meals/')
+      return HttpResponseRedirect('/meals/populate/')
   else:
     form = PopulateForm()
 
+  try_assigning_ingredientrecipe_with_ingredient(IngredientRecipe.objects.filter(ingredient__isnull=True))
   recipes_without_meal_labels = Recipe.objects.filter(meallabel__isnull=True)
   ingredientrecipe_without_ingredients = IngredientRecipe.objects.filter(ingredient__isnull=True)
   ingredient_without_ingredientvendor = Ingredient.objects.filter(ingredientvendor__isnull=True)
+
   context = {
     'form': form,
     'recipes_without_meal_labels': recipes_without_meal_labels,
@@ -40,6 +42,49 @@ def populate(request):
     'ingredient_without_ingredientvendor': ingredient_without_ingredientvendor
   }
   return render(request, 'meals/populate.html', context)
+
+def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
+  ingredients = Ingredient.objects.all()
+
+  for ingredientrecipe in ingredientrecipes:
+    if ingredientrecipe.food == "ice":
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="water")
+      ingredientrecipe.save()
+
+    if "sugar" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="sugar")
+      ingredientrecipe.save()
+
+    if "salt" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="salt")
+      ingredientrecipe.save()
+
+    if "ground pepper" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="pepper")
+      ingredientrecipe.save()
+
+    if "vanilla" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="vanilla extract")
+      ingredientrecipe.save()
+
+    if "olive oil" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="olive oil")
+      ingredientrecipe.save()
+
+    if "yellow onion" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="yellow onion")
+      ingredientrecipe.save()
+
+    if "white vinegar" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="vinegar")
+      ingredientrecipe.save()
+
+    for ingredient in ingredients:
+      if (ingredientrecipe.food == ingredient.food) or (ingredientrecipe.food == ingredient.food + "s"):
+        ingredientrecipe.ingredient = ingredient
+        ingredientrecipe.save()
+
+
 
 def store_recipes(recipes):
   for recipe in recipes[u'hits']:

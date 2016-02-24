@@ -9,74 +9,85 @@
 
 </head>
 <body>
-  <form action="/meals/populate/" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Populate Database">
-  </form>
-
-  <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Recipes without meal lables</a>
-        </h4>
-      </div>
-      <div id="collapseOne" class="panel-collapse collapse">
-        <div class="panel-body">
-          {% if recipes_without_meal_labels %}
-            <ol>
-              {% for recipe in recipes_without_meal_labels %}
-                <li><a href="{{ recipe.url }}">{{ recipe.label }}</a></li>
-              {% endfor %}
-            </ol>
-          {% else %}
-            None
-          {% endif %}
+  <div class="container">
+    <div class="row">
+      <form action="/meals/populate/" method="post" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form }}
         </div>
-      </div>
+        <button type="submit" class="btn btn-primary">Get Recipes</button>
+      </form>  
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Recipe ingredients without ingredient</a>
-        </h4>
-      </div>
-      <div id="collapseTwo" class="panel-collapse collapse">
-        <div class="panel-body">
-          {% if ingredientrecipe_without_ingredients %}
-            <ol>
-              {% for ingredientrecipe in ingredientrecipe_without_ingredients %}
-                <li>{{ ingredientrecipe.food }}</li>
-              {% endfor %}
-            </ol>
-          {% else %}
-            None
-          {% endif %}
+    
+    <div class="row">
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Recipes without meal lables</a>
+            </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+              {% if recipes_without_meal_labels %}
+                <ol>
+                  {% for recipe in recipes_without_meal_labels %}
+                    <li><a href="{{ recipe.url }}">{{ recipe.label }}</a></li>
+                  {% endfor %}
+                </ol>
+              {% else %}
+                None
+              {% endif %}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Ingredients without vendor ingredient</a>
-        </h4>
-      </div>
-      <div id="collapseThree" class="panel-collapse collapse">
-        <div class="panel-body">
-          {% if ingredient_without_ingredientvendor %}
-            <ol>
-              {% for ingredient in ingredient_without_ingredientvendor %}
-                <li>{{ ingredient.food }}</li>
-              {% endfor %}
-            </ol>
-          {% else %}
-            None
-          {% endif %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Recipe ingredients without ingredient</a>
+            </h4>
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+              {% if ingredientrecipe_without_ingredients %}
+                <ol>
+                  {% for ingredientrecipe in ingredientrecipe_without_ingredients %}
+                    <li>{{ ingredientrecipe.food }}</li>
+                  {% endfor %}
+                </ol>
+              {% else %}
+                None
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Ingredients without vendor ingredient</a>
+            </h4>
+          </div>
+          <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+              {% if ingredient_without_ingredientvendor %}
+                <ol>
+                  {% for ingredient in ingredient_without_ingredientvendor %}
+                    <li>{{ ingredient.food }}</li>
+                  {% endfor %}
+                </ol>
+              {% else %}
+                None
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+    
+  
 
 
 
