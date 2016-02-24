@@ -59,6 +59,14 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="salt")
       ingredientrecipe.save()
 
+    if "ground pepper" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="pepper")
+      ingredientrecipe.save()
+
+    if "vanilla" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="vanilla extract")
+      ingredientrecipe.save()
+
     if "olive oil" in ingredientrecipe.food:
       ingredientrecipe.ingredient = Ingredient.objects.get(food="olive oil")
       ingredientrecipe.save()
