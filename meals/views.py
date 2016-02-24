@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
+from django.db.models import Q
+
 import requests
 
 import secret
@@ -7,10 +9,22 @@ import secret
 from .forms import *
 from .computations import *
 
+def searchplan(request):
+  try:
+    context = {
+      'plan': Plan.objects.get(name=request.GET.get('name', ''))
+    }
+  except:
+    context = {}
+  return render(request, 'meals/plan.html', context)
+
 def plan(request, plan_id):
-  context = {
-    'plan': Plan.objects.get(id=int(plan_id))
-  }
+  try:
+    context = {
+      'plan': Plan.objects.get(id=int(plan_id))
+    }
+  except:
+    context = {}  
   return render(request, 'meals/plan.html', context)
 
 def populate(request):
@@ -437,5 +451,5 @@ def search(request):
   return render(request, 'meals/search.html', {'form': form})
 
 #Meal plan results front-end test
-def results(request):
-  return render(request, 'meals/results.html')  
+# def results(request):
+#   return render(request, 'meals/results.html')  

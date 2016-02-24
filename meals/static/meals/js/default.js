@@ -10,19 +10,15 @@ $(function() {
 
   $('#search').on('click', function(){
     $('#loadForm').load('/meals/search/', function() {
+      $('#loadForm input:lt(3)').attr('required',true);
+      $('#loadForm input').slice(2).attr('pattern','\d+');
       $('#loadForm p').slice(5).hide(); 
     });      
   });
 
-  // testing results page
-  $('body').on('click', '#test',function(){    
-    $('.container').remove();
-    var div = $('<div>');
-    div.attr("class", "recipes");
-    div.addClass("recipes");
-    div.load('/meals/results'); 
-    $('body').append(div);    
-  });
+  $('body').on('submit', '#daForm',function(){
+    $(this).append('<img src = "/static/meals/images/load.gif">');
+  }); 
 
   $('body').on('click','#chk', function(){
     if ($(this).text()=="Show more fields") {
