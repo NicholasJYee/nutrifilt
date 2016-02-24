@@ -84,8 +84,6 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
         ingredientrecipe.ingredient = ingredient
         ingredientrecipe.save()
 
-
-
 def store_recipes(recipes):
   for recipe in recipes[u'hits']:
     recipe = recipe[u'recipe']

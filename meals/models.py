@@ -97,6 +97,10 @@ class Plan(models.Model):
   def __str__(self):
     return self.name.encode('utf-8')
 
+  def cost(self):
+    for recipe in self.planrecipe_set.all():
+      print(recipe)
+
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
   label = models.CharField(max_length=150)
