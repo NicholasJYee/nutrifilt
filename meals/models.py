@@ -105,7 +105,7 @@ class Plan(models.Model):
         weight_used = ingredientrecipe.weight
         ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
         cost += ingredient_price * weight_used / ingredient_weight
-    return round(cost, 2)
+    return float("{0:.2f}".format(cost))
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
