@@ -98,8 +98,14 @@ class Plan(models.Model):
     return self.name.encode('utf-8')
 
   def cost(self):
-    for recipe in self.planrecipe_set.all():
-      print(recipe)
+    cost = 0
+    for meal in self.planrecipe_set.all():
+      for ingredientrecipe in meal.recipe.ingredientrecipe_set.all():
+        ingredient_price = ingredientrecipe.ingredient.ingredientvendor_set.first().price
+        weight_used = ingredientrecipe.weight
+        ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
+        cost += ingredient_price * weight_used / ingredient_weight
+    return round(cost, 2)
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
