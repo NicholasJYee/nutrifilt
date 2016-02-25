@@ -411,19 +411,12 @@ def form(request):
       else:
         nutrition_req['vit_k'] = 0
   
-      start = time.time()
       breakfast = get_meals('breakfast')
-      end = time.time()
-      print("time taken: ", end - start, breakfast)
-      raise SystemExit
       snack1 = get_meals('snack')
       lunch = get_meals('lunch')
       snack2 = get_meals('snack')
       dinner = get_meals('dinner')
       meals = [breakfast, snack1, lunch, snack2, dinner]
-
-      print(meals)
-      raise SystemExit
 
       plan = generate_plan_meeting_nutrition(meals, nutrition_req)
 
@@ -462,8 +455,9 @@ def form(request):
 
       if created:
         for i, meal in enumerate(plan):
+          recipe = Recipe.objects.get(id=meal[0])
           p.planrecipe_set.get_or_create(
-            recipe = meal,
+            recipe = recipe,
             meal_number = i
           )
 
