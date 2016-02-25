@@ -1,5 +1,6 @@
 from random import randint, choice
 from .models import *
+import time
 
 MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
 
@@ -7,8 +8,57 @@ def get_meals(label):
   meals = []
   labels = MealLabel.objects.filter(label=label)
 
+
   for label in labels:
-    meals.append(label.recipe)
+    start = time.time()
+    cost = 0
+
+    for ingredientrecipe in label.recipe.ingredientrecipe_set.all():
+      ingredient_price = ingredientrecipe.ingredient.ingredientvendor_set.first().price
+      weight_used = ingredientrecipe.weight
+      ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
+      cost += ingredient_price * weight_used / ingredient_weight
+      cost = float("{0:.2f}".format(cost))
+    end_cost = time.time()
+    print(label.recipe, "inner loop time: ", end_cost - start)
+    servings = label.recipe.servings
+    meal_info = [
+      label.id,
+      cost,
+      label.recipe.calories / servings,
+      label.recipe.fat / servings,
+      label.recipe.carbohydrates / servings,
+      label.recipe.protein / servings,
+      label.recipe.sat_fat / servings,
+      label.recipe.trans_fat / servings,
+      label.recipe.mono_unsat_fat / servings,
+      label.recipe.poly_unsat_fat / servings,
+      label.recipe.fiber / servings,
+      label.recipe.sugar / servings,
+      label.recipe.cholesterol / servings,
+      label.recipe.sodium / servings,
+      label.recipe.calcium / servings,
+      label.recipe.magnesium / servings,
+      label.recipe.potassium / servings,
+      label.recipe.iron / servings,
+      label.recipe.zinc / servings,
+      label.recipe.phosphorus / servings,
+      label.recipe.vit_a / servings,
+      label.recipe.vit_c / servings,
+      label.recipe.thiamin / servings,
+      label.recipe.riboflavin / servings,
+      label.recipe.niacin / servings,
+      label.recipe.vit_b6 / servings,
+      label.recipe.folic_acid / servings,
+      label.recipe.vit_b12 / servings,
+      label.recipe.vit_d / servings,
+      label.recipe.vit_e / servings,
+      label.recipe.vit_k / servings
+    ]
+    meals.append(meal_info)
+    end = time.time()
+    print("outer loop time: ", end - start)
+
 
   return meals
 

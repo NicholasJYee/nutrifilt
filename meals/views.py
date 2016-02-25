@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-import requests
+import requests, time
 
 import secret
 
@@ -398,14 +398,20 @@ def form(request):
         nutrition_req['vit_k'] = form.cleaned_data['vit_k']
       else:
         nutrition_req['vit_k'] = 0
-
+  
+      start = time.time()
       breakfast = get_meals('breakfast')
+      end = time.time()
+      print("time taken: ", end - start, breakfast)
+      raise SystemExit
       snack1 = get_meals('snack')
       lunch = get_meals('lunch')
       snack2 = get_meals('snack')
       dinner = get_meals('dinner')
-
       meals = [breakfast, snack1, lunch, snack2, dinner]
+
+      print(meals)
+      raise SystemExit
 
       plan = generate_plan_meeting_nutrition(meals, nutrition_req)
 
