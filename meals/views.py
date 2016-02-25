@@ -1,11 +1,13 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
+from numpy import array
 import requests, time
 
 import secret
 
 from .forms import *
 from .computations import *
+
 
 def plan(request, plan_id):
   context = {
@@ -418,6 +420,16 @@ def form(request):
       dinner = get_meals('dinner')
       meals = [breakfast, snack1, lunch, snack2, dinner]
 
+      max_size = max([
+        len(breakfast),
+        len(snack1),
+        len(lunch),
+        len(snack2),
+        len(dinner),
+      ])
+
+      print(plan)
+      raise SystemError
       plan = generate_plan_meeting_nutrition(meals, nutrition_req)
 
       p, created = Plan.objects.get_or_create(
