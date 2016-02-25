@@ -2,7 +2,7 @@ from random import randint, choice
 from .models import *
 import time
 
-MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
 
 def get_meals(label):
   meals = []
@@ -16,14 +16,14 @@ def get_meals(label):
       label.recipe.cost / servings,
       label.recipe.calories / servings,
       label.recipe.fat / servings,
-      label.recipe.carbohydrates / servings,
-      label.recipe.protein / servings,
       label.recipe.sat_fat / servings,
       label.recipe.trans_fat / servings,
       label.recipe.mono_unsat_fat / servings,
       label.recipe.poly_unsat_fat / servings,
+      label.recipe.carbohydrates / servings,
       label.recipe.fiber / servings,
       label.recipe.sugar / servings,
+      label.recipe.protein / servings,
       label.recipe.cholesterol / servings,
       label.recipe.sodium / servings,
       label.recipe.calcium / servings,
@@ -71,12 +71,12 @@ def nutrition_met(meals, nutrition_req):
   nutrition_met = []
   meals_nutrition = get_nutrition(meals)
 
-  for nutrition in nutrition_req:
-    if nutrition in meals_nutrition:
-      if meals_nutrition[nutrition] >= nutrition_req[nutrition]:
-        nutrition_met.append(nutrition)
+  for i, nutrition_req_amount in enumerate(nutrition_req):
+    if meals_nutrition[i] >= nutrition_req_amount:
+      nutrition_met.append(nutrition_req_amount)
 
-  if len(nutrition_met) >= (len(nutrition_req)):
+  if len(nutrition_met) == (len(nutrition_req)):
+    print meals_nutrition[0]
     return True
   else:
     return False
@@ -84,68 +84,38 @@ def nutrition_met(meals, nutrition_req):
 
 
 def get_nutrition(meals):
-    meals_nutrition = {
-      'calories': 0,
-      'fat': 0,
-      'sat_fat': 0,
-      'trans_fat': 0,
-      'mono_unsat_fat': 0,
-      'poly_unsat_fat': 0,
-      'carbohydrates': 0,
-      'fiber': 0,
-      'sugar': 0,
-      'protein': 0,
-      'cholesterol': 0,
-      'sodium': 0,
-      'calcium': 0,
-      'magnesium': 0,
-      'potassium': 0,
-      'iron': 0,
-      'zinc': 0,
-      'phosphorus': 0,
-      'vit_a': 0,
-      'vit_c': 0,
-      'thiamin': 0,
-      'riboflavin': 0,
-      'niacin': 0,
-      'vit_b6': 0,
-      'folic_acid': 0,
-      'vit_b12': 0,
-      'vit_d': 0,
-      'vit_e': 0,
-      'vit_k': 0
-    }
+    meals_nutrition = [0] * 29
 
     for meal in meals:
       recipe = Recipe.objects.get(id=meal[0])
-      meals_nutrition['calories'] += recipe.calories / recipe.servings
-      meals_nutrition['fat'] += recipe.fat / recipe.servings
-      meals_nutrition['sat_fat'] += recipe.sat_fat / recipe.servings
-      meals_nutrition['trans_fat'] += recipe.trans_fat / recipe.servings
-      meals_nutrition['mono_unsat_fat'] += recipe.mono_unsat_fat / recipe.servings
-      meals_nutrition['poly_unsat_fat'] += recipe.poly_unsat_fat / recipe.servings
-      meals_nutrition['carbohydrates'] += recipe.carbohydrates / recipe.servings
-      meals_nutrition['fiber'] += recipe.fiber / recipe.servings
-      meals_nutrition['sugar'] += recipe.sugar / recipe.servings
-      meals_nutrition['protein'] += recipe.protein / recipe.servings
-      meals_nutrition['cholesterol'] += recipe.cholesterol / recipe.servings
-      meals_nutrition['sodium'] += recipe.sodium / recipe.servings
-      meals_nutrition['calcium'] += recipe.calcium / recipe.servings
-      meals_nutrition['magnesium'] += recipe.magnesium / recipe.servings
-      meals_nutrition['potassium'] += recipe.potassium / recipe.servings
-      meals_nutrition['iron'] += recipe.iron / recipe.servings
-      meals_nutrition['zinc'] += recipe.zinc / recipe.servings
-      meals_nutrition['phosphorus'] += recipe.phosphorus / recipe.servings
-      meals_nutrition['vit_a'] += recipe.vit_a / recipe.servings
-      meals_nutrition['vit_c'] += recipe.vit_c / recipe.servings
-      meals_nutrition['thiamin'] += recipe.thiamin / recipe.servings
-      meals_nutrition['riboflavin'] += recipe.riboflavin / recipe.servings
-      meals_nutrition['niacin'] += recipe.niacin / recipe.servings
-      meals_nutrition['vit_b6'] += recipe.vit_b6 / recipe.servings
-      meals_nutrition['folic_acid'] += recipe.folic_acid / recipe.servings
-      meals_nutrition['vit_b12'] += recipe.vit_b12 / recipe.servings
-      meals_nutrition['vit_d'] += recipe.vit_d / recipe.servings
-      meals_nutrition['vit_e'] += recipe.vit_e / recipe.servings
-      meals_nutrition['vit_k'] += recipe.vit_k / recipe.servings      
+      meals_nutrition[0] += recipe.calories / recipe.servings
+      meals_nutrition[1] += recipe.fat / recipe.servings
+      meals_nutrition[2] += recipe.sat_fat / recipe.servings
+      meals_nutrition[3] += recipe.trans_fat / recipe.servings
+      meals_nutrition[4] += recipe.mono_unsat_fat / recipe.servings
+      meals_nutrition[5] += recipe.poly_unsat_fat / recipe.servings
+      meals_nutrition[6] += recipe.carbohydrates / recipe.servings
+      meals_nutrition[7] += recipe.fiber / recipe.servings
+      meals_nutrition[8] += recipe.sugar / recipe.servings
+      meals_nutrition[9] += recipe.protein / recipe.servings
+      meals_nutrition[10] += recipe.cholesterol / recipe.servings
+      meals_nutrition[11] += recipe.sodium / recipe.servings
+      meals_nutrition[12] += recipe.calcium / recipe.servings
+      meals_nutrition[13] += recipe.magnesium / recipe.servings
+      meals_nutrition[14] += recipe.potassium / recipe.servings
+      meals_nutrition[15] += recipe.iron / recipe.servings
+      meals_nutrition[16] += recipe.zinc / recipe.servings
+      meals_nutrition[17] += recipe.phosphorus / recipe.servings
+      meals_nutrition[18] += recipe.vit_a / recipe.servings
+      meals_nutrition[19] += recipe.vit_c / recipe.servings
+      meals_nutrition[20] += recipe.thiamin / recipe.servings
+      meals_nutrition[21] += recipe.riboflavin / recipe.servings
+      meals_nutrition[22] += recipe.niacin / recipe.servings
+      meals_nutrition[23] += recipe.vit_b6 / recipe.servings
+      meals_nutrition[24] += recipe.folic_acid / recipe.servings
+      meals_nutrition[25] += recipe.vit_b12 / recipe.servings
+      meals_nutrition[26] += recipe.vit_d / recipe.servings
+      meals_nutrition[27] += recipe.vit_e / recipe.servings
+      meals_nutrition[28] += recipe.vit_k / recipe.servings      
 
     return meals_nutrition
