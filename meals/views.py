@@ -31,6 +31,7 @@ def populate(request):
     form = PopulateForm()
 
   try_assigning_ingredientrecipe_with_ingredient(IngredientRecipe.objects.filter(ingredient__isnull=True))
+  get_recipe_cost(Recipe.objects.all())#filter(cost__isnull=True))
   recipes_without_meal_labels = Recipe.objects.filter(meallabel__isnull=True)
   ingredientrecipe_without_ingredients = IngredientRecipe.objects.filter(ingredient__isnull=True)
   ingredient_without_ingredientvendor = Ingredient.objects.filter(ingredientvendor__isnull=True)
@@ -42,6 +43,17 @@ def populate(request):
     'ingredient_without_ingredientvendor': ingredient_without_ingredientvendor
   }
   return render(request, 'meals/populate.html', context)
+
+def get_recipe_cost(recipes):
+  for recipe in recipes:
+    cost = 0
+    for ingredientrecipe in recipe.ingredientrecipe_set.all():
+      ingredient_price = ingredientrecipe.ingredient.ingredientvendor_set.first().price
+      weight_used = ingredientrecipe.weight
+      ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
+      cost += ingredient_price * weight_used / ingredient_weight
+    recipe.cost = ("%.2f" % round(cost,2))
+    recipe.save()
 
 def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
   ingredients = Ingredient.objects.all()

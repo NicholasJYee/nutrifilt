@@ -18,7 +18,7 @@ def get_meals(label):
       weight_used = ingredientrecipe.weight
       ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
       cost += ingredient_price * weight_used / ingredient_weight
-      cost = float("{0:.2f}".format(cost))
+    cost = float("{0:.2f}".format(cost))
     end_cost = time.time()
     print(label.recipe, "inner loop time: ", end_cost - start)
     servings = label.recipe.servings

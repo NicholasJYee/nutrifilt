@@ -9,6 +9,7 @@ class Recipe(models.Model):
   image = models.CharField(max_length=512, blank=True, null=True)
   url = models.CharField(max_length=512, blank=True, null=True)
   servings = models.FloatField(blank=True, null=True)
+  cost = models.FloatField(blank=True, null=True)
   calories = models.FloatField(blank=True, null=True)
   fat = models.FloatField(blank=True, null=True)
   sat_fat = models.FloatField(blank=True, null=True)
