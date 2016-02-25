@@ -4,6 +4,140 @@ import time
 
 MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
 
+class MealPlanStep(object):
+  def __call__(self, plan):
+    change_one_meal(plan)
+    
+
+def change_one_meal(plan):
+  changed_meal = randint(0, 4)
+  if (changed_meal == 1):
+    plan[changed_meal] = "hi"
+
+def get_nutrition_req(form):
+  nutrition_req = []
+
+  if form.cleaned_data['name'] is not None:
+    name = form.cleaned_data['name']
+  if form.cleaned_data['calories'] is not None:
+    nutrition_req.append(form.cleaned_data['calories'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['fat'] is not None:
+    nutrition_req.append(form.cleaned_data['fat'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['sat_fat'] is not None:
+    nutrition_req.append(form.cleaned_data['sat_fat'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['trans_fat'] is not None:
+    nutrition_req.append(form.cleaned_data['trans_fat'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['mono_unsat_fat'] is not None:
+    nutrition_req.append(form.cleaned_data['mono_unsat_fat'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['poly_unsat_fat'] is not None:
+    nutrition_req.append(form.cleaned_data['poly_unsat_fat'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['carbohydrates'] is not None:
+    nutrition_req.append(form.cleaned_data['carbohydrates'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['fiber'] is not None:
+    nutrition_req.append(form.cleaned_data['fiber'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['sugar'] is not None:
+    nutrition_req.append(form.cleaned_data['sugar'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['protein'] is not None:
+    nutrition_req.append(form.cleaned_data['protein'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['cholesterol'] is not None:
+    nutrition_req.append(form.cleaned_data['cholesterol'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['sodium'] is not None:
+    nutrition_req.append(form.cleaned_data['sodium'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['calcium'] is not None:
+    nutrition_req.append(form.cleaned_data['calcium'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['magnesium'] is not None:
+    nutrition_req.append(form.cleaned_data['magnesium'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['potassium'] is not None:
+    nutrition_req.append(form.cleaned_data['potassium'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['iron'] is not None:
+    nutrition_req.append(form.cleaned_data['iron'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['zinc'] is not None:
+    nutrition_req.append(form.cleaned_data['zinc'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['phosphorus'] is not None:
+    nutrition_req.append(form.cleaned_data['phosphorus'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_a'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_a'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_c'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_c'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['thiamin'] is not None:
+    nutrition_req.append(form.cleaned_data['thiamin'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['riboflavin'] is not None:
+    nutrition_req.append(form.cleaned_data['riboflavin'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['niacin'] is not None:
+    nutrition_req.append(form.cleaned_data['niacin'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_b6'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_b6'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['folic_acid'] is not None:
+    nutrition_req.append(form.cleaned_data['folic_acid'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_b12'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_b12'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_d'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_d'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_e'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_e'])
+  else:
+    nutrition_req.append(0)
+  if form.cleaned_data['vit_k'] is not None:
+    nutrition_req.append(form.cleaned_data['vit_k'])
+  else:
+    nutrition_req.append(0)
+
+  return name, nutrition_req
+
 def get_meals(label):
   meals = []
   labels = MealLabel.objects.filter(label=label)
