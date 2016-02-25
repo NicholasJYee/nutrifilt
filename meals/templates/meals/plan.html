@@ -1,7 +1,24 @@
-<strong>Plan name: {{ plan.name }}</strong>
-<ul>
-  <u>Meals</u>
-  {% for meal in plan.planrecipe_set.all %}
-    <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
-  {% endfor %}
-</ul>
+{% extends "base.html" %}
+{% block contents %}
+<div class = 'recipes'>
+  <div class= "centered" style ="width: 75%">
+    <div class='mealplan'>
+      {% if plan %}
+      <strong>Plan name: {{ plan.name }}</strong>
+        <ul>
+          <u>Meals</u>
+          {% for meal in plan.planrecipe_set.all %}
+            <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+      <strong>No matches found</strong>  
+      {% endif %}
+    </div>
+    <br>
+  </div>
+</div>
+<div class = "bottom">
+    <button class = "btn" onClick="location.href='/'">Back to Main Page</button>
+</div> 
+{% endblock %} 

@@ -6,11 +6,19 @@ body {
   background-size:15%;  
 }
 
-.top {
+.top, .bottom {
+  color:#885F38;
   width:100%;
-  margin-top: 5%;
   padding:1%;  
   background-color: rgba(136, 95, 56,0.55);
+}
+
+.top {
+  margin-top: 5%;
+}
+
+.bottom {
+  margin-bottom: 5%;
 }
 
 .logo {
@@ -126,12 +134,15 @@ body {
 }
 
 #loadForm input {
+  float:  right;
+}
+
+input {
   border-radius:5px;
   width: 10vw;
   height:1vw;  
   color:#885F38;
-  font-size: 1vw;   
-  float:  right; 
+  font-size: 1vw;      
   margin-bottom: 1%;
 }
 
@@ -155,4 +166,5 @@ body {
   background: url('/static/meals/images/tablecloth.png') center repeat-y;
   background-size:100%;
   box-shadow: 0px 2px 2px 6px rgba(0,0,0,0.6);
+  border-radius: 10px;
 }
