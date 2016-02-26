@@ -41,10 +41,8 @@ def change_one_meal(plan):
 
 def plan_cost(plan):
   cost = 0
-  for recipe_num in plan:
-    print("plan: ", plan)
-    print("recipe num: ", recipe_num)
-    recipe = Recipe.objects.get(id=recipe_num)
+  for recipe_num in plan[::31]:
+    recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
   return float("{0:.2f}".format(cost))
 
@@ -348,7 +346,7 @@ def form(request):
       meals = [breakfast, snack, lunch, snack, dinner]
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      print('x0: ', x0)
+
       plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep)
       # plan = 
 

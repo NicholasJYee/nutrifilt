@@ -186,6 +186,7 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
 
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
       break
+  print(selected_meals[0], len(selected_meals[0]))
   return selected_meals
 
 def nutrition_met(meals, nutrition_req):
