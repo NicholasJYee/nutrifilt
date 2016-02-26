@@ -2,12 +2,51 @@ from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 from numpy import array
 import requests, time
+from scipy import optimize
 
 import secret
 
 from .forms import *
 from .computations import *
 
+class MealPlanStep(object):
+  def __call__(self, plan):
+    change_one_meal(plan)
+    return plan
+
+def change_one_meal(plan):
+  tries = 0
+  original_plan = plan
+  while True:
+    tries += 1
+    changed_meal = randint(0, 4)
+    if (changed_meal == 0):
+      plan[changed_meal] = choice(breakfast)
+    elif (changed_meal == 1):
+      plan[changed_meal] = choice(snack)
+    elif (changed_meal == 2):
+      plan[changed_meal] = choice(lunch)
+    elif (changed_meal == 3):
+      plan[changed_meal] = choice(snack)
+    elif (changed_meal == 4):
+      plan[changed_meal] = choice(dinner)
+
+    met_nutrient_requirement = nutrition_met(plan, nutrition_req)
+    if met_nutrient_requirement:
+      break
+
+    if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
+        break
+    plan = original_plan
+
+def plan_cost(plan):
+  cost = 0
+  for recipe_num in plan:
+    print("plan: ", plan)
+    print("recipe num: ", recipe_num)
+    recipe = Recipe.objects.get(id=recipe_num)
+    cost += recipe.cost / recipe.servings
+  return float("{0:.2f}".format(cost))
 
 def plan(request, plan_id):
   context = {
@@ -296,16 +335,22 @@ def form(request):
       if form.cleaned_data['name'] is not None:
         name = form.cleaned_data['name']
 
+      global nutrition_req
+      global breakfast
+      global snack
+      global lunch
+      global dinner
       nutrition_req = get_nutrition_req(form)
-  
       breakfast = get_meals('breakfast')
-      snack1 = get_meals('snack')
+      snack = get_meals('snack')
       lunch = get_meals('lunch')
-      snack2 = get_meals('snack')
       dinner = get_meals('dinner')
-      meals = [breakfast, snack1, lunch, snack2, dinner]
-
-      plan = generate_plan_meeting_nutrition(meals, nutrition_req)
+      meals = [breakfast, snack, lunch, snack, dinner]
+      mealplanstep = MealPlanStep()
+      x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
+      print('x0: ', x0)
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep)
+      # plan = 
 
       p, created = Plan.objects.get_or_create(
         name = name,

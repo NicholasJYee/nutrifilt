@@ -4,25 +4,6 @@ import time
 
 MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
 
-class MealPlanStep(object):
-  def __init__(self):
-    self.breakfast = get_meals('breakfast')
-    self.snack = get_meals('snack')
-    self.lunch = get_meals('lunch')
-    self.dinner = get_meals('dinner')  
-    self.nutrition_req = get_nutrition_req
-
-  def __call__(self, plan):
-    change_one_meal(plan)
-    
-
-def change_one_meal(plan):
-  
-
-  changed_meal = randint(0, 4)
-  if (changed_meal == 1):
-    plan[changed_meal] = choice()
-
 def get_nutrition_req(form):
   nutrition_req = []
 
@@ -205,7 +186,6 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
 
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
       break
-
   return selected_meals
 
 def nutrition_met(meals, nutrition_req):
@@ -217,7 +197,6 @@ def nutrition_met(meals, nutrition_req):
       nutrition_met.append(nutrition_req_amount)
 
   if len(nutrition_met) == (len(nutrition_req)):
-    print meals_nutrition[0]
     return True
   else:
     return False
