@@ -292,7 +292,11 @@ def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
-      name, nutrition_req = get_nutrition_req(form)
+
+      if form.cleaned_data['name'] is not None:
+        name = form.cleaned_data['name']
+
+      nutrition_req = get_nutrition_req(form)
   
       breakfast = get_meals('breakfast')
       snack1 = get_meals('snack')

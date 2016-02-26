@@ -5,20 +5,27 @@ import time
 MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
 
 class MealPlanStep(object):
+  def __init__(self):
+    self.breakfast = get_meals('breakfast')
+    self.snack = get_meals('snack')
+    self.lunch = get_meals('lunch')
+    self.dinner = get_meals('dinner')  
+    self.nutrition_req = get_nutrition_req
+
   def __call__(self, plan):
     change_one_meal(plan)
     
 
 def change_one_meal(plan):
+  
+
   changed_meal = randint(0, 4)
   if (changed_meal == 1):
-    plan[changed_meal] = "hi"
+    plan[changed_meal] = choice()
 
 def get_nutrition_req(form):
   nutrition_req = []
 
-  if form.cleaned_data['name'] is not None:
-    name = form.cleaned_data['name']
   if form.cleaned_data['calories'] is not None:
     nutrition_req.append(form.cleaned_data['calories'])
   else:
@@ -136,7 +143,7 @@ def get_nutrition_req(form):
   else:
     nutrition_req.append(0)
 
-  return name, nutrition_req
+  return nutrition_req
 
 def get_meals(label):
   meals = []
