@@ -366,7 +366,7 @@ def form(request):
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
       print("x0: ", x0)
-      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=2).x
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
       print("plan (pre fix): ", plan)
 
       p, created = Plan.objects.get_or_create(

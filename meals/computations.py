@@ -197,15 +197,14 @@ def nutrition_met(meals, nutrition_req):
   meals_nutrition = get_nutrition(meals)
 
   for i, nutrition_req_amount in enumerate(nutrition_req):
+    # Change code here to set up ranges and around values for nutri
     if meals_nutrition[i] >= nutrition_req_amount:
       nutrition_met.append(nutrition_req_amount)
-
+    # End 
   if len(nutrition_met) == (len(nutrition_req)):
     return True
   else:
     return False
-
-
 
 def get_nutrition(meals):
     meals_nutrition = [0] * 29
