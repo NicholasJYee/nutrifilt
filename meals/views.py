@@ -23,7 +23,8 @@ def change_one_meal(plan):
     end = (i + 1) * 31
     if (i == 0):
       restored_2d_plan = array(plan[start:end])
-    restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+    else:
+      restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
   plan = restored_2d_plan
 
   print("plan (after restored 2d): ", plan)
@@ -364,7 +365,8 @@ def form(request):
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
       print("x0: ", x0)
-      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep)
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
+      print("plan (pre fix): ", plan)
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -400,8 +402,19 @@ def form(request):
       )
 
       if created:
+        for i in range(0,5):
+          start = i * 31
+          end = (i + 1) * 31
+          if (i == 0):
+            restored_2d_plan = array(plan[start:end])
+          else:
+            restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+        plan = restored_2d_plan
+        print("plan (post fix): ", plan)
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
+          print("recipe: ", recipe)
+          print("meal: ", meal)
           p.planrecipe_set.get_or_create(
             recipe = recipe,
             meal_number = i

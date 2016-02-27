@@ -180,7 +180,8 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
     for i, meal in enumerate(meals):
       if (i==0):
         selected_meals = array(choice(meal))
-      selected_meals = vstack([selected_meals, array(choice(meal))])
+      else:
+        selected_meals = vstack([selected_meals, array(choice(meal))])
 
     met_nutrient_requirement = nutrition_met(selected_meals, nutrition_req)
     if met_nutrient_requirement:
