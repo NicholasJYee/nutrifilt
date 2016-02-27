@@ -20,5 +20,5 @@ urlpatterns = [
   # App home page
   url(r'^$', include('meals.urls')),  
   url(r'^meals/', include('meals.urls')),
-  url(r'^admin/', admin.site.urls),
+  url(r'^admin/', admin.site.urls),  
 ]

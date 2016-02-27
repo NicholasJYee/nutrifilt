@@ -15,4 +15,6 @@ urlpatterns = [
   #For the search form
   url(r'^search/$', views.search, name='search'),
 
+  url(r'^game/$', views.game, name='game'),
+
 ]
