@@ -1,6 +1,7 @@
 from random import randint, choice
 from .models import *
 import time
+from numpy import vstack, array
 
 MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
 
@@ -174,11 +175,12 @@ def get_meals(label):
 def generate_plan_meeting_nutrition(meals, nutrition_req):
   tries = 0
   while True:
-    selected_meals = []
     tries += 1
 
     for i, meal in enumerate(meals):
-      selected_meals.append(choice(meals[i]))
+      if (i==0):
+        selected_meals = array(choice(meal))
+      selected_meals = vstack([selected_meals, array(choice(meal))])
 
     met_nutrient_requirement = nutrition_met(selected_meals, nutrition_req)
     if met_nutrient_requirement:
@@ -186,7 +188,7 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
 
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
       break
-  print(selected_meals[0], len(selected_meals[0]))
+
   return selected_meals
 
 def nutrition_met(meals, nutrition_req):

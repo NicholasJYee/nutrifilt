@@ -16,10 +16,24 @@ class MealPlanStep(object):
 
 def change_one_meal(plan):
   tries = 0
+  print("plan (before restored 2d): ", plan)
+
+  for i in range(0,5):
+    start = i * 31
+    end = (i + 1) * 31
+    if (i == 0):
+      restored_2d_plan = array(plan[start:end])
+    restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+  plan = restored_2d_plan
+
+  print("plan (after restored 2d): ", plan)
+
   original_plan = plan
   while True:
     tries += 1
+    print('tries: ', tries)
     changed_meal = randint(0, 4)
+
     if (changed_meal == 0):
       plan[changed_meal] = choice(breakfast)
     elif (changed_meal == 1):
@@ -31,6 +45,7 @@ def change_one_meal(plan):
     elif (changed_meal == 4):
       plan[changed_meal] = choice(dinner)
 
+    print("change_one_meal plan: ", plan)
     met_nutrient_requirement = nutrition_met(plan, nutrition_req)
     if met_nutrient_requirement:
       break
@@ -38,6 +53,8 @@ def change_one_meal(plan):
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
         break
     plan = original_plan
+
+  print("plan: ", plan)
 
 def plan_cost(plan):
   cost = 0
@@ -346,9 +363,8 @@ def form(request):
       meals = [breakfast, snack, lunch, snack, dinner]
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-
+      print("x0: ", x0)
       plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep)
-      # plan = 
 
       p, created = Plan.objects.get_or_create(
         name = name,
