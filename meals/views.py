@@ -344,6 +344,7 @@ def create_recipe(recipe):
   return r
 
 def form(request):
+  start = time.time()
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
@@ -365,7 +366,7 @@ def form(request):
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
       print("x0: ", x0)
-      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=2).x
       print("plan (pre fix): ", plan)
 
       p, created = Plan.objects.get_or_create(
@@ -409,7 +410,7 @@ def form(request):
             restored_2d_plan = array(plan[start:end])
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-        plan = restored_2d_plan
+        plan = restored_2d_plan[::-1]
         print("plan (post fix): ", plan)
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
@@ -419,7 +420,8 @@ def form(request):
             recipe = recipe,
             meal_number = i
           )
-
+      end = time.time()
+      print("Duration: ", end - start)
       return HttpResponseRedirect('/meals/plan/' + str(p.id))
   else:
     form = PlanForm()
