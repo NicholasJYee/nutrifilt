@@ -450,6 +450,5 @@ def search(request):
 
   return render(request, 'meals/search.html', {'form': form})
 
-#Meal plan results front-end test
-# def results(request):
-#   return render(request, 'meals/results.html')  
+def game(request):  
+  return render(request, 'meals/game.html')
