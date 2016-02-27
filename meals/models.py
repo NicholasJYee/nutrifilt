@@ -9,6 +9,7 @@ class Recipe(models.Model):
   image = models.CharField(max_length=512, blank=True, null=True)
   url = models.CharField(max_length=512, blank=True, null=True)
   servings = models.FloatField(blank=True, null=True)
+  cost = models.FloatField(blank=True, null=True)
   calories = models.FloatField(blank=True, null=True)
   fat = models.FloatField(blank=True, null=True)
   sat_fat = models.FloatField(blank=True, null=True)
@@ -96,6 +97,16 @@ class Plan(models.Model):
 
   def __str__(self):
     return self.name.encode('utf-8')
+
+  def cost(self):
+    cost = 0
+    for meal in self.planrecipe_set.all():
+      for ingredientrecipe in meal.recipe.ingredientrecipe_set.all():
+        ingredient_price = ingredientrecipe.ingredient.ingredientvendor_set.first().price
+        weight_used = ingredientrecipe.weight
+        ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
+        cost += ingredient_price * weight_used / ingredient_weight
+    return float("{0:.2f}".format(cost))
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
