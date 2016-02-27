@@ -9,6 +9,7 @@ import secret
 from .forms import *
 from .computations import *
 
+#Search plan by name
 def searchplan(request):
   try:
     context = {
@@ -17,6 +18,16 @@ def searchplan(request):
   except:
     context = {}
   return render(request, 'meals/plan.html', context)
+
+#search plan by id
+def plan(request, plan_id):
+  try:
+    context = {
+      'plan': Plan.objects.get(id=int(plan_id))
+    }
+  except:
+    context = {}  
+  return render(request, 'meals/plan.html', context)  
 
 class MealPlanStep(object):
   def __call__(self, plan):
@@ -72,15 +83,6 @@ def plan_cost(plan):
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
   return float("{0:.2f}".format(cost))
-
-def plan(request, plan_id):
-  try:
-    context = {
-      'plan': Plan.objects.get(id=int(plan_id))
-    }
-  except:
-    context = {}  
-  return render(request, 'meals/plan.html', context)
 
 def populate(request):
   if request.method == 'POST':
