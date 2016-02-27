@@ -25,7 +25,6 @@ class MealPlanStep(object):
 
 def change_one_meal(plan):
   tries = 0
-  print("plan (before restored 2d): ", plan)
 
   for i in range(0,5):
     start = i * 31
@@ -36,12 +35,9 @@ def change_one_meal(plan):
       restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
   plan = restored_2d_plan
 
-  print("plan (after restored 2d): ", plan)
-
   original_plan = plan
   while True:
     tries += 1
-    print('tries: ', tries)
     changed_meal = randint(0, 4)
 
     if (changed_meal == 0):
@@ -55,7 +51,6 @@ def change_one_meal(plan):
     elif (changed_meal == 4):
       plan[changed_meal] = choice(dinner)
 
-    print("change_one_meal plan: ", plan)
     met_nutrient_requirement = nutrition_met(plan, nutrition_req)
     if met_nutrient_requirement:
       break
@@ -63,8 +58,6 @@ def change_one_meal(plan):
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
         break
     plan = original_plan
-
-  print("plan: ", plan)
 
 def plan_cost(plan):
   cost = 0
@@ -356,7 +349,6 @@ def create_recipe(recipe):
   return r
 
 def form(request):
-  start = time.time()
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
@@ -377,9 +369,7 @@ def form(request):
       meals = [breakfast, snack, lunch, snack, dinner]
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      print("x0: ", x0)
       plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
-      print("plan (pre fix): ", plan)
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -423,17 +413,14 @@ def form(request):
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
         plan = restored_2d_plan[::-1]
-        print("plan (post fix): ", plan)
+
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
-          print("recipe: ", recipe)
-          print("meal: ", meal)
           p.planrecipe_set.get_or_create(
             recipe = recipe,
             meal_number = i
           )
-      end = time.time()
-      print("Duration: ", end - start)
+
       return HttpResponseRedirect('/meals/plan/' + str(p.id))
   else:
     form = PlanForm()
