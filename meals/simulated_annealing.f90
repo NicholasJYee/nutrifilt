@@ -11,9 +11,35 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan
+  REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
+  REAL(8) :: temperature, lowest_cost, previous_cost
+  REAL(8) :: plan_cost
+  INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
+
+  TEMPERATURE_INI = 1.d0
+  TEMPERATURE_END = 0.01d0
+  TEMPERATURE_NUMB_STEP = 10
+  DRAWS = 100
+
+  temperature = TEMPERATURE_INI
+  lowest_cost = plan_cost(plan, plan_size)
 
 
 END SUBROUTINE
+
+REAL(8) FUNCTION plan_cost(plan, plan_size)
+  IMPLICIT NONE
+  INTEGER, INTENT(IN) :: plan_size  
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
+  INTEGER :: i
+
+  plan_cost = 0.d0
+  DO i = 1, plan_size
+    plan_cost = plan_cost + plan(i,3)
+  END DO
+
+END FUNCTION
 
 
 SUBROUTINE generate_plan_meeting_nutrition(&
