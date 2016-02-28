@@ -13,12 +13,21 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   INTEGER :: i, meal_number
 
 
-  ! DO i = 1, plan_size
-  !   meal_number = INT(RAND(0) * ())
-  !   plan(i,:) = 
-  ! END DO
-  meal_number = INT(RAND(0) * breakfast_size) + 1
-  plan = SIZE(plan, 1)
+  DO i = 1, plan_size
+    meal_number = INT(RAND(0) * breakfast_size) + 1
+    SELECT CASE (INT(plan(i,1)))
+      CASE (1)
+        plan(i,:) = 1.d0
+      CASE (2)
+        plan(i,:) = 2.d0
+      CASE (3)
+        plan(i,:) = 3.d0
+      CASE (4)
+        plan(i,:) = 4.d0
+    END SELECT
+  END DO
+  
+
 
 
 

@@ -382,11 +382,11 @@ def form(request):
       zero_30_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
       first = append(1., [zero_30_times])
       second = append(2., [zero_30_times])
-      third = append(3, [zero_30_times])
-      fourth = append(2, [zero_30_times])
-      fifth = append(4, [zero_30_times])
+      third = append(3., [zero_30_times])
+      fourth = append(2., [zero_30_times])
+      fifth = append(4., [zero_30_times])
 
-      plan = array([first, second, third, second, fourth, first], 'd')
+      plan = array([first, second, third, second, fourth], 'd')
       plan = asarray(plan, order='F')
       print("plan: (before sim): ", plan)
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
