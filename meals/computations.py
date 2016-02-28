@@ -194,15 +194,16 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
   return selected_meals
 
 def nutrition_met(plan, nutrition_req):
-  nutrition_met = []
   meals_nutrition = get_nutrition(plan)
 
+  num_of_nutrition_met = 0
   for i, nutrition_req_amount in enumerate(nutrition_req):
     # Change code here to set up ranges and around values for nutri
     if meals_nutrition[i] >= nutrition_req_amount:
-      nutrition_met.append(nutrition_req_amount)
+      num_of_nutrition_met += 1
     # End 
-  if len(nutrition_met) == (len(nutrition_req)):
+
+  if num_of_nutrition_met == len(nutrition_req):
     return True
   else:
     return False

@@ -368,30 +368,30 @@ def form(request):
       lunch = get_meals('lunch')
       dinner = get_meals('dinner')
 
-      # # For Basinhopping
-      # meals = [breakfast, snack, lunch, snack, dinner]
-      # mealplanstep = MealPlanStep()
-      # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+      # For Basinhopping
+      meals = [breakfast, snack, lunch, snack, dinner]
+      mealplanstep = MealPlanStep()
+      x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
 
-      # For Sim Annealing (Fortran)
-        # 1 - breakfast
-        # 2 - snack
-        # 3 - lunch
-        # 4 - dinner
-      zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-      first = append(1., [zero_31_times])
-      second = append(2., [zero_31_times])
-      third = append(3., [zero_31_times])
-      fourth = append(2., [zero_31_times])
-      fifth = append(4., [zero_31_times])
+      # # For Sim Annealing (Fortran)
+      #   # 1 - breakfast
+      #   # 2 - snack
+      #   # 3 - lunch
+      #   # 4 - dinner
+      # zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+      # first = append(1., [zero_31_times])
+      # second = append(2., [zero_31_times])
+      # third = append(3., [zero_31_times])
+      # fourth = append(2., [zero_31_times])
+      # fifth = append(4., [zero_31_times])
 
-      plan = array([first, second, third, fourth, fifth], 'd')
-      plan = asarray(plan, order='F')
-      print("plan: (before sim): ", plan)
-      sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: (after sim)", plan)
-      raise SystemExit
+      # plan = array([first, second, third, fourth, fifth], 'd')
+      # plan = asarray(plan, order='F')
+      # print("plan: (before sim): ", plan)
+      # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      # print("plan: (after sim)", plan)
+      # raise SystemExit
 
 
 

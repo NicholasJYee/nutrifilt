@@ -42,12 +42,29 @@ LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
   REAL(8), DIMENSION(nutrition_req_size) :: meals_nutrition
-  INTEGER :: num_of_nutrition_met
+  INTEGER :: num_of_nutrition_met, i, num_of_nutrition_req
 
   num_of_nutrition_met = 0
   CALL get_nutrition(meals_nutrition, plan, plan_size, nutrition_req_size)
 
-  nutrition_met = .TRUE.
+  DO i = 1, nutrition_req_size
+    IF (meals_nutrition(i) .GE. nutrition_req(i)) THEN
+      num_of_nutrition_met = num_of_nutrition_met + 1
+    END IF
+  END DO
+
+  num_of_nutrition_req = 0
+  DO i = 1, nutrition_req_size
+    IF (nutrition_req(i) .NE. 0.d0) THEN
+      num_of_nutrition_req = num_of_nutrition_req + 1
+    END IF
+  END DO
+  
+  IF (num_of_nutrition_met .EQ. num_of_nutrition_req) THEN
+    nutrition_met = .TRUE.
+  ELSE
+    nutrition_met = .FALSE.
+  END IF
 
 END FUNCTION
 
