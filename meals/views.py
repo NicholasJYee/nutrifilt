@@ -9,25 +9,112 @@ import secret
 from .forms import *
 from .computations import *
 
-#Search plan by name
-def searchplan(request):
-  try:
+def plan_info(plan):
+  try:    
+    calories = format(sum(meal.recipe.calories/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
+    fat = format(sum(meal.recipe.fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
+    carbohydrates = format(sum(meal.recipe.carbohydrates/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
+    protein = format(sum(meal.recipe.protein/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')    
+    extras = []
+    
+    if plan.sat_fat > 0:
+      extras.append(["Saturated Fat (g)", plan.sat_fat, format(sum(meal.recipe.sat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if plan.trans_fat > 0:  
+      extras.append(["Trans Fat (g)", plan.trans_fat, format(sum(meal.recipe.trans_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if plan.mono_unsat_fat > 0:   
+      extras.append(["Monounsaturated Fat (g)", plan.mono_unsat_fat, format(sum(meal.recipe.mono_unsat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])  
+    
+    if plan.poly_unsat_fat > 0:
+      extras.append(["Polyunsaturated Fat (g)", plan.poly_unsat_fat, format(sum(meal.recipe.poly_unsat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+
+    if plan.fiber > 0:
+      extras.append(["Fiber (g)", plan.fiber, format(sum(meal.recipe.fiber/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])  
+    
+    if plan.sugar > 0:
+      extras.append(["Sugar (g)", plan.sugar, format(sum(meal.recipe.sugar/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])  
+    
+    if plan.cholesterol > 0:
+      extras.append(["Cholesterol (mg)", plan.cholesterol, format(sum(meal.recipe.cholesterol/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])  
+    
+    if  plan.sodium > 0:
+      extras.append(["Sodium (mg)", plan.sodium, format(sum(meal.recipe.sodium/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.calcium > 0:
+      extras.append(["Calcium (mg)", plan.calcium, format(sum(meal.recipe.calcium/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.magnesium > 0:
+      extras.append(["Magnesium (mg)", plan.magnesium, format(sum(meal.recipe.magnesium/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.potassium > 0:
+      extras.append(["Potassium (mg)", plan.potassium, format(sum(meal.recipe.potassium/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.iron > 0:
+      extras.append(["Iron (mg)", plan.iron, format(sum(meal.recipe.iron/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.zinc > 0:
+      extras.append(["Zinc (mg)", plan.zinc, format(sum(meal.recipe.zinc/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.phosphorus > 0:
+      extras.append(["Phosphorus (mg)", plan.phosphorus, format(sum(meal.recipe.phosphorus/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_a > 0:
+      extras.append(["Vitamin A (micro g)", plan.vit_a, format(sum(meal.recipe.vit_a/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_c > 0:
+      extras.append(["Vitamin C (mg)", plan.vit_c, format(sum(meal.recipe.vit_c/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.thiamin > 0:
+      extras.append(["Thiamin (mg)", plan.thiamin, format(sum(meal.recipe.thiamin/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.riboflavin > 0:
+      extras.append(["Riboflavin (mg)", plan.riboflavin, format(sum(meal.recipe.riboflavin/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.niacin > 0:
+      extras.append(["Niacin (mg)", plan.niacin, format(sum(meal.recipe.niacin/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_b6 > 0:
+      extras.append(["Vitamin B6 (mg)", plan.vit_b6, format(sum(meal.recipe.vit_b6/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.folic_acid > 0:
+      extras.append(["Folic Acid (micro g)", plan.folic_acid, format(sum(meal.recipe.folic_acid/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_b12 > 0:
+      extras.append(["Vitamin B12 (micro g)", plan.vit_b12, format(sum(meal.recipe.vit_b12/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_d > 0:
+      extras.append(["Vitamin D (micro g)", plan.vit_d, format(sum(meal.recipe.vit_d/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_e > 0:
+      extras.append(["Vitamin E (mg)", plan.vit_e, format(sum(meal.recipe.vit_e/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+    
+    if  plan.vit_k > 0:
+      extras.append(["Vitamin K (micro g)", plan.vit_k, format(sum(meal.recipe.vit_k/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])       
+    
+            
     context = {
-      'plan': Plan.objects.get(name=request.GET.get('name', ''))
+      'plan': plan,
+      'calories': calories,
+      'fat' : fat,
+      'carbohydrates' : carbohydrates,
+      'protein' : protein,
+      'extras' : extras
     }
   except:
     context = {}
-  return render(request, 'meals/plan.html', context)
+  return context
+
+#Search plan by name
+def searchplan(request):
+  plan = Plan.objects.get(name=request.GET.get('name', ''))
+  
+  return render(request, 'meals/plan.html', plan_info(plan))
 
 #search plan by id
 def plan(request, plan_id):
-  try:
-    context = {
-      'plan': Plan.objects.get(id=int(plan_id))
-    }
-  except:
-    context = {}  
-  return render(request, 'meals/plan.html', context)  
+  plan = Plan.objects.get(id=int(plan_id))
+  return render(request, 'meals/plan.html', plan_info(plan))  
 
 class MealPlanStep(object):
   def __call__(self, plan):
