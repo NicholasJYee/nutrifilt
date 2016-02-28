@@ -391,7 +391,6 @@ def form(request):
       print("plan: (before sim): ", plan)
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       print("plan: (after sim)", plan)
-      raise SystemExit
 
 
 
