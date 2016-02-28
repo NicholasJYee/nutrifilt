@@ -367,19 +367,18 @@ def form(request):
       snack = get_meals('snack')
       lunch = get_meals('lunch')
       dinner = get_meals('dinner')
-      meals = [breakfast, snack, lunch, snack, dinner]
-      mealplanstep = MealPlanStep()
-      x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
 
-      arr = array([1,2,3], 'd')
-      arr = vstack([arr, array([2,3,4], 'd')])
-      arr = vstack([arr, array([3,4,5], 'd')])
-      print("arr (before sim): ", arr)
-      arr = asarray(arr, order='F')
-      sim_anneal.get_array(arr)
-      print("arr (after sim): ", arr)
+      # For Basinhopping
+      # meals = [breakfast, snack, lunch, snack, dinner]
+      # mealplanstep = MealPlanStep()
+      # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
+      # # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+
+      print("breakfast (pre sim): ", breakfast)
+      plan = sim_anneal.generate_plan_meeting_nutrition(breakfast)
+      print("plan: ", plan)
       raise SystemExit
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+
 
 
       p, created = Plan.objects.get_or_create(
