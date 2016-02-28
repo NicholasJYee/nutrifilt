@@ -18,7 +18,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   !   plan(i,:) = 
   ! END DO
   meal_number = INT(RAND(0) * breakfast_size) + 1
-  plan(2,:) = 1.e0
+  plan = SIZE(plan, 1)
 
 
 
