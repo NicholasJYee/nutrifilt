@@ -392,7 +392,7 @@ def form(request):
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(plan, nutrition_req, breakfast, snack, lunch, dinner)
       print("plan: (after sim)", plan)
-      # raise SystemExit
+      raise SystemExit
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -435,7 +435,8 @@ def form(request):
             restored_2d_plan = array(plan[start:end])
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-        plan = restored_2d_plan[::-1]
+        # The [::-1] reverses the array
+        plan = restored_2d_plan#[::-1]
 
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])

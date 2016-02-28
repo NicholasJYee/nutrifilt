@@ -1,3 +1,5 @@
+! f2py terminal compile line
+! f2py -c -m sim_anneal  meals/simulated_annealing.f90
 SUBROUTINE sim_anneal(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
