@@ -9,8 +9,43 @@
         <ul>
           <u>Meals</u>
           {% for meal in plan.planrecipe_set.all %}
-            <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
-            <div class = "hidden"></div>
+            <li>
+              <img src = "{{ meal.recipe.image }}">
+              <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>
+            </li>
+            <div class = "hidden nutable">
+              <h1>Nutritional Facts</h1>
+              <p>Servings per Recipe about {{ meal.recipe.servings }}</p>
+              <hr style = "border: 0.5vw solid;">
+              <p>Calories {{ meal.recipe.calories|div:meal.recipe.servings }}</p>
+              <hr style = "border: 1px solid;">
+              <p>Fat {{ meal.recipe.fat }} g</p>
+              <hr style = "border: 1px solid;">
+              <p>  Saturated Fat {{ meal.recipe.sat_fat|div:meal.recipe.servings }} g</p>
+              <p>  Trans Fat {{ meal.recipe.trans_fat|div:meal.recipe.servings }} g</p>
+              <hr style = "border: 1px solid;">    
+              <p>Cholesterol {{ meal.recipe.cholesterol|div:meal.recipe.servings }} g</p>
+              <hr style = "border: 1px solid;">
+              <p>Sodium {{ meal.recipe.sodium|div:meal.recipe.servings }} mg</p>
+              <hr style = "border: 1px solid;">
+              <p>Carbohydrate {{ meal.recipe.carbohydrate|div:meal.recipe.servings }} g</p> 
+              <hr style = "border: 1px solid;">
+              <p>  Fiber {{ meal.recipe.fiber|div:meal.recipe.servings }} g</p>
+              <hr style = "border: 1px solid;">
+              <p>  Sugars {{ meal.recipe.sugar|div:meal.recipe.servings }} g</p>
+              <hr style = "border: 1px solid;">
+              <p>Protein {{ meal.recipe.protein|div:meal.recipe.servings }} g</p>
+              <hr style = "border: 1px solid;">
+              <p>Vitamin A </p>
+              <hr style = "border: 1px solid;">
+              <p>Vitamin C </p>
+              <hr style = "border: 1px solid;">
+              <p>Calcium </p>
+              <hr style = "border: 1px solid;">
+              <p>Iron </p>
+              <hr style = "border: 1px solid;">
+              <p>* Percent Daily Values are based on a 2000 calory diet</p>
+            </div>
           {% endfor %}
         </ul>
       <strong>Meal Nutritional Info:</strong>
@@ -29,7 +64,7 @@
             <td>Fat (g)</td>
             <td>{{ fat }}</td>
             <td>
-              {% if plan.fat != 0 %}
+              {% if plan.fat > 0 %}
               {{ plan.fat }}
               {% else %}
               {{ "Not specified" }}
@@ -51,7 +86,7 @@
             <td>Protein (g)</td>
             <td>{{ protein }}</td>
             <td>
-              {% if plan.fat != 0 %}
+              {% if plan.protein > 0 %}
               {{ plan.protein }}
               {% else %}
               {{ "Not specified" }}

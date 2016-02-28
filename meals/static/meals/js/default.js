@@ -31,4 +31,11 @@ $(function() {
       $('#loadForm p').slice(5).hide();
     }  
   });
+
+  $('body').on('mouseenter','.mealplan ul li img', function() {    
+    $(this).closest('li').show();      
+  });
+  $('body').on('mouseleave','.mealplan ul li img', function() {    
+    $(this).closest('li').hide();      
+  });
 });

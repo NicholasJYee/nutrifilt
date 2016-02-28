@@ -104,6 +104,21 @@ body {
   font-size:1.5vw;
 }
 
+.mealplan img{
+  width: 25%;
+  border-radius: 50%;
+}
+
+.mealplan li{
+  list-style: none;
+  font-size: 1vw;  
+}
+
+.mealplan li a {
+  vertical-align: middle;
+  display: inline;
+}
+
 .hidden {
   display: none;
 }
@@ -161,7 +176,7 @@ input {
 }
 
 .recipes {  
-  height: 100%;
+  /*height: 100%;*/
   width: 55%;
   background: url('/static/meals/images/tablecloth.png') center repeat-y;
   background-size:100%;
@@ -177,3 +192,11 @@ th, td {
   padding: 5px;
   text-align: center;
 }
+
+.nutable {
+  background: white;
+  position: absolute;
+  color: black;
+}
+
+
