@@ -11,11 +11,12 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
-  REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan
+  REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
   REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
   REAL(8) :: temperature, lowest_cost, previous_cost
   REAL(8) :: plan_cost
   INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
+  INTEGER :: k, j
 
   TEMPERATURE_INI = 1.d0
   TEMPERATURE_END = 0.01d0
@@ -24,6 +25,24 @@ SUBROUTINE sim_anneal(&
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
+  previous_cost = lowest_cost
+  cheapest_plan = plan
+
+  temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
+    drawSchedule: DO j = 1, DRAWS
+      CALL changeOneMeal(plan, new_plan)
+
+    END DO drawSchedule
+  END DO temperatureSchedule
+
+END SUBROUTINE
+
+SUBROUTINE changeOneMeal(plan, new_plan, plan_size)
+  IMPLICIT NONE
+  INTEGER, INTENT(IN) :: plan_size  
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
+  REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
+
 
 
 END SUBROUTINE
