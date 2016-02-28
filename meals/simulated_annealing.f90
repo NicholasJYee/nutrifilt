@@ -1,7 +1,7 @@
 ! f2py terminal compile line
 ! f2py -c -m sim_anneal  meals/simulated_annealing.f90
 SUBROUTINE sim_anneal(&
-    plan, nutrition_req, breakfast, snack, lunch, dinner, &
+    meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
@@ -10,7 +10,7 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
-  REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
   REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
   REAL(8) :: temperature, lowest_cost, previous_cost
@@ -30,31 +30,59 @@ SUBROUTINE sim_anneal(&
 
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
-      CALL changeOneMeal(plan, new_plan, plan_size, &
+      write(*,*) "plan (pre change): ", plan
+      CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         breakfast, snack, lunch, dinner, &
         breakfast_size, snack_size, lunch_size, dinner_size)
+      write(*,*) "plan (post change): ", plan
+      write(*,*) "new_plan: ", new_plan
 
     END DO drawSchedule
   END DO temperatureSchedule
 
 END SUBROUTINE
 
-SUBROUTINE changeOneMeal(plan, new_plan, plan_size, &
+SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   breakfast, snack, lunch, dinner, &
   breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
   INTEGER, INTENT(IN) :: plan_size, breakfast_size, snack_size, lunch_size, dinner_size
-  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
   REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
   REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
-  REAL(8) :: randDummy
+  REAL(8), ALLOCATABLE, DIMENSION(:,:) :: recipes
+  REAL(8) :: rand_dummy
+  INTEGER :: which_meal_to_change, new_recipe, num_of_recipes
 
   new_plan = plan
-  CALL random_number(randDummy)
+  CALL random_number(rand_dummy)
+  which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
+  CALL random_number(rand_dummy)
+  IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
+    ALLOCATE(recipes(breakfast_size,32))
+    num_of_recipes = breakfast_size
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * num_of_recipes)
+    new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
+    ALLOCATE(recipes(snack_size,32))
+    num_of_recipes = snack_size
+    recipes = snack
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
+    ALLOCATE(recipes(lunch_size,32))
+    num_of_recipes = lunch_size
+    recipes = lunch
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
+    ALLOCATE(recipes(dinner_size,32))
+    num_of_recipes = dinner_size
+    recipes = dinner
+  END IF
+
+
+  DEALLOCATE(recipes)
 END SUBROUTINE
 
 REAL(8) FUNCTION plan_cost(plan, plan_size)
