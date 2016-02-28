@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 {% block contents %}
 <div class = 'recipes'>
   <div class= "centered" style ="width: 75%">
@@ -11,6 +12,59 @@
             <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
           {% endfor %}
         </ul>
+      <strong>Meal Nutritional Info:</strong>
+        <table>
+          <tr>
+            <th>Unit</th>
+            <th>Generated</th>
+            <th>User entry</th>
+          </tr>
+          <tr>
+            <td>Calories (kcal)</td>
+            <td>{{ calories }}</td>
+            <td>{{ plan.calories }}</td>
+          </tr>
+          <tr>
+            <td>Fat (g)</td>
+            <td>{{ fat }}</td>
+            <td>
+              {% if plan.fat != 0 %}
+              {{ plan.fat }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>Carbohydrates (g)</td>
+            <td>{{ carbohydrates }}</td>
+            <td>
+              {% if plan.carbohyrdates > 0 %}
+              {{ plan.carbohydrates }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>  
+          <tr>
+            <td>Protein (g)</td>
+            <td>{{ protein }}</td>
+            <td>
+              {% if plan.fat != 0 %}
+              {{ plan.protein }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>
+          {% for nutrient in extras %}
+            <tr>
+              <td>{{ nutrient.0 }}</td>
+              <td>{{ nutrient.2 }}</td>
+              <td>{{ nutrient.1 }}</td>              
+            </tr>
+          {% endfor %}            
+        </table>
       {% else %}
       <strong>No matches found</strong>  
       {% endif %}
