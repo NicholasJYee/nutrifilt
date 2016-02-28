@@ -21,7 +21,7 @@ def searchplan(request):
 
 class MealPlanStep(object):
   def __call__(self, plan):
-    change_one_meal(plan)
+    plan = change_one_meal(plan)
     return plan
 
 def change_one_meal(plan):
@@ -60,6 +60,8 @@ def change_one_meal(plan):
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
         break
     plan = original_plan
+    
+  return plan
 
 def plan_cost(plan):
   cost = 0
