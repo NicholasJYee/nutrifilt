@@ -17,13 +17,13 @@ SUBROUTINE generate_plan_meeting_nutrition(&
     meal_number = INT(RAND(0) * breakfast_size) + 1
     SELECT CASE (INT(plan(i,1)))
       CASE (1)
-        plan(i,:) = 1.d0
+        plan(i,:) = breakfast(meal_number,:)
       CASE (2)
-        plan(i,:) = 2.d0
+        plan(i,:) = snack(meal_number,:)
       CASE (3)
-        plan(i,:) = 3.d0
+        plan(i,:) = lunch(meal_number,:)
       CASE (4)
-        plan(i,:) = 4.d0
+        plan(i,:) = dinner(meal_number,:)
     END SELECT
   END DO
   

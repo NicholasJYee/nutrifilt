@@ -386,7 +386,7 @@ def form(request):
       fourth = append(2., [zero_30_times])
       fifth = append(4., [zero_30_times])
 
-      plan = array([first, second, third, second, fourth], 'd')
+      plan = array([first, second, third, fourth, fifth], 'd')
       plan = asarray(plan, order='F')
       print("plan: (before sim): ", plan)
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
