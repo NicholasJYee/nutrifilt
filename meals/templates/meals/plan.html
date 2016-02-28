@@ -10,6 +10,7 @@
           <u>Meals</u>
           {% for meal in plan.planrecipe_set.all %}
             <li><a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a></li>
+            <div class = "hidden"></div>
           {% endfor %}
         </ul>
       <strong>Meal Nutritional Info:</strong>
