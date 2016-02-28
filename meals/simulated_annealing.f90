@@ -14,8 +14,9 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
   REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
-  REAL(8) :: temperature, lowest_cost, previous_cost
-  REAL(8) :: plan_cost
+  REAL(8) :: temperature
+  REAL(8) :: plan_cost, total_cost, lowest_cost, previous_cost
+  REAL(8) :: accept_probability, rand_accept
   INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
   INTEGER :: k, j
 
@@ -31,12 +32,27 @@ SUBROUTINE sim_anneal(&
 
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
-      write(*,*) "plan (pre change): ", plan(:,1)
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         breakfast, snack, lunch, dinner, &
         breakfast_size, snack_size, lunch_size, dinner_size)
-      write(*,*) "plan (post change): ", plan(:,1)
-      write(*,*) "new_plan: ", new_plan(:,1)
+
+      total_cost = plan_cost(new_plan, plan_size)
+      
+      accept_probability = MIN(1.d0, &
+        EXP(-(total_cost - previous_cost) / temperature))
+      CALL random_number(rand_accept)
+      
+      determineNewStep: IF (rand_accept .LT. accept_probability) THEN
+        plan = new_plan
+        previous_cost = total_cost
+
+        checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
+          lowest_cost = total_cost
+          cheapest_plan = plan
+        END IF checkLowestCost
+
+      END IF determineNewStep
+
 
     END DO drawSchedule
   END DO temperatureSchedule
@@ -209,11 +225,19 @@ SUBROUTINE get_nutrition(meals_nutrition, plan, plan_size, nutrition_req_size)
 
 END SUBROUTINE
 
-SUBROUTINE get_array(arr, row, col)
+SUBROUTINE get_array(arr1, arr2, row, col)
   IMPLICIT NONE
   INTEGER(8), INTENT(IN) :: row, col
-  REAL(8), DIMENSION(row, col), INTENT(INOUT) :: arr
+  REAL(8), DIMENSION(row, col), INTENT(INOUT) :: arr1
+  REAL(8), DIMENSION(row, col), INTENT(OUT) ::arr2
 
-  arr(1, 2) = 1.d0
+  WRITE(*,*) "initial arr1: ", arr1
+  WRITE(*,*) "pre arr2:", arr2
+  arr2 = arr1
+  WRITE(*,*) "after assign arr1: ", arr1
+  WRITE(*,*) "before change arr2: ", arr2
+  arr1(1, 2) = 1.d0
+  WRITE(*,*) "post arr2:", arr2
+  WRITE(*,*) "post arr1:", arr1
 
 END SUBROUTINE
