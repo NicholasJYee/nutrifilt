@@ -1,10 +1,14 @@
-SUBROUTINE generate_plan_meeting_nutrition(plan, breakfast, breakfast_size)!, snack, snack_size, lunch, lunch_size, dinner, dinner_size)
+SUBROUTINE generate_plan_meeting_nutrition(plan, &
+    breakfast, snack, lunch, dinner, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, INTENT(IN) :: breakfast_size!, snack_size, lunch_size, dinner_size
+  INTEGER, INTENT(IN) :: breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(breakfast_size, 31), INTENT(IN) :: breakfast
-  REAL(8), DIMENSION(breakfast_size, 31), INTENT(OUT) :: plan
+  REAL(8), DIMENSION(snack_size, 31), INTENT(IN) :: snack
+  REAL(8), DIMENSION(lunch_size, 31), INTENT(IN) :: lunch
+  REAL(8), DIMENSION(dinner_size, 31), INTENT(IN) :: dinner
+  REAL(8), DIMENSION(5, 31), INTENT(OUT) :: plan
 
-  plan = breakfast
+
 
 END SUBROUTINE generate_plan_meeting_nutrition
 

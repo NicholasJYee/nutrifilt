@@ -375,7 +375,7 @@ def form(request):
       # # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
 
       print("breakfast (pre sim): ", breakfast)
-      plan = sim_anneal.generate_plan_meeting_nutrition(breakfast)
+      plan = sim_anneal.generate_plan_meeting_nutrition(breakfast, snack, lunch, dinner)
       print("plan: ", plan)
       raise SystemExit
 
