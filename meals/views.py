@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-from numpy import array, asarray
+from numpy import array, asarray, size, append
 import requests, time
 from scipy import optimize
 
@@ -379,9 +379,18 @@ def form(request):
         # 2 - snack
         # 3 - lunch
         # 4 - dinner
-      plan = array([1, 2, 3, 2, 4], 'd')
-      plan = sim_anneal.generate_plan_meeting_nutrition(size(plan), plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: ", plan)
+      zero_30_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+      first = append(1., [zero_30_times])
+      second = append(2., [zero_30_times])
+      third = append(3, [zero_30_times])
+      fourth = append(2, [zero_30_times])
+      fifth = append(4, [zero_30_times])
+
+      plan = array([first, second, third, second, fourth], 'd')
+      plan = asarray(plan, order='F')
+      print("plan: (before sim): ", plan)
+      plan = sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      print("plan: (after sim)", plan)
       raise SystemExit
 
 

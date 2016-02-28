@@ -1,6 +1,6 @@
 SUBROUTINE generate_plan_meeting_nutrition(&
-    plan_size, plan, nutrition_req, breakfast, snack, lunch, dinner, &
-    nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+    plan, nutrition_req, breakfast, snack, lunch, dinner, &
+    plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
   INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
@@ -18,7 +18,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   !   plan(i,:) = 
   ! END DO
   meal_number = INT(RAND(0) * breakfast_size) + 1
-  plan = meal_number
+  plan(2,:) = 1.e0
 
 
 
