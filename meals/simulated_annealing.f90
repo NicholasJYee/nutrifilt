@@ -22,8 +22,8 @@ SUBROUTINE sim_anneal(&
 
   TEMPERATURE_INI = 1.d0
   TEMPERATURE_END = 0.01d0
-  TEMPERATURE_NUMB_STEP = 10
-  DRAWS = 1000
+  TEMPERATURE_NUMB_STEP = 20
+  DRAWS = 5000
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
@@ -49,8 +49,6 @@ SUBROUTINE sim_anneal(&
         checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
           lowest_cost = total_cost
           cheapest_plan = new_plan
-          WRITE(*,*) "New Lowest Cost: ", lowest_cost
-          WRITE(*,*) "New cheapest_plan: ", cheapest_plan(:,1)
         END IF checkLowestCost
       END IF determineNewStep
     END DO drawSchedule
