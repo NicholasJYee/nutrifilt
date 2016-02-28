@@ -375,7 +375,12 @@ def form(request):
       # # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
 
       # For Sim Annealing (Fortran)
-      plan = sim_anneal.generate_plan_meeting_nutrition(5, nutrition_req, breakfast, snack, lunch, dinner)
+        # 1 - breakfast
+        # 2 - snack
+        # 3 - lunch
+        # 4 - dinner
+      plan = array([1, 2, 3, 2, 4], 'd')
+      plan = sim_anneal.generate_plan_meeting_nutrition(size(plan), plan, nutrition_req, breakfast, snack, lunch, dinner)
       print("plan: ", plan)
       raise SystemExit
 

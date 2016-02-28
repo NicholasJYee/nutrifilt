@@ -9,13 +9,15 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   REAL(8), DIMENSION(snack_size, 31), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 31), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 31), INTENT(IN) :: dinner
-  REAL(8), DIMENSION(plan_size, 31), INTENT(OUT) :: plan
+  REAL(8), DIMENSION(plan_size, 31), INTENT(INOUT) :: plan
   INTEGER :: i, meal_number
 
 
-  DO i = 1, SIZE(plan, 1)
-    meal_number = INT(RAND(0))
-  END DO
+  ! DO i = 1, plan_size
+  !   meal_number = INT(RAND(0) * ())
+  !   plan(i,:) = 
+  ! END DO
+  meal_number = INT(RAND(0) * breakfast_size) + 1
   plan = meal_number
 
 
