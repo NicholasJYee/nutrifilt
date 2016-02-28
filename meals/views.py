@@ -25,6 +25,7 @@ class MealPlanStep(object):
     return plan
 
 def change_one_meal(plan):
+  print("Changing plan")
   tries = 0
 
   for i in range(0,5):
@@ -65,6 +66,7 @@ def plan_cost(plan):
   for recipe_num in plan[::32]:
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
+  print("Cost: ", float("{0:.2f}".format(cost)))
   return float("{0:.2f}".format(cost))
 
 def plan(request, plan_id):
@@ -372,7 +374,8 @@ def form(request):
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
       # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
+      # print("Lowest cost: ", plan_cost(plan))
 
       # For Sim Annealing (Fortran)
         # 1 - breakfast
