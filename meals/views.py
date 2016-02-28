@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-from numpy import array
+from numpy import array, asarray, size, append
 import requests, time
 from scipy import optimize
 
@@ -8,6 +8,7 @@ import secret
 
 from .forms import *
 from .computations import *
+import sim_anneal
 
 def searchplan(request):
   try:
@@ -25,23 +26,19 @@ class MealPlanStep(object):
 
 def change_one_meal(plan):
   tries = 0
-  print("plan (before restored 2d): ", plan)
 
   for i in range(0,5):
-    start = i * 31
-    end = (i + 1) * 31
+    start = i * 32
+    end = (i + 1) * 32
     if (i == 0):
       restored_2d_plan = array(plan[start:end])
     else:
       restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
   plan = restored_2d_plan
 
-  print("plan (after restored 2d): ", plan)
-
   original_plan = plan
   while True:
     tries += 1
-    print('tries: ', tries)
     changed_meal = randint(0, 4)
 
     if (changed_meal == 0):
@@ -55,7 +52,6 @@ def change_one_meal(plan):
     elif (changed_meal == 4):
       plan[changed_meal] = choice(dinner)
 
-    print("change_one_meal plan: ", plan)
     met_nutrient_requirement = nutrition_met(plan, nutrition_req)
     if met_nutrient_requirement:
       break
@@ -64,11 +60,9 @@ def change_one_meal(plan):
         break
     plan = original_plan
 
-  print("plan: ", plan)
-
 def plan_cost(plan):
   cost = 0
-  for recipe_num in plan[::31]:
+  for recipe_num in plan[::32]:
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
   return float("{0:.2f}".format(cost))
@@ -356,7 +350,6 @@ def create_recipe(recipe):
   return r
 
 def form(request):
-  start = time.time()
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
@@ -374,12 +367,33 @@ def form(request):
       snack = get_meals('snack')
       lunch = get_meals('lunch')
       dinner = get_meals('dinner')
-      meals = [breakfast, snack, lunch, snack, dinner]
-      mealplanstep = MealPlanStep()
-      x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      print("x0: ", x0)
-      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
-      print("plan (pre fix): ", plan)
+
+      # # For Basinhopping
+      # meals = [breakfast, snack, lunch, snack, dinner]
+      # mealplanstep = MealPlanStep()
+      # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
+      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+
+      # For Sim Annealing (Fortran)
+        # 1 - breakfast
+        # 2 - snack
+        # 3 - lunch
+        # 4 - dinner
+      zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+      first = append(1., [zero_31_times])
+      second = append(2., [zero_31_times])
+      third = append(3., [zero_31_times])
+      fourth = append(2., [zero_31_times])
+      fifth = append(4., [zero_31_times])
+
+      plan = array([first, second, third, fourth, fifth], 'd')
+      plan = asarray(plan, order='F')
+      print("plan: (before sim): ", plan)
+      sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      print("plan: (after sim)", plan)
+      raise SystemExit
+
+
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -416,24 +430,21 @@ def form(request):
 
       if created:
         for i in range(0,5):
-          start = i * 31
-          end = (i + 1) * 31
+          start = i * 32
+          end = (i + 1) * 32
           if (i == 0):
             restored_2d_plan = array(plan[start:end])
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
         plan = restored_2d_plan[::-1]
-        print("plan (post fix): ", plan)
+
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
-          print("recipe: ", recipe)
-          print("meal: ", meal)
           p.planrecipe_set.get_or_create(
             recipe = recipe,
             meal_number = i
           )
-      end = time.time()
-      print("Duration: ", end - start)
+
       return HttpResponseRedirect('/meals/plan/' + str(p.id))
   else:
     form = PlanForm()
