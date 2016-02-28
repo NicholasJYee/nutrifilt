@@ -1,14 +1,22 @@
-SUBROUTINE generate_plan_meeting_nutrition(plan, &
-    nutrition_req, breakfast, snack, lunch, dinner, &
+SUBROUTINE generate_plan_meeting_nutrition(&
+    plan_size, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, INTENT(IN) :: nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
+  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 500000
+  INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 31), INTENT(IN) :: breakfast
   REAL(8), DIMENSION(snack_size, 31), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 31), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 31), INTENT(IN) :: dinner
-  REAL(8), DIMENSION(5, 31), INTENT(OUT) :: plan
+  REAL(8), DIMENSION(plan_size, 31), INTENT(OUT) :: plan
+  INTEGER :: i, meal_number
+
+
+  DO i = 1, SIZE(plan, 1)
+    meal_number = INT(RAND(0))
+  END DO
+  plan = meal_number
 
 
 
