@@ -1,7 +1,9 @@
 SUBROUTINE generate_plan_meeting_nutrition(plan, &
-    breakfast, snack, lunch, dinner, breakfast_size, snack_size, lunch_size, dinner_size)
+    nutrition_req, breakfast, snack, lunch, dinner, &
+    nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, INTENT(IN) :: breakfast_size, snack_size, lunch_size, dinner_size
+  INTEGER, INTENT(IN) :: nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
+  REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 31), INTENT(IN) :: breakfast
   REAL(8), DIMENSION(snack_size, 31), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 31), INTENT(IN) :: lunch
