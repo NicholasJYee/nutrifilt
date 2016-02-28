@@ -394,7 +394,6 @@ def form(request):
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
       print("plan: (after sim)", plan)
-      raise SystemExit
 
       p, created = Plan.objects.get_or_create(
         name = name,

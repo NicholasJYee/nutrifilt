@@ -23,7 +23,7 @@ SUBROUTINE sim_anneal(&
   TEMPERATURE_INI = 1.d0
   TEMPERATURE_END = 0.01d0
   TEMPERATURE_NUMB_STEP = 10
-  DRAWS = 100
+  DRAWS = 1000
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
@@ -48,13 +48,13 @@ SUBROUTINE sim_anneal(&
 
         checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
           lowest_cost = total_cost
-          cheapest_plan = plan
+          cheapest_plan = new_plan
+          WRITE(*,*) "New Lowest Cost: ", lowest_cost
+          WRITE(*,*) "New cheapest_plan: ", cheapest_plan(:,1)
         END IF checkLowestCost
-
       END IF determineNewStep
-
-
     END DO drawSchedule
+    temperature = temperature - (TEMPERATURE_INI - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
   END DO temperatureSchedule
 
 END SUBROUTINE
@@ -78,10 +78,6 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
   CALL random_number(rand_dummy)
-  WRITE(*,*) "meal_types: ", meal_types
-  WRITE(*,*) "which_meal_to_change: ", which_meal_to_change
-  WRITE(*,*) "meal_types(which_meal_to_change,1): ", meal_types(which_meal_to_change,1)
-  WRITE(*,*) "if condition: ", INT(meal_types(which_meal_to_change,1))
   IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
     new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
     new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
