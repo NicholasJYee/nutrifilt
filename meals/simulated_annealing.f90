@@ -10,7 +10,8 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
-  REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan, meal_types
+  REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
   REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
   REAL(8) :: temperature, lowest_cost, previous_cost
@@ -30,12 +31,12 @@ SUBROUTINE sim_anneal(&
 
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
-      write(*,*) "plan (pre change): ", plan
+      ! write(*,*) "plan (pre change): ", plan(:,1)
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         breakfast, snack, lunch, dinner, &
         breakfast_size, snack_size, lunch_size, dinner_size)
-      write(*,*) "plan (post change): ", plan
-      write(*,*) "new_plan: ", new_plan
+      ! write(*,*) "plan (post change): ", plan(:,1)
+      ! write(*,*) "new_plan: ", new_plan(:,1)
 
     END DO drawSchedule
   END DO temperatureSchedule
@@ -53,36 +54,33 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
-  REAL(8), ALLOCATABLE, DIMENSION(:,:) :: recipes
   REAL(8) :: rand_dummy
-  INTEGER :: which_meal_to_change, new_recipe, num_of_recipes
+  INTEGER :: which_meal_to_change, new_recipe
 
   new_plan = plan
   CALL random_number(rand_dummy)
   which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
   CALL random_number(rand_dummy)
+  WRITE(*,*) "meal_types: ", meal_types
+  ! WRITE(*,*) "which_meal_to_change: ", which_meal_to_change
+  ! WRITE(*,*) "meal_types(which_meal_to_change,1): ", meal_types(which_meal_to_change,1)
+  ! WRITE(*,*) "if condition: ", INT(meal_types(which_meal_to_change,1))
+  STOP
   IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
-    ALLOCATE(recipes(breakfast_size,32))
-    num_of_recipes = breakfast_size
-    new_recipe = CEILING((rand_dummy + 0.000001d0) * num_of_recipes)
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
     new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
   ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
-    ALLOCATE(recipes(snack_size,32))
-    num_of_recipes = snack_size
-    recipes = snack
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
+    new_plan(which_meal_to_change,:) = snack(new_recipe,:)
   ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
-    ALLOCATE(recipes(lunch_size,32))
-    num_of_recipes = lunch_size
-    recipes = lunch
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
+    new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
   ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
-    ALLOCATE(recipes(dinner_size,32))
-    num_of_recipes = dinner_size
-    recipes = dinner
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
+    new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
   END IF
 
-
-  DEALLOCATE(recipes)
 END SUBROUTINE
 
 REAL(8) FUNCTION plan_cost(plan, plan_size)
