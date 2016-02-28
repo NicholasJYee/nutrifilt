@@ -60,7 +60,7 @@ def change_one_meal(plan):
     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
         break
     plan = original_plan
-    
+
   return plan
 
 def plan_cost(plan):
@@ -391,9 +391,9 @@ def form(request):
       fourth = append(2., [zero_31_times])
       fifth = append(4., [zero_31_times])
 
-      plan = array([first, second, third, fourth, fifth], 'd')
+      plan = array([first, second, third, fourth], 'd')
       plan = asarray(plan, order='F')
-      meal_types = array([first, second, third, fourth, fifth], 'd')
+      meal_types = array([first, second, third, fourth], 'd')
       meal_types = asarray(meal_types, order='F')
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
