@@ -28,8 +28,8 @@ def change_one_meal(plan):
   tries = 0
 
   for i in range(0,5):
-    start = i * 31
-    end = (i + 1) * 31
+    start = i * 32
+    end = (i + 1) * 32
     if (i == 0):
       restored_2d_plan = array(plan[start:end])
     else:
@@ -62,7 +62,7 @@ def change_one_meal(plan):
 
 def plan_cost(plan):
   cost = 0
-  for recipe_num in plan[::31]:
+  for recipe_num in plan[::32]:
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
   return float("{0:.2f}".format(cost))
@@ -369,29 +369,29 @@ def form(request):
       dinner = get_meals('dinner')
 
       # For Basinhopping
-      # meals = [breakfast, snack, lunch, snack, dinner]
-      # mealplanstep = MealPlanStep()
-      # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+      meals = [breakfast, snack, lunch, snack, dinner]
+      mealplanstep = MealPlanStep()
+      x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
+      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
 
-      # For Sim Annealing (Fortran)
-        # 1 - breakfast
-        # 2 - snack
-        # 3 - lunch
-        # 4 - dinner
-      zero_30_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-      first = append(1., [zero_30_times])
-      second = append(2., [zero_30_times])
-      third = append(3., [zero_30_times])
-      fourth = append(2., [zero_30_times])
-      fifth = append(4., [zero_30_times])
+      # # For Sim Annealing (Fortran)
+      #   # 1 - breakfast
+      #   # 2 - snack
+      #   # 3 - lunch
+      #   # 4 - dinner
+      # zero_30_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+      # first = append(1., [zero_30_times])
+      # second = append(2., [zero_30_times])
+      # third = append(3., [zero_30_times])
+      # fourth = append(2., [zero_30_times])
+      # fifth = append(4., [zero_30_times])
 
-      plan = array([first, second, third, fourth, fifth], 'd')
-      plan = asarray(plan, order='F')
-      print("plan: (before sim): ", plan)
-      sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: (after sim)", plan)
-      raise SystemExit
+      # plan = array([first, second, third, fourth, fifth], 'd')
+      # plan = asarray(plan, order='F')
+      # print("plan: (before sim): ", plan)
+      # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      # print("plan: (after sim)", plan)
+      # raise SystemExit
 
 
 
@@ -430,8 +430,8 @@ def form(request):
 
       if created:
         for i in range(0,5):
-          start = i * 31
-          end = (i + 1) * 31
+          start = i * 32
+          end = (i + 1) * 32
           if (i == 0):
             restored_2d_plan = array(plan[start:end])
           else:

@@ -136,6 +136,7 @@ def get_meals(label):
     servings = label.recipe.servings
     meal_info = [
       label.recipe.id,
+      servings,
       label.recipe.cost / servings,
       label.recipe.calories / servings,
       label.recipe.fat / servings,
@@ -192,9 +193,9 @@ def generate_plan_meeting_nutrition(meals, nutrition_req):
 
   return selected_meals
 
-def nutrition_met(meals, nutrition_req):
+def nutrition_met(plan, nutrition_req):
   nutrition_met = []
-  meals_nutrition = get_nutrition(meals)
+  meals_nutrition = get_nutrition(plan)
 
   for i, nutrition_req_amount in enumerate(nutrition_req):
     # Change code here to set up ranges and around values for nutri
