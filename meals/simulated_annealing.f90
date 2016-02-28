@@ -31,12 +31,12 @@ SUBROUTINE sim_anneal(&
 
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
-      ! write(*,*) "plan (pre change): ", plan(:,1)
+      write(*,*) "plan (pre change): ", plan(:,1)
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         breakfast, snack, lunch, dinner, &
         breakfast_size, snack_size, lunch_size, dinner_size)
-      ! write(*,*) "plan (post change): ", plan(:,1)
-      ! write(*,*) "new_plan: ", new_plan(:,1)
+      write(*,*) "plan (post change): ", plan(:,1)
+      write(*,*) "new_plan: ", new_plan(:,1)
 
     END DO drawSchedule
   END DO temperatureSchedule
@@ -63,10 +63,9 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
 
   CALL random_number(rand_dummy)
   WRITE(*,*) "meal_types: ", meal_types
-  ! WRITE(*,*) "which_meal_to_change: ", which_meal_to_change
-  ! WRITE(*,*) "meal_types(which_meal_to_change,1): ", meal_types(which_meal_to_change,1)
-  ! WRITE(*,*) "if condition: ", INT(meal_types(which_meal_to_change,1))
-  STOP
+  WRITE(*,*) "which_meal_to_change: ", which_meal_to_change
+  WRITE(*,*) "meal_types(which_meal_to_change,1): ", meal_types(which_meal_to_change,1)
+  WRITE(*,*) "if condition: ", INT(meal_types(which_meal_to_change,1))
   IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
     new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
     new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)

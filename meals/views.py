@@ -391,11 +391,9 @@ def form(request):
       meal_types = array([first, second, third, fourth, fifth], 'd')
       meal_types = asarray(meal_types, order='F')
       print("plan: (before sim): ", plan)
-      print("meal_types: (before sim): ", meal_types)
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: (after sim)", plan)
-      print("meal_types: (after sim): ", meal_types)
       sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+      print("plan: (after sim)", plan)
       raise SystemExit
 
       p, created = Plan.objects.get_or_create(
