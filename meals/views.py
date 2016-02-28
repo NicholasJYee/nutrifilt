@@ -390,9 +390,9 @@ def form(request):
       plan = asarray(plan, order='F')
       print("plan: (before sim): ", plan)
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      sim_anneal.sim_anneal(plan, nutrition_req, breakfast, snack, lunch, dinner)
       print("plan: (after sim)", plan)
-
-
+      # raise SystemExit
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -474,5 +474,6 @@ def search(request):
 
   return render(request, 'meals/search.html', {'form': form})
 
-def game(request):  
-  return render(request, 'meals/game.html')
+#Meal plan results front-end test
+# def results(request):
+#   return render(request, 'meals/results.html')  
