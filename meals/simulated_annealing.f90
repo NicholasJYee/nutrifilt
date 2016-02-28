@@ -30,20 +30,30 @@ SUBROUTINE sim_anneal(&
 
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
-      CALL changeOneMeal(plan, new_plan)
+      CALL changeOneMeal(plan, new_plan, plan_size, &
+        breakfast, snack, lunch, dinner, &
+        breakfast_size, snack_size, lunch_size, dinner_size)
 
     END DO drawSchedule
   END DO temperatureSchedule
 
 END SUBROUTINE
 
-SUBROUTINE changeOneMeal(plan, new_plan, plan_size)
+SUBROUTINE changeOneMeal(plan, new_plan, plan_size, &
+  breakfast, snack, lunch, dinner, &
+  breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, INTENT(IN) :: plan_size  
+  INTEGER, INTENT(IN) :: plan_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
+  REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
+  REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
+  REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
+  REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
+  REAL(8) :: randDummy
 
-
+  new_plan = plan
+  CALL random_number(randDummy)
 
 END SUBROUTINE
 
