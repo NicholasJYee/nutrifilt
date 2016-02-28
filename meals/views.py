@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-from numpy import array
+from numpy import array, asarray
 import requests, time
 from scipy import optimize
 
@@ -8,6 +8,7 @@ import secret
 
 from .forms import *
 from .computations import *
+import sim_anneal
 
 def searchplan(request):
   try:
@@ -369,7 +370,17 @@ def form(request):
       meals = [breakfast, snack, lunch, snack, dinner]
       mealplanstep = MealPlanStep()
       x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+
+      arr = array([1,2,3], 'd')
+      arr = vstack([arr, array([2,3,4], 'd')])
+      arr = vstack([arr, array([3,4,5], 'd')])
+      print("arr (before sim): ", arr)
+      arr = asarray(arr, order='F')
+      sim_anneal.get_array(arr)
+      print("arr (after sim): ", arr)
+      raise SystemExit
+      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+
 
       p, created = Plan.objects.get_or_create(
         name = name,

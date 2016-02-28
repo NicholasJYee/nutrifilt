@@ -20,6 +20,15 @@ SUBROUTINE generate_plan_meeting_nutrition(max_size, meals, nutrition_req, selec
 
 END SUBROUTINE generate_plan_meeting_nutrition
 
+SUBROUTINE get_array(arr, row, col)
+  IMPLICIT NONE
+  INTEGER(8), INTENT(IN) :: row, col
+  REAL(8), DIMENSION(row, col), INTENT(INOUT) :: arr
+
+  arr(1, 2) = 1.d0
+
+END SUBROUTINE
+
 ! def generate_plan_meeting_nutrition(meals, nutrition_req):
 !   tries = 0
 !   while True:
