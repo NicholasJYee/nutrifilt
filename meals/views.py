@@ -444,20 +444,25 @@ def create_recipe(recipe):
   return r
 
 def select_meal_type(type_of_meal):
-  if type_of_meal == "Breakfast":
+  zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+  breakfast_meal_type = append(1., [zero_31_times])
+  snack_meal_type = append(2., [zero_31_times])
+  lunch_meal_type = append(3., [zero_31_times])
+  dinner_meal_type = append(4., [zero_31_times])
+
+  if type_of_meal == "1":
     return array([breakfast_meal_type], 'd')
-  elif type_of_meal == "Snack":
+  elif type_of_meal == "2":
     return array([snack_meal_type], 'd')
-  elif type_of_meal == "Lunch":
+  elif type_of_meal == "3":
     return array([lunch_meal_type], 'd')
-  elif type_of_meal == "Dinner":
+  elif type_of_meal == "4":
     return array([dinner_meal_type], 'd')
 
 def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
-
       if form.cleaned_data['name'] is not None:
         name = form.cleaned_data['name']
       global nutrition_req
@@ -483,20 +488,44 @@ def form(request):
         # 2 - snack
         # 3 - lunch
         # 4 - dinner
-      zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-      breakfast_meal_type = append(1., [zero_31_times])
-      snack_meal_type = append(2., [zero_31_times])
-      lunch_meal_type = append(3., [zero_31_times])
-      dinner_meal_type = append(4., [zero_31_times])
-
-      if form.cleaned_data['meal0'] is not None:
+      plan = select_meal_type(request.POST['meal0'])
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal1'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal2'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal3'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal4'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal5'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal6'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal7'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal8'])])
+      except KeyError:
         pass
 
-
-      plan = array([breakfast_meal_type, snack_meal_type, lunch_meal_type, dinner_meal_type], 'd')
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
+
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
