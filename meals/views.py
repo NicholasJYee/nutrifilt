@@ -17,6 +17,7 @@ def plan_info(plan):
     carbohydrates = format(sum(meal.recipe.carbohydrates/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
     protein = format(sum(meal.recipe.protein/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')    
     extras = []
+    ingredients = [["carrot", 20 ], ["pineapple", 50], ["lettuce", 50], ["onions", 25]]
     
     if plan.sat_fat > 0:
       extras.append(["Saturated Fat (g)", plan.sat_fat, format(sum(meal.recipe.sat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])

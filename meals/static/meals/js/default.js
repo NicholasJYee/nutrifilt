@@ -27,7 +27,7 @@ $(function() {
 
   $('body').on('submit', '#daForm',function(){
     // $(this).append('<img src = "/static/meals/images/load.gif">');
-    $(this).hmtl('');
+    $(this).html('');
     $(this).load('/meals/game');
   }); 
 
@@ -40,6 +40,13 @@ $(function() {
       $('#loadForm p').slice(5).hide();
     }  
   });
+
+  $('body').on('mouseenter','.mealplan ul li img', function() {    
+    $(this).closest('li').children('.nutable').show();      
+  });
+  $('body').on('mouseleave','.mealplan ul li img', function() {    
+    $(this).closest('li').children('.nutable').hide();      
+  });  
 });
 
 var meal_dropdown = function(select_for_num_meals) {
