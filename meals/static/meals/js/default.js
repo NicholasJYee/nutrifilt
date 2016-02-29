@@ -17,9 +17,10 @@ $(function() {
       // Nick's jQuery
       var select_for_num_meals = $('select[name="num_of_meals"]')
       select_for_num_meals.change(function() {
+        $('.meal-type').remove()
         for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
           var meal_dropdown =
-            "<select name=meal" + i + ">\n" +
+            "<select class='meal-type' name=meal" + i + ">\n" +
             "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
             "  <option value='1'>Breakfast</option>\n" +
             "  <option value='2'>Snack</option>\n" +
