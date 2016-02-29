@@ -165,15 +165,20 @@ body {
 
 #loadForm input {
   float:  right;
+  height: 1vw;
+  width: 10vw; 
 }
 
-input {
-  border-radius:5px;
-  width: 10vw;
-  height:1vw;  
+input, select {
+  border-radius:5px;     
   color:#885F38;
   font-size: 1vw;      
   margin-bottom: 1%;
+}
+
+select {
+  height: 2vw;
+  width: 17vw;
 }
 
 #daForm {
@@ -210,13 +215,14 @@ th, td {
 }
 
 .nutable {
+  width: 60%;
   background: white;
   position: absolute;
   color: black;
   padding:10px;
 }
 
-.nutable p {
+.nutable p {  
   -webkit-margin-before: -2% ;
   -webkit-margin-after: -2%;
 }

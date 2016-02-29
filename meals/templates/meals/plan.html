@@ -8,44 +8,60 @@
       <strong>Plan name: {{ plan.name }}</strong>
         <ul>
           <h3>Meals</h3>
-          <p>(hover over images to view Nutrition tables</p>
+          <p>(hover over images to view Nutrition tables)</p>
           {% for meal in plan.planrecipe_set.all %}
             <li>
               <img src = "{{ meal.recipe.image }}">
               <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>
               <div class = "hidden nutable">
-              <h1>Nutritional Facts</h1>              
-              <p>Servings per Recipe about {{ meal.recipe.servings }}</p>
-              <hr style = "border: 0.5vw solid">
-              <p>Calories {{ meal.recipe.calories|div:meal.recipe.servings|floatformat:"0" }}</p>
-              <hr style = "border: 0.3vw solid">
-              <p>Fat {{ meal.recipe.fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr>
-              <p>&emsp;Saturated Fat {{ meal.recipe.sat_fat|div:meal.recipe.servings|floatformat:"0" }} g</p><hr style = "border: white">
-              <p>&emsp;Trans Fat {{ meal.recipe.trans_fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr>    
-              <p>Cholesterol {{ meal.recipe.cholesterol|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr>
-              <p>Sodium {{ meal.recipe.sodium|div:meal.recipe.servings|floatformat:"0" }} mg</p>
-              <hr>
-              <p>Carbohydrate {{ meal.recipe.carbohydrates|div:meal.recipe.servings|floatformat:"0" }} g</p> 
-              <hr>
-              <p> &emsp; Fiber {{ meal.recipe.fiber|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr>
-              <p> &emsp; Sugars {{ meal.recipe.sugar|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr>
-              <p>Protein {{ meal.recipe.protein|div:meal.recipe.servings|floatformat:"0" }} g</p>
-              <hr style = "border: 0.5vw solid">
-              <p>Vitamin A </p>
-              <hr>
-              <p>Vitamin C </p>
-              <hr>
-              <p>Calcium </p>
-              <hr>
-              <p>Iron </p>
-              <hr>
-              <p>* Percent Daily Values are based on a 2000 calorie diet</p>
-            </div>
+                <h1>Nutritional Facts</h1>              
+                <p>Servings per Recipe about {{ meal.recipe.servings }}</p>
+                <hr style = "border: 0.5vw solid">
+                <p>Calories {{ meal.recipe.calories|div:meal.recipe.servings|floatformat:"0" }}</p>
+                <hr style = "border: 0.3vw solid">
+                <p style = "text-align:right">% Daily Value</p>
+                <hr>
+                <p>Fat {{ meal.recipe.fat|div:meal.recipe.servings|floatformat:"0" }} g<span style = 'float:right'>{{ meal.recipe.fat|div:meal.recipe.servings|mul:1.54|floatformat:"0" }}%</span></p>
+                <hr>
+                <p>&emsp;Saturated Fat {{ meal.recipe.sat_fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr style = "border: white"><span style = 'float:right'>{{ meal.recipe.sat_fat|add:meal.recipe.trans_fat|div:meal.recipe.servings|mul:5|floatformat:"0" }}%</span>
+                <p>&emsp;+ Trans Fat {{ meal.recipe.trans_fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr>    
+                <p>Cholesterol {{ meal.recipe.cholesterol|div:meal.recipe.servings|floatformat:"0" }} mg<span style = 'float:right'>{{ meal.recipe.cholesterol|div:meal.recipe.servings|div:3|floatformat:"0" }}%</span></p>
+                <hr>
+                <p>Sodium {{ meal.recipe.sodium|div:meal.recipe.servings|floatformat:"0" }} mg
+                <span style = 'float:right'>{{ meal.recipe.sodium|div:meal.recipe.servings|mul:0.0147|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Carbohydrate {{ meal.recipe.carbohydrates|div:meal.recipe.servings|floatformat:"0" }} g<span style = 'float:right'>{{ meal.recipe.carbohyrates|div:meal.recipe.servings|div:3|floatformat:"0" }}%</span>
+                </p> 
+                <hr>
+                <p> &emsp; Fiber {{ meal.recipe.fiber|div:meal.recipe.servings|floatformat:"0" }} g
+                  <span style = 'float:right'>{{ meal.recipe.fiber|div:meal.recipe.servings|mul:4|floatformat:"0" }}%</span>    
+                </p>
+                <hr>
+                <p> &emsp; Sugars {{ meal.recipe.sugar|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr>
+                <p>Protein {{ meal.recipe.protein|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr style = "border: 0.5vw solid">
+                <p>Vitamin A 
+                 <span style = 'float:right'>{{ meal.recipe.vit_a|div:meal.recipe.servings|mul:0.1|floatformat:"0" }}%</span>   
+                </p>
+                <hr>
+                <p>Vitamin C 
+                <span style = 'float:right'>{{ meal.recipe.vit_c|div:meal.recipe.servings|mul:1.67|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Calcium
+                <span style = 'float:right'>{{ meal.recipe.calcium|div:meal.recipe.servings|div:11|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Iron
+                  <span style = 'float:right'>{{ meal.recipe.iron|div:meal.recipe.servings|mul:7.14|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>* Percent Daily Values are based on a 2000 calorie diet</p>
+              </div>
             </li>
             
           {% endfor %}

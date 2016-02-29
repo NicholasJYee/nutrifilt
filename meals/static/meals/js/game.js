@@ -4,8 +4,7 @@ var foodType = [ "F","P","C"];
 
 
 $(function() {
-  $('#gameWindow').append(mouth);
-  play();
+  newGame();
   $('body').on('keydown', function(e){    
     var pos = parseInt(mouth.css('margin-top'));    
     switch(e.which) {
@@ -25,6 +24,13 @@ $(function() {
   })
 });
 
+function newGame() {
+  $('#gameWindow').empty();
+  $('#gameWindow').append(mouth);
+  $('.lvl').width(50);
+  gameOn = true;
+  play();
+}
 
 function play() {  
   if (gameOn) {
@@ -36,11 +42,11 @@ function play() {
         if ($(lvl).width() > 0 && $(lvl).width() < 100) {
           $(lvl).width($(lvl).width()-2);
         }else {
-          $('#gameWindow').html("");          
+          $('#gameWindow').empty();          
           $('#gameWindow').append($('<h1>').text("Game Over"));
           var btn = $('<button>');
           btn.text('New Game');
-          btn.attr('onClick', 'location.href=""');
+          btn.attr('onClick', 'newGame()');
           btn.addClass('btn');          
           $('#gameWindow').append(btn);
           gameOn = false;
