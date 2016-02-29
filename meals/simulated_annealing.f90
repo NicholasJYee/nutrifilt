@@ -1,5 +1,7 @@
+! f2py terminal compile line
+! f2py -c -m sim_anneal  meals/simulated_annealing.f90
 SUBROUTINE sim_anneal(&
-    plan, nutrition_req, breakfast, snack, lunch, dinner, &
+    meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
@@ -9,9 +11,99 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
+  REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
+  REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
+  REAL(8) :: temperature
+  REAL(8) :: plan_cost, total_cost, lowest_cost, previous_cost
+  REAL(8) :: accept_probability, rand_accept
+  INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
+  INTEGER :: k, j
 
+  TEMPERATURE_INI = 1.d0
+  TEMPERATURE_END = 0.01d0
+  TEMPERATURE_NUMB_STEP = 20
+  DRAWS = 5000
+
+  temperature = TEMPERATURE_INI
+  lowest_cost = plan_cost(plan, plan_size)
+  previous_cost = lowest_cost
+  cheapest_plan = plan
+
+  temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
+    drawSchedule: DO j = 1, DRAWS
+      CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
+        breakfast, snack, lunch, dinner, &
+        breakfast_size, snack_size, lunch_size, dinner_size)
+
+      total_cost = plan_cost(new_plan, plan_size)
+      
+      accept_probability = MIN(1.d0, &
+        EXP(-(total_cost - previous_cost) / temperature))
+      CALL random_number(rand_accept)
+      
+      determineNewStep: IF (rand_accept .LT. accept_probability) THEN
+        plan = new_plan
+        previous_cost = total_cost
+
+        checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
+          lowest_cost = total_cost
+          cheapest_plan = new_plan
+        END IF checkLowestCost
+      END IF determineNewStep
+    END DO drawSchedule
+    temperature = temperature - (TEMPERATURE_INI - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
+  END DO temperatureSchedule
 
 END SUBROUTINE
+
+SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
+  breakfast, snack, lunch, dinner, &
+  breakfast_size, snack_size, lunch_size, dinner_size)
+  IMPLICIT NONE
+  INTEGER, INTENT(IN) :: plan_size, breakfast_size, snack_size, lunch_size, dinner_size
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
+  REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
+  REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
+  REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
+  REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
+  REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
+  REAL(8) :: rand_dummy
+  INTEGER :: which_meal_to_change, new_recipe
+
+  new_plan = plan
+  CALL random_number(rand_dummy)
+  which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+
+  CALL random_number(rand_dummy)
+  IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
+    new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
+    new_plan(which_meal_to_change,:) = snack(new_recipe,:)
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
+    new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
+  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
+    new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
+    new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
+  END IF
+
+END SUBROUTINE
+
+REAL(8) FUNCTION plan_cost(plan, plan_size)
+  IMPLICIT NONE
+  INTEGER, INTENT(IN) :: plan_size  
+  REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan
+  INTEGER :: i
+
+  plan_cost = 0.d0
+  DO i = 1, plan_size
+    plan_cost = plan_cost + plan(i,3)
+  END DO
+
+END FUNCTION
 
 
 SUBROUTINE generate_plan_meeting_nutrition(&
@@ -127,11 +219,19 @@ SUBROUTINE get_nutrition(meals_nutrition, plan, plan_size, nutrition_req_size)
 
 END SUBROUTINE
 
-SUBROUTINE get_array(arr, row, col)
+SUBROUTINE get_array(arr1, arr2, row, col)
   IMPLICIT NONE
   INTEGER(8), INTENT(IN) :: row, col
-  REAL(8), DIMENSION(row, col), INTENT(INOUT) :: arr
+  REAL(8), DIMENSION(row, col), INTENT(INOUT) :: arr1
+  REAL(8), DIMENSION(row, col), INTENT(OUT) ::arr2
 
-  arr(1, 2) = 1.d0
+  WRITE(*,*) "initial arr1: ", arr1
+  WRITE(*,*) "pre arr2:", arr2
+  arr2 = arr1
+  WRITE(*,*) "after assign arr1: ", arr1
+  WRITE(*,*) "before change arr2: ", arr2
+  arr1(1, 2) = 1.d0
+  WRITE(*,*) "post arr2:", arr2
+  WRITE(*,*) "post arr1:", arr1
 
 END SUBROUTINE

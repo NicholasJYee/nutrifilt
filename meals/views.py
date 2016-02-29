@@ -121,10 +121,11 @@ def plan(request, plan_id):
 
 class MealPlanStep(object):
   def __call__(self, plan):
-    change_one_meal(plan)
+    plan = change_one_meal(plan)
     return plan
 
 def change_one_meal(plan):
+  print("Changing plan")
   tries = 0
 
   for i in range(0,5):
@@ -160,11 +161,14 @@ def change_one_meal(plan):
         break
     plan = original_plan
 
+  return plan
+
 def plan_cost(plan):
   cost = 0
   for recipe_num in plan[::32]:
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
+  print("Cost: ", float("{0:.2f}".format(cost)))
   return float("{0:.2f}".format(cost))
 
 def populate(request):
@@ -440,14 +444,28 @@ def create_recipe(recipe):
 
   return r
 
+def select_meal_type(type_of_meal):
+  zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
+  breakfast_meal_type = append(1., [zero_31_times])
+  snack_meal_type = append(2., [zero_31_times])
+  lunch_meal_type = append(3., [zero_31_times])
+  dinner_meal_type = append(4., [zero_31_times])
+
+  if type_of_meal == "1":
+    return array([breakfast_meal_type], 'd')
+  elif type_of_meal == "2":
+    return array([snack_meal_type], 'd')
+  elif type_of_meal == "3":
+    return array([lunch_meal_type], 'd')
+  elif type_of_meal == "4":
+    return array([dinner_meal_type], 'd')
+
 def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
-
       if form.cleaned_data['name'] is not None:
         name = form.cleaned_data['name']
-
       global nutrition_req
       global breakfast
       global snack
@@ -463,27 +481,54 @@ def form(request):
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
       # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
+      # print("Lowest cost: ", plan_cost(plan))
 
       # For Sim Annealing (Fortran)
         # 1 - breakfast
         # 2 - snack
         # 3 - lunch
         # 4 - dinner
-      zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-      first = append(1., [zero_31_times])
-      second = append(2., [zero_31_times])
-      third = append(3., [zero_31_times])
-      fourth = append(2., [zero_31_times])
-      fifth = append(4., [zero_31_times])
+      plan = select_meal_type(request.POST['meal0'])
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal1'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal2'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal3'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal4'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal5'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal6'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal7'])])
+      except KeyError:
+        pass
+      try:
+        plan = vstack([plan, select_meal_type(request.POST['meal8'])])
+      except KeyError:
+        pass
 
-      plan = array([first, second, third, fourth, fifth], 'd')
+      meal_types = plan
       plan = asarray(plan, order='F')
-      print("plan: (before sim): ", plan)
+      meal_types = asarray(meal_types, order='F')
+
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      sim_anneal.sim_anneal(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: (after sim)", plan)
-      # raise SystemExit
+      sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -526,7 +571,8 @@ def form(request):
             restored_2d_plan = array(plan[start:end])
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-        plan = restored_2d_plan[::-1]
+        # The [::-1] reverses the array
+        plan = restored_2d_plan#[::-1]
 
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
