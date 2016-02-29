@@ -155,6 +155,10 @@ SUBROUTINE generate_plan_meeting_nutrition(&
     IF (met_nutrient_requirement) THEN
       EXIT
     END IF
+
+    IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
+      STOP
+    END IF
   END DO
 
 END SUBROUTINE generate_plan_meeting_nutrition
@@ -176,7 +180,6 @@ LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
     END IF
   END DO
   
-  WRITE(*,*) "num_of_nutrition_met: ", num_of_nutrition_met
   IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
     nutrition_met = .TRUE.
   ELSE
