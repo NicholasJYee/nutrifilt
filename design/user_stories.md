@@ -4,9 +4,22 @@
   1. Display meal plan cost
   1. Set up ranges & around values for users nutritional requirements
   1. Build a list of ingredients for grocery shopping
+  1. Add game when loading
+  1. Make print friendly grocery list
+  1. Percentage for nutrition table
+  1. pre-built meal plans (one that meets all of Candian Diet recommendation, body building, low salt, diabetic)
+  1. pre-built healthy meal for age, weight, sex
+
 * Nick:
-  1. Optimize using Simulated Annealing
-  1. Flexible number of meals in a plan (then Hatim works on the front end of this)
+  1. DONE - Optimize using Simulated Annealing
+  1. DONE - Flexible number of meals in a plan (then Hatim works on the front end of this)
+  1. User can choose numer of meals and what type of meal
+  1. If wrong meal found, redirect to home page with alert
+  1. Option to generate meal plan for a week
+  1. Reject recipe based on nutrition
+  1. Easy way to populate database
+  1. Grocery list ingredients in proper units (ie. 1 egg, 1 ml of milk)
+  1. Email meal plans
 
 ## MVP User stories
 * As a user,
