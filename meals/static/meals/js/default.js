@@ -1,9 +1,4 @@
 $(function() {
-  // Nick's jQuery
-  $('select[name="num_of_meals"]').change(function() {
-    alert($(this).val());
-  });
-
    
   $("#navBar ul li").on('click', function() {
     $(this).addClass('active').siblings('.active').removeClass('active');
@@ -18,6 +13,12 @@ $(function() {
       $('#loadForm input:lt(3)').attr('required',true);
       $('#loadForm input').slice(2).attr('pattern','\d+');
       $('#loadForm p').slice(5).hide(); 
+
+      // Nick's jQuery
+      $('select[name="num_of_meals"]').change(function() {
+        alert($(this).val());
+      });
+    
     });      
   });
 
