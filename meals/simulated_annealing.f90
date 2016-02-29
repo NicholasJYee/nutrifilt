@@ -72,29 +72,35 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8) :: rand_dummy
   LOGICAL :: met_nutrient_requirement, nutrition_met
-  INTEGER :: which_meal_to_change, new_recipe
-  INTEGER :: i
+  INTEGER :: which_meal_to_change, new_recipe, num_meals_to_change
+  INTEGER :: i, j
 
   DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
     new_plan = plan
     CALL random_number(rand_dummy)
-    which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+    num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+    WRITE(*,*) "new_plan (pre change): ", new_plan(:,1)
+    DO j = 1, num_meals_to_change
+      CALL random_number(rand_dummy)
+      which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
-    CALL random_number(rand_dummy)
-    IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
-      new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
-      new_plan(which_meal_to_change,:) = snack(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
-      new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
-      new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
-    END IF
-
+      CALL random_number(rand_dummy)
+      IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
+        new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
+        new_plan(which_meal_to_change,:) = snack(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
+        new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
+        new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
+      END IF
+    END DO
+    WRITE(*,*) "num_meals_to_change: ", num_meals_to_change
+    WRITE(*,*) "new_plan (post change): ", new_plan(:,1)
     met_nutrient_requirement = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
     IF (met_nutrient_requirement) THEN
       EXIT
