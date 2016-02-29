@@ -34,7 +34,7 @@ SUBROUTINE sim_anneal(&
     drawSchedule: DO j = 1, DRAWS
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         nutrition_req, breakfast, snack, lunch, dinner, &
-        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, j, DRAWS)
 
       total_cost = plan_cost(new_plan, plan_size)
       
@@ -59,10 +59,11 @@ END SUBROUTINE
 
 SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   nutrition_req, breakfast, snack, lunch, dinner, &
-  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, DRAWS)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
+  INTEGER, INTENT(IN) :: draw_num, DRAWS
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
@@ -75,11 +76,11 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   INTEGER :: which_meal_to_change, new_recipe, num_meals_to_change
   INTEGER :: i, j
 
-  DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
+  DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     new_plan = plan
     CALL random_number(rand_dummy)
     num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
-    WRITE(*,*) "new_plan (pre change): ", new_plan(:,1)
+    num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(draw_num) / (1.5d0 * DRAWS))))
     DO j = 1, num_meals_to_change
       CALL random_number(rand_dummy)
       which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
@@ -100,13 +101,12 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
       END IF
     END DO
     WRITE(*,*) "num_meals_to_change: ", num_meals_to_change
-    WRITE(*,*) "new_plan (post change): ", new_plan(:,1)
     met_nutrient_requirement = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
     IF (met_nutrient_requirement) THEN
       EXIT
     END IF
 
-    IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
+    IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
       STOP
     END IF
   END DO
@@ -131,7 +131,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
@@ -142,7 +142,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   INTEGER :: i, j, meal_number
   LOGICAL :: met_nutrient_requirement, nutrition_met
 
-  DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
+  DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     DO j = 1, plan_size
       meal_number = INT(RAND(0) * breakfast_size) + 1
       SELECT CASE (INT(plan(j,1)))
@@ -162,7 +162,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
       EXIT
     END IF
 
-    IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
+    IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
       STOP
     END IF
   END DO
