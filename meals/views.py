@@ -100,7 +100,8 @@ def plan_info(plan):
       'fat' : fat,
       'carbohydrates' : carbohydrates,
       'protein' : protein,
-      'extras' : extras
+      'extras' : extras,
+      'ingredients' : ingredients
     }
   except:
     context = {}
