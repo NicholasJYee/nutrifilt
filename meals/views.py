@@ -119,10 +119,11 @@ def plan(request, plan_id):
 
 class MealPlanStep(object):
   def __call__(self, plan):
-    change_one_meal(plan)
+    plan = change_one_meal(plan)
     return plan
 
 def change_one_meal(plan):
+  print("Changing plan")
   tries = 0
 
   for i in range(0,5):
@@ -158,11 +159,14 @@ def change_one_meal(plan):
         break
     plan = original_plan
 
+  return plan
+
 def plan_cost(plan):
   cost = 0
   for recipe_num in plan[::32]:
     recipe = Recipe.objects.get(id=int(recipe_num))
     cost += recipe.cost / recipe.servings
+  print("Cost: ", float("{0:.2f}".format(cost)))
   return float("{0:.2f}".format(cost))
 
 def populate(request):
@@ -461,7 +465,8 @@ def form(request):
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
       # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=1).x
+      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
+      # print("Lowest cost: ", plan_cost(plan))
 
       # For Sim Annealing (Fortran)
         # 1 - breakfast
@@ -475,13 +480,12 @@ def form(request):
       fourth = append(2., [zero_31_times])
       fifth = append(4., [zero_31_times])
 
-      plan = array([first, second, third, fourth, fifth], 'd')
+      plan = array([first, second, third, fourth], 'd')
       plan = asarray(plan, order='F')
-      print("plan: (before sim): ", plan)
+      meal_types = array([first, second, third, fourth], 'd')
+      meal_types = asarray(meal_types, order='F')
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      sim_anneal.sim_anneal(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print("plan: (after sim)", plan)
-      # raise SystemExit
+      sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -524,7 +528,8 @@ def form(request):
             restored_2d_plan = array(plan[start:end])
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-        plan = restored_2d_plan[::-1]
+        # The [::-1] reverses the array
+        plan = restored_2d_plan#[::-1]
 
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
