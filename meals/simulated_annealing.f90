@@ -72,7 +72,7 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8) :: rand_dummy
-  LOGICAL :: met_nutrient_requirement, nutrition_met
+  INTEGER :: num_of_nutrition_met, nutrition_met
   INTEGER :: which_meal_to_change, new_recipe, num_meals_to_change
   INTEGER :: i, j
 
@@ -102,8 +102,8 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
       END IF
     END DO
 
-    met_nutrient_requirement = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
-    IF (met_nutrient_requirement) THEN
+    num_of_nutrition_met = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
+    IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
       EXIT
     END IF
 
@@ -144,8 +144,11 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32) :: plan_with_most_nutrition
   INTEGER :: i, j, meal_number
-  LOGICAL :: met_nutrient_requirement, nutrition_met
+  INTEGER :: num_of_nutrition_met, nutrition_met, most_nutrient_met
+
+  most_nutrient_met = 0
 
   DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     DO j = 1, plan_size
@@ -162,19 +165,23 @@ SUBROUTINE generate_plan_meeting_nutrition(&
       END SELECT
     END DO
 
-    met_nutrient_requirement = nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
-    IF (met_nutrient_requirement) THEN
+    num_of_nutrition_met = nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
+    IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
       EXIT
+    ELSE IF (num_of_nutrition_met .GT. most_nutrient_met) THEN
+      most_nutrient_met = num_of_nutrition_met
+      plan_with_most_nutrition = plan
     END IF
 
     IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
-      STOP
+      WRITE(*,*) "Cant find plan that met nutrition, but found best plan"
+      plan = plan_with_most_nutrition
     END IF
   END DO
 
 END SUBROUTINE generate_plan_meeting_nutrition
 
-LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
+INTEGER FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
   IMPLICIT NONE
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
@@ -191,11 +198,7 @@ LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
     END IF
   END DO
   
-  IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
-    nutrition_met = .TRUE.
-  ELSE
-    nutrition_met = .FALSE.
-  END IF
+  nutrition_met = num_of_nutrition_met
   RETURN
 END FUNCTION
 
