@@ -1,4 +1,9 @@
 $(function() {
+  // Nick's jQuery
+  $('select[name="num_of_meals"]').change(function() {
+    alert($(this).val());
+  });
+
    
   $("#navBar ul li").on('click', function() {
     $(this).addClass('active').siblings('.active').removeClass('active');
