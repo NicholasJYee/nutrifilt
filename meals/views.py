@@ -442,6 +442,16 @@ def create_recipe(recipe):
 
   return r
 
+def select_meal_type(type_of_meal):
+  if type_of_meal == "Breakfast":
+    return array([breakfast_meal_type], 'd')
+  elif type_of_meal == "Snack":
+    return array([snack_meal_type], 'd')
+  elif type_of_meal == "Lunch":
+    return array([lunch_meal_type], 'd')
+  elif type_of_meal == "Dinner":
+    return array([dinner_meal_type], 'd')
+
 def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
@@ -449,7 +459,6 @@ def form(request):
 
       if form.cleaned_data['name'] is not None:
         name = form.cleaned_data['name']
-
       global nutrition_req
       global breakfast
       global snack
@@ -474,15 +483,18 @@ def form(request):
         # 3 - lunch
         # 4 - dinner
       zero_31_times = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]
-      first = append(1., [zero_31_times])
-      second = append(2., [zero_31_times])
-      third = append(3., [zero_31_times])
-      fourth = append(2., [zero_31_times])
-      fifth = append(4., [zero_31_times])
+      breakfast_meal_type = append(1., [zero_31_times])
+      snack_meal_type = append(2., [zero_31_times])
+      lunch_meal_type = append(3., [zero_31_times])
+      dinner_meal_type = append(4., [zero_31_times])
 
-      plan = array([first, second, third, fourth], 'd')
+      if form.cleaned_data['meal0'] is not None:
+        pass
+
+
+      plan = array([breakfast_meal_type, snack_meal_type, lunch_meal_type, dinner_meal_type], 'd')
+      meal_types = plan
       plan = asarray(plan, order='F')
-      meal_types = array([first, second, third, fourth], 'd')
       meal_types = asarray(meal_types, order='F')
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)

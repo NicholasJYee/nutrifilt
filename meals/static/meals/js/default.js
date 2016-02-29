@@ -1,5 +1,5 @@
 $(function() {
-   
+       
   $("#navBar ul li").on('click', function() {
     $(this).addClass('active').siblings('.active').removeClass('active');
     var cdiv = '#'+ $(this).children('.navText').text().toLowerCase();     
@@ -14,8 +14,19 @@ $(function() {
       $('#loadForm input').slice(2).attr('pattern','\d+');
       $('#loadForm p').slice(5).hide(); 
 
-      // Nick's jQuery
       var select_for_num_meals = $('select[name="num_of_meals"]')
+      for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
+        var meal_dropdown =
+          "<select class='meal-type' name=meal" + i + ">\n" +
+          "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
+          "  <option value='1'>Breakfast</option>\n" +
+          "  <option value='2'>Snack</option>\n" +
+          "  <option value='3'>Lunch</option>\n" +
+          "  <option value='4'>Dinner</option>\n" +
+          "</select>"
+        $('#daForm > select').after("<p>" + meal_dropdown + "</p>")  
+      }
+
       select_for_num_meals.change(function() {
         $('.meal-type').remove()
         for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
