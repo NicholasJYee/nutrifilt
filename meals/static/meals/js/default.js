@@ -27,8 +27,8 @@ $(function() {
 
   $('body').on('submit', '#daForm',function(){
     // $(this).append('<img src = "/static/meals/images/load.gif">');
-    $(this).html('');
-    $(this).load('/meals/game');
+    // $(this).hmtl('');
+    // $(this).load('/meals/game');
   }); 
 
   $('body').on('click','#chk', function(){
