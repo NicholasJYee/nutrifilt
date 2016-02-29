@@ -422,3 +422,8 @@ td,
 th {
   padding: 0;
 }
+
+h1,h2,h3 {
+  -webkit-margin-before: 1%;
+  -webkit-margin-after: 1%;
+}
