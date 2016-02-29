@@ -15,22 +15,20 @@ $(function() {
       $('#loadForm p').slice(5).hide(); 
 
       // Nick's jQuery
-      $('select[name="num_of_meals"]').change(function() {
-        var meal_dropdown =
-          "<select name=num_of_meals>\n" +
-          "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
-          "  <option value='1'>Breakfast</option>\n" +
-          "  <option value='2'>Snack</option>\n" +
-          "  <option value='3'>Lunch</option>\n" +
-          "  <option value='4'>Dinner</option>\n" +
-          "</select>"
-        });
-        
-
-
-        $('#daForm > select').after("<p>" + meal_dropdown + "</p>")
+      var select_for_num_meals = $('select[name="num_of_meals"]')
+      select_for_num_meals.change(function() {
+        for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
+          var meal_dropdown =
+            "<select name=meal" + i + ">\n" +
+            "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
+            "  <option value='1'>Breakfast</option>\n" +
+            "  <option value='2'>Snack</option>\n" +
+            "  <option value='3'>Lunch</option>\n" +
+            "  <option value='4'>Dinner</option>\n" +
+            "</select>"
+          $('#daForm > select').after("<p>" + meal_dropdown + "</p>")  
+        }
       });
-    
     });      
   });
 
