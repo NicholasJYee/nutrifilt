@@ -45,35 +45,35 @@ $(function() {
 var meal_dropdown = function(select_for_num_meals) {
   if (select_for_num_meals.val() == 5) {
     var meal_dropdown_html =
-      "<p><select class='meal-type' name=meal0>\n" +
+      "<p class='meal-type'><select name=meal0>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
       "  <option selected='selected' value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p><select class='meal-type' name=meal1>\n" +
+      "<p class='meal-type'><select name=meal1>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option selected='selected' value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p><select class='meal-type' name=meal2>\n" +
+      "<p class='meal-type'><select name=meal2>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
       "  <option selected='selected' value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p><select class='meal-type' name=meal3>\n" +
+      "<p class='meal-type'><select name=meal3>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option selected='selected' value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p><select class='meal-type' name=meal4>\n" +
+      "<p class='meal-type'><select name=meal4>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
@@ -84,14 +84,14 @@ var meal_dropdown = function(select_for_num_meals) {
   } else {
     for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
       var meal_dropdown_html =
-        "<select class='meal-type' name=meal" + i + ">\n" +
+        "<select name=meal" + i + ">\n" +
         "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
         "  <option value='1'>Breakfast</option>\n" +
         "  <option value='2'>Snack</option>\n" +
         "  <option value='3'>Lunch</option>\n" +
         "  <option value='4'>Dinner</option>\n" +
         "</select>";
-      $('#daForm > select').after("<p>" + meal_dropdown_html + "</p>");
+      $('#daForm > select').after("<p class='meal-type'>" + meal_dropdown_html + "</p>");
     }
   }
 };
