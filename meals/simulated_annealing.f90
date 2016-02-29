@@ -33,8 +33,8 @@ SUBROUTINE sim_anneal(&
   temperatureSchedule: DO k = 0, TEMPERATURE_NUMB_STEP - 1
     drawSchedule: DO j = 1, DRAWS
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
-        breakfast, snack, lunch, dinner, &
-        breakfast_size, snack_size, lunch_size, dinner_size)
+        nutrition_req, breakfast, snack, lunch, dinner, &
+        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
 
       total_cost = plan_cost(new_plan, plan_size)
       
@@ -58,37 +58,52 @@ SUBROUTINE sim_anneal(&
 END SUBROUTINE
 
 SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
-  breakfast, snack, lunch, dinner, &
-  breakfast_size, snack_size, lunch_size, dinner_size)
+  nutrition_req, breakfast, snack, lunch, dinner, &
+  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, INTENT(IN) :: plan_size, breakfast_size, snack_size, lunch_size, dinner_size
+  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+  INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
+  REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
   REAL(8), DIMENSION(snack_size, 32), INTENT(IN) :: snack
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8) :: rand_dummy
+  LOGICAL :: met_nutrient_requirement, nutrition_met
   INTEGER :: which_meal_to_change, new_recipe
+  INTEGER :: i
 
-  new_plan = plan
-  CALL random_number(rand_dummy)
-  which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+  ! DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
+    new_plan = plan
+    CALL random_number(rand_dummy)
+    which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
-  CALL random_number(rand_dummy)
-  IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
-    new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
-    new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
-  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
-    new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
-    new_plan(which_meal_to_change,:) = snack(new_recipe,:)
-  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
-    new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
-    new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
-  ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
-    new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
-    new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
-  END IF
+    CALL random_number(rand_dummy)
+    IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
+      new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
+      new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
+    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
+      new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
+      new_plan(which_meal_to_change,:) = snack(new_recipe,:)
+    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
+      new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
+      new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
+    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
+      new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
+      new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
+    END IF
+
+  !   met_nutrient_requirement = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
+  !   IF (met_nutrient_requirement) THEN
+  !     EXIT
+  !   END IF
+
+  !   IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
+  !     STOP
+  !   END IF
+  ! END DO
 
 END SUBROUTINE
 
