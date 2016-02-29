@@ -16,7 +16,19 @@ $(function() {
 
       // Nick's jQuery
       $('select[name="num_of_meals"]').change(function() {
-        alert($(this).val());
+        var meal_dropdown =
+          "<select name=num_of_meals>\n" +
+          "  <option value='' disabled='disabled' selected='selected'>Please select the type of meal</option>\n" +
+          "  <option value='1'>Breakfast</option>\n" +
+          "  <option value='2'>Snack</option>\n" +
+          "  <option value='3'>Lunch</option>\n" +
+          "  <option value='4'>Dinner</option>\n" +
+          "</select>"
+        });
+        
+
+
+        $('#daForm > select').after("<p>" + meal_dropdown + "</p>")
       });
     
     });      
