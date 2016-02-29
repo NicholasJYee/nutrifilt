@@ -61,7 +61,7 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   nutrition_req, breakfast, snack, lunch, dinner, &
   nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, DRAWS)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 50000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 100000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   INTEGER, INTENT(IN) :: draw_num, DRAWS
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
@@ -132,7 +132,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 50000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 100000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
