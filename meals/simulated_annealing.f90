@@ -1,6 +1,6 @@
 ! f2py terminal compile line
 ! f2py -c -m sim_anneal  meals/simulated_annealing.f90
-SUBROUTINE sim_anneal(&
+SUBROUTINE sim_anneal(TEMPERATURE_END, &
     meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
@@ -13,7 +13,8 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
-  REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
+  REAL(8), INTENT(IN) :: TEMPERATURE_END
+  REAL(8) :: TEMPERATURE_INI
   REAL(8) :: temperature
   REAL(8) :: plan_cost, total_cost, lowest_cost, previous_cost
   REAL(8) :: accept_probability, rand_accept
@@ -21,7 +22,7 @@ SUBROUTINE sim_anneal(&
   INTEGER :: k, j
 
   TEMPERATURE_INI = 10.d0
-  TEMPERATURE_END = 0.1d0
+!  TEMPERATURE_END = 0.1d0
   TEMPERATURE_NUMB_STEP = 20
   DRAWS = 100000
 
