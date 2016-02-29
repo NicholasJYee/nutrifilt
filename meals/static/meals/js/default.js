@@ -18,7 +18,7 @@ $(function() {
 
   $('body').on('submit', '#daForm',function(){
     // $(this).append('<img src = "/static/meals/images/load.gif">');
-    $(this).hmtl('');
+    $(this).html('');
     $(this).load('/meals/game');
   }); 
 
@@ -33,9 +33,10 @@ $(function() {
   });
 
   $('body').on('mouseenter','.mealplan ul li img', function() {    
-    $(this).closest('li').show();      
+    $(this).closest('li').children('.nutable').show();      
   });
   $('body').on('mouseleave','.mealplan ul li img', function() {    
-    $(this).closest('li').hide();      
-  });
+    $(this).closest('li').children('.nutable').hide();      
+  });  
+
 });
