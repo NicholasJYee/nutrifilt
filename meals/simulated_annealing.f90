@@ -80,7 +80,7 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
     new_plan = plan
     CALL random_number(rand_dummy)
     num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
-    num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(draw_num) / (1.5d0 * DRAWS))))
+    num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(draw_num) / (1.8d0 * DRAWS))))
 
     DO j = 1, num_meals_to_change
       CALL random_number(rand_dummy)
