@@ -108,7 +108,11 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
     END IF
 
     IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
-      STOP
+      WRITE(*,*) "Couldn't generate another similar plan; new start point"
+      CALL generate_plan_meeting_nutrition(&
+        new_plan, nutrition_req, breakfast, snack, lunch, dinner, &
+        plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+      EXIT
     END IF
   END DO
 
