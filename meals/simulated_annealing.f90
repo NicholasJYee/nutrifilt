@@ -22,9 +22,8 @@ SUBROUTINE sim_anneal(TEMPERATURE_END, &
   INTEGER :: k, j
 
   TEMPERATURE_INI = 10.d0
-!  TEMPERATURE_END = 0.1d0
   TEMPERATURE_NUMB_STEP = 20
-  DRAWS = 100000
+  DRAWS = 2000000
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
