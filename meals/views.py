@@ -522,14 +522,11 @@ def form(request):
         plan = vstack([plan, select_meal_type(request.POST['meal8'])])
       except KeyError:
         pass
-      try:
-        temperature_end = float(request.POST['temperature_end'])
-      except KeyError:
-        temperature_end = 0.1
 
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
+      temperature_end = float(request.POST['temperature_end'])
 
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(temperature_end, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
