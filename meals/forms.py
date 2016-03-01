@@ -3,7 +3,17 @@ from django import forms
 class PlanForm(forms.Form):
   OPTIONS = (
     ("Dairy", "Dairy-Free"),
-    ("Gluten", "Gluten-Free")
+    ("Egg", "Egg-Free"),
+    ("Fish", "Fish-Free"),
+    ("Gluten", "Gluten-Free"),
+    ("Sugar", "Low Sugar"),
+    ("Paleo", "Paleo"),
+    ("Peanut", "Peanut-Free"),
+    ("Shellfish", "Shellfish-Free"),
+    ("Soy", "Soy-Free"),
+    ("Tree-Nut", "Tree-Nut-Free"),
+    ("Vegan", "Vegan"),
+    ("Vegetarian", "Vegetarian")
   )
   health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
   name = forms.CharField(label="Plan name:", max_length=150)

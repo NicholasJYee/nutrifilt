@@ -475,7 +475,7 @@ def form(request):
       except KeyError:
         health_labels = []
 
-      print("health_labels: ", health_labels)    
+      print("health_labels: ", health_labels)
 
       global nutrition_req
       global breakfast
@@ -492,7 +492,7 @@ def form(request):
         context['form'] = form
         context['no_plan_found'] = "No meal plan could be generated."
         return render(request, 'meals/index.html', context)
-        raise SystemExit
+        
       # # For Basinhopping
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
