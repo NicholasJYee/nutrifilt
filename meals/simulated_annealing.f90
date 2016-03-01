@@ -1,6 +1,6 @@
 ! f2py terminal compile line
 ! f2py -c -m sim_anneal  meals/simulated_annealing.f90
-SUBROUTINE sim_anneal(TEMPERATURE_END, &
+SUBROUTINE sim_anneal(TEMPERATURE_INI, &
     meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
@@ -13,17 +13,17 @@ SUBROUTINE sim_anneal(TEMPERATURE_END, &
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
-  REAL(8), INTENT(IN) :: TEMPERATURE_END
-  REAL(8) :: TEMPERATURE_INI
+  REAL(8), INTENT(IN) :: TEMPERATURE_INI
+  REAL(8) :: TEMPERATURE_END
   REAL(8) :: temperature
   REAL(8) :: plan_cost, total_cost, lowest_cost, previous_cost
   REAL(8) :: accept_probability, rand_accept
   INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
   INTEGER :: k, j
 
-  TEMPERATURE_INI = 10.d0
-  TEMPERATURE_NUMB_STEP = 20
-  DRAWS = 500000
+  TEMPERATURE_END = 0.01d0
+  TEMPERATURE_NUMB_STEP = 10
+  DRAWS = 100000
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
@@ -79,7 +79,7 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     new_plan = plan
     CALL random_number(rand_dummy)
-    num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+    num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * REAL(plan_size) / 2.d0)
     num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(temp_num) / (1.5d0 * TEMPERATURE_NUMB_STEP))))
 
     DO j = 1, num_meals_to_change

@@ -18,9 +18,9 @@ $(function() {
       meal_dropdown(select_for_num_meals);
 
       var rangeValues = {
-        "0.01": "Meal cost: Cheapest",
-        "0.055": "Meal cost: Cheap",
-        "0.1": "Meal cost: Normal"
+        "1": "Meal cost: Cheapest",
+        "5.5": "Meal cost: Cheap",
+        "10": "Meal cost: Normal"
       };
 
       var rangeInput = $('#rangeInput');
@@ -28,6 +28,7 @@ $(function() {
       rangeText.text(rangeValues[rangeInput.val()]);
       rangeInput.on('input change', function () {
         rangeText.text(rangeValues[$(this).val()]);
+        console.log(rangeValues[$(this).val()])
       });
 
       select_for_num_meals.change(function() {

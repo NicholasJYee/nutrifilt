@@ -8,7 +8,6 @@
       <strong>Plan name: {{ plan.name }}</strong>
         <ul>
           <h3>Meals</h3>
-          <p>(hover over images to view Nutrition tables)</p>
           {% for meal in plan.planrecipe_set.all %}
             <li>
               <img src = "{{ meal.recipe.image }}">
