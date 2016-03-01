@@ -141,7 +141,8 @@ class Plan(models.Model):
       ingredient_obj = Ingredient.objects.get(food__iexact=ingredient[0])
       unit_conversion_factor = ingredient_obj.unit_conversion_factor
       unit = ingredient_obj.unit
-      ingredient[1] = str(ingredient[1] * unit_conversion_factor) + " " + unit
+      amount = ingredient[1] * unit_conversion_factor
+      ingredient[1] = str("%.2f" % round(amount,2)) + " " + unit
 
     return ingredients
 

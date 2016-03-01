@@ -130,7 +130,7 @@
             <tr>
               <td>{{ ingredient.0 }}</td>
               <td>
-                {% if ingredient.1 == 0 %}
+                {% if ingredient.1|slice:":4" == "0.00" %}
                   A Pinch
                 {% else %}
                   {{ ingredient.1 }}
