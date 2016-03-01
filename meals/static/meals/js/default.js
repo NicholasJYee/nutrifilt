@@ -12,8 +12,7 @@ $(function() {
     $('#loadForm').load('/meals/search/', function() {
       $('#loadForm #id_name').attr('required',true);
       $('#loadForm #id_calories').attr('required',true);
-      $('#loadForm input').slice(5).attr('pattern','\d+');
-      $('#loadForm p').slice(8).hide(); 
+      $('#loadForm p').slice(7).hide(); 
 
       var select_for_num_meals = $('select[name="num_of_meals"]');
       meal_dropdown(select_for_num_meals);
