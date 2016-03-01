@@ -128,7 +128,7 @@ class Plan(models.Model):
     for planrecipe in self.planrecipe_set.all():
       recipe = planrecipe.recipe
       for ingredient in recipe.ingredientrecipe_set.all():
-        food = ingredient.food
+        food = ingredient.ingredient.food
         weight = ingredient.weight
         ingredients[food] += weight
 
