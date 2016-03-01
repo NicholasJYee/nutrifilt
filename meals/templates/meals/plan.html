@@ -8,7 +8,6 @@
       <strong>Plan name: {{ plan.name }}</strong>
         <ul>
           <h3>Meals</h3>
-          <p>(hover over images to view Nutrition tables)</p>
           {% for meal in plan.planrecipe_set.all %}
             <li>
               <img src = "{{ meal.recipe.image }}">
@@ -130,7 +129,13 @@
           {% for ingredient in ingredients %}
             <tr>
               <td>{{ ingredient.0 }}</td>
-              <td>{{ ingredient.1 }}</td>                            
+              <td>
+                {% if ingredient.1 == 0 %}
+                  A Pinch
+                {% else %}
+                  {{ ingredient.1 }}
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}            
         </table>      

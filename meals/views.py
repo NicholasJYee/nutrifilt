@@ -17,7 +17,7 @@ def plan_info(plan):
     carbohydrates = format(sum(meal.recipe.carbohydrates/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
     protein = format(sum(meal.recipe.protein/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')    
     extras = []
-    ingredients = ingredient_info(plan)
+    ingredients = plan.make_grocery_list()
     
     if plan.sat_fat > 0:
       extras.append(["Saturated Fat (g)", plan.sat_fat, format(sum(meal.recipe.sat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
@@ -525,9 +525,10 @@ def form(request):
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
+      temperature_ini = float(request.POST['temperature_ini'])
 
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+      sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
       p, created = Plan.objects.get_or_create(
         name = name,

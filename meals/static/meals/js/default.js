@@ -10,12 +10,26 @@ $(function() {
 
   $('#search').on('click', function(){
     $('#loadForm').load('/meals/search/', function() {
-      $('#loadForm input:lt(3)').attr('required',true);
-      $('#loadForm input').slice(2).attr('pattern','\d+');
-      $('#loadForm p').slice(5).hide(); 
+      $('#loadForm input:lt(4)').attr('required',true);
+      $('#loadForm input').slice(3).attr('pattern','\d+');
+      $('#loadForm p').slice(6).hide(); 
 
       var select_for_num_meals = $('select[name="num_of_meals"]');
       meal_dropdown(select_for_num_meals);
+
+      var rangeValues = {
+        "1": "Meal cost: Cheapest",
+        "5.5": "Meal cost: Cheap",
+        "10": "Meal cost: Normal"
+      };
+
+      var rangeInput = $('#rangeInput');
+      var rangeText = $('#rangeText');
+      rangeText.text(rangeValues[rangeInput.val()]);
+      rangeInput.on('input change', function () {
+        rangeText.text(rangeValues[$(this).val()]);
+        console.log(rangeValues[$(this).val()])
+      });
 
       select_for_num_meals.change(function() {
         $('.meal-type').remove();
@@ -31,11 +45,13 @@ $(function() {
 
   $('body').on('click','#chk', function(){
     if ($(this).text()=="Show more fields") {
-      $('#loadForm p').slice(5).show();
+      var num_input = 5 + parseInt($('select[name="num_of_meals"]').val());
+      $('#loadForm p').slice(num_input).show();
       $(this).text("Hide extra fields");
     }else {
+      var num_input = 5 + parseInt($('select[name="num_of_meals"]').val());
       $(this).text("Show more fields");  
-      $('#loadForm p').slice(5).hide();
+      $('#loadForm p').slice(num_input).hide();
     }  
   });
 

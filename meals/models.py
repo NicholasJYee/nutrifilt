@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from collections import defaultdict
 
 # Create your models here.
 
@@ -119,7 +120,20 @@ class Plan(models.Model):
         ingredient_weight = ingredientrecipe.ingredient.ingredientvendor_set.first().weight
         recipe_cost += ingredient_price * weight_used / ingredient_weight
       cost += recipe_cost / recipe.servings
-    return float("{0:.2f}".format(cost))  
+    return float("{0:.2f}".format(cost))
+
+  def make_grocery_list(self):
+    ingredients = {}
+    ingredients = defaultdict(lambda:0, ingredients)
+    for planrecipe in self.planrecipe_set.all():
+      recipe = planrecipe.recipe
+      for ingredient in recipe.ingredientrecipe_set.all():
+        food = ingredient.ingredient.food
+        weight = ingredient.weight
+        ingredients[food] += weight
+
+    rounder = lambda el : [el[0].title(), float("%.2f" % round(el[1],2))]
+    return map(rounder, ingredients.items())
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
