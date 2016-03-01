@@ -24,15 +24,12 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
 
   TEMPERATURE_END = 0.01d0
   IF (TEMPERATURE_INI .EQ. 1.d0) THEN
-    WRITE(*,*) "Cheapest"
     TEMPERATURE_NUMB_STEP = 20
     DRAWS = 500000  
   ELSE IF (TEMPERATURE_INI .EQ. 5.5d0) THEN
-    WRITE(*,*) "Cheap"
     TEMPERATURE_NUMB_STEP = 10
     DRAWS = 100000  
   ELSE IF (TEMPERATURE_INI .EQ. 10.d0) THEN
-    WRITE(*,*) "Normal"
     TEMPERATURE_NUMB_STEP = 5
     DRAWS = 10000  
   END IF
@@ -75,7 +72,7 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
   nutrition_req, breakfast, snack, lunch, dinner, &
   nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 5000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 50000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   INTEGER, INTENT(INOUT) :: temp_num, draw_num
   INTEGER, INTENT(IN) :: TEMPERATURE_NUMB_STEP, DRAWS
@@ -155,7 +152,6 @@ REAL(8) FUNCTION plan_cost(plan, plan_size)
 
 END FUNCTION
 
-
 SUBROUTINE generate_plan_meeting_nutrition(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
@@ -217,8 +213,12 @@ INTEGER FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
   CALL get_nutrition(meals_nutrition, plan, plan_size, nutrition_req_size)
 
   DO i = 1, nutrition_req_size
-    IF ((meals_nutrition(i) .GE. (nutrition_req(i) * 0.8d0)) .AND. &
-        (meals_nutrition(i) .LE. (nutrition_req(i) * 1.2d0))) THEN
+    IF (nutrition_req(i) .NE. 0.d0) THEN
+      IF ((meals_nutrition(i) .GE. (nutrition_req(i) * 0.8d0)) .AND. &
+          (meals_nutrition(i) .LE. (nutrition_req(i) * 1.2d0))) THEN
+        num_of_nutrition_met = num_of_nutrition_met + 1
+      END IF
+    ELSE
       num_of_nutrition_met = num_of_nutrition_met + 1
     END IF
   END DO
