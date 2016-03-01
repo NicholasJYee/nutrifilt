@@ -28,10 +28,10 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
     DRAWS = 500000  
   ELSE IF (TEMPERATURE_INI .EQ. 5.5d0) THEN
     TEMPERATURE_NUMB_STEP = 10
-    DRAWS = 100000  
+    DRAWS = 10000
   ELSE IF (TEMPERATURE_INI .EQ. 10.d0) THEN
     TEMPERATURE_NUMB_STEP = 5
-    DRAWS = 10000  
+    DRAWS = 1000  
   END IF
 
   temperature = TEMPERATURE_INI
@@ -59,12 +59,16 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
         checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
           lowest_cost = total_cost
           cheapest_plan = new_plan
+          WRITE(*,*) "lowest_cost: ", lowest_cost
+          WRITE(*,*) "cheapest_plan: ", cheapest_plan(:,1)
         END IF checkLowestCost
       END IF determineNewStep
     END DO drawSchedule
     temperature = temperature - (TEMPERATURE_INI - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
   END DO temperatureSchedule
   plan = cheapest_plan
+  WRITE(*,*) "cheapest_plan: ", cheapest_plan(:,1)
+  WRITE(*,*) "plan: ", plan(:,1)
 
 END SUBROUTINE
 
@@ -72,7 +76,7 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
   nutrition_req, breakfast, snack, lunch, dinner, &
   nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 50000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   INTEGER, INTENT(INOUT) :: temp_num, draw_num
   INTEGER, INTENT(IN) :: TEMPERATURE_NUMB_STEP, DRAWS
