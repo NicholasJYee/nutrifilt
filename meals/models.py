@@ -48,6 +48,8 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
   food = models.CharField(max_length=100)
+  unit = models.CharField(max_length=100, blank=True, null=True, default="g")
+  unit_conversion_factor = models.FloatField(blank=True, null=True, default=1.0)
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
 
@@ -127,13 +129,21 @@ class Plan(models.Model):
     ingredients = defaultdict(lambda:0, ingredients)
     for planrecipe in self.planrecipe_set.all():
       recipe = planrecipe.recipe
-      for ingredient in recipe.ingredientrecipe_set.all():
-        food = ingredient.ingredient.food
-        weight = ingredient.weight
+      for ingredientrecipe in recipe.ingredientrecipe_set.all():
+        food = ingredientrecipe.ingredient.food
+        weight = ingredientrecipe.weight
         ingredients[food] += weight
 
     rounder = lambda el : [el[0].title(), float("%.2f" % round(el[1],2))]
-    return map(rounder, ingredients.items())
+    ingredients = map(rounder, ingredients.items())
+
+    for ingredient in ingredients:
+      ingredient_obj = Ingredient.objects.get(food__iexact=ingredient[0])
+      unit_conversion_factor = ingredient_obj.unit_conversion_factor
+      unit = ingredient_obj.unit
+      ingredient[1] = str(ingredient[1] * unit_conversion_factor) + " " + unit
+
+    return ingredients
 
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
