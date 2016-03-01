@@ -93,7 +93,7 @@
             <td>Carbohydrates (g)</td>
             <td>{{ carbohydrates }}</td>
             <td>
-              {% if plan.carbohyrdates > 0 %}
+              {% if plan.carbohydrates > 0 %}
               {{ plan.carbohydrates }}
               {% else %}
               {{ "Not specified" }}
@@ -125,7 +125,7 @@
         <table>
           <tr>
               <th>Name</th>
-              <th>Weight</th>            
+              <th>Amount</th>            
           </tr>  
           {% for ingredient in ingredients %}
             <tr>

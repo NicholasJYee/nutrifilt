@@ -17,7 +17,7 @@ def plan_info(plan):
     carbohydrates = format(sum(meal.recipe.carbohydrates/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
     protein = format(sum(meal.recipe.protein/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')    
     extras = []
-    ingredients = [["carrot", 20 ], ["pineapple", 50], ["lettuce", 50], ["onions", 25]]
+    ingredients = ingredient_info(plan)
     
     if plan.sat_fat > 0:
       extras.append(["Saturated Fat (g)", plan.sat_fat, format(sum(meal.recipe.sat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
@@ -110,8 +110,7 @@ def plan_info(plan):
 
 #Search plan by name
 def searchplan(request):
-  plan = Plan.objects.get(name=request.GET.get('name', ''))
-  
+  plan = Plan.objects.get(name=request.GET.get('name', ''))  
   return render(request, 'meals/plan.html', plan_info(plan))
 
 #search plan by id
