@@ -464,7 +464,7 @@ def form(request):
   context = {}
   context = defaultdict(lambda:"", context)
   context['plans'] = Plan.objects.all()
-  
+
   if request.method == 'POST':
     form = PlanForm(request.POST)
     
@@ -490,6 +490,7 @@ def form(request):
 
       if not breakfast or not snack or not lunch or not dinner:
         context['form'] = form
+        context['no_plan_found'] = "No meal plan could be generated."
         return render(request, 'meals/index.html', context)
         raise SystemExit
       # # For Basinhopping
