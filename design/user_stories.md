@@ -9,6 +9,7 @@
   1. Percentage for nutrition table
   1. pre-built meal plans (one that meets all of Candian Diet recommendation, body building, low salt, diabetic)
   1. pre-built healthy meal for age, weight, sex
+  1. Input form for plan should use common nutrition units (i.e. Vit d uses IU (i think)))
 
 * Nick:
   1. DONE - Optimize using Simulated Annealing
