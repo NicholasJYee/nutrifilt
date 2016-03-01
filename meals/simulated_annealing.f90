@@ -1,6 +1,6 @@
 ! f2py terminal compile line
 ! f2py -c -m sim_anneal  meals/simulated_annealing.f90
-SUBROUTINE sim_anneal(&
+SUBROUTINE sim_anneal(TEMPERATURE_END, &
     meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
@@ -13,17 +13,17 @@ SUBROUTINE sim_anneal(&
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: meal_types
   REAL(8), DIMENSION(plan_size, 32) :: cheapest_plan, new_plan
-  REAL(8) :: TEMPERATURE_INI, TEMPERATURE_END
+  REAL(8), INTENT(IN) :: TEMPERATURE_END
+  REAL(8) :: TEMPERATURE_INI
   REAL(8) :: temperature
   REAL(8) :: plan_cost, total_cost, lowest_cost, previous_cost
   REAL(8) :: accept_probability, rand_accept
   INTEGER :: TEMPERATURE_NUMB_STEP, DRAWS
   INTEGER :: k, j
 
-  TEMPERATURE_INI = 1.d0
-  TEMPERATURE_END = 0.01d0
+  TEMPERATURE_INI = 10.d0
   TEMPERATURE_NUMB_STEP = 20
-  DRAWS = 5000
+  DRAWS = 500000
 
   temperature = TEMPERATURE_INI
   lowest_cost = plan_cost(plan, plan_size)
@@ -34,7 +34,7 @@ SUBROUTINE sim_anneal(&
     drawSchedule: DO j = 1, DRAWS
       CALL changeOneMeal(meal_types, plan, new_plan, plan_size, &
         nutrition_req, breakfast, snack, lunch, dinner, &
-        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, k, TEMPERATURE_NUMB_STEP)
 
       total_cost = plan_cost(new_plan, plan_size)
       
@@ -59,10 +59,11 @@ END SUBROUTINE
 
 SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   nutrition_req, breakfast, snack, lunch, dinner, &
-  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, temp_num, TEMPERATURE_NUMB_STEP)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 50000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
+  INTEGER, INTENT(IN) :: temp_num, TEMPERATURE_NUMB_STEP
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
@@ -71,37 +72,47 @@ SUBROUTINE changeOneMeal(meal_types, plan, new_plan, plan_size, &
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8) :: rand_dummy
-  LOGICAL :: met_nutrient_requirement, nutrition_met
-  INTEGER :: which_meal_to_change, new_recipe
-  INTEGER :: i
+  INTEGER :: num_of_nutrition_met, nutrition_met
+  INTEGER :: which_meal_to_change, new_recipe, num_meals_to_change
+  INTEGER :: i, j
 
-  DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
+  DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     new_plan = plan
     CALL random_number(rand_dummy)
-    which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+    num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
+    num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(temp_num) / (1.5d0 * TEMPERATURE_NUMB_STEP))))
 
-    CALL random_number(rand_dummy)
-    IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
-      new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
-      new_plan(which_meal_to_change,:) = snack(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
-      new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
-    ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
-      new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
-      new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
-    END IF
+    DO j = 1, num_meals_to_change
+      CALL random_number(rand_dummy)
+      which_meal_to_change = CEILING((rand_dummy + 0.000001d0) * plan_size)
 
-    met_nutrient_requirement = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
-    IF (met_nutrient_requirement) THEN
+      CALL random_number(rand_dummy)
+      IF (INT(meal_types(which_meal_to_change,1)) .EQ. 1) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * breakfast_size)
+        new_plan(which_meal_to_change,:) = breakfast(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 2) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * snack_size)
+        new_plan(which_meal_to_change,:) = snack(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 3) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * lunch_size)
+        new_plan(which_meal_to_change,:) = lunch(new_recipe,:)
+      ELSE IF (INT(meal_types(which_meal_to_change,1)) .EQ. 4) THEN
+        new_recipe = CEILING((rand_dummy + 0.000001d0) * dinner_size)
+        new_plan(which_meal_to_change,:) = dinner(new_recipe,:)
+      END IF
+    END DO
+
+    num_of_nutrition_met = nutrition_met(new_plan, plan_size, nutrition_req, nutrition_req_size)
+    IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
       EXIT
     END IF
 
-    IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
-      STOP
+    IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
+      WRITE(*,*) "Couldn't generate another similar plan; new start point"
+      CALL generate_plan_meeting_nutrition(&
+        new_plan, nutrition_req, breakfast, snack, lunch, dinner, &
+        plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
+      EXIT
     END IF
   END DO
 
@@ -125,7 +136,7 @@ SUBROUTINE generate_plan_meeting_nutrition(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
     plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED = 1000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
   REAL(8), DIMENSION(breakfast_size, 32), INTENT(IN) :: breakfast
@@ -133,10 +144,13 @@ SUBROUTINE generate_plan_meeting_nutrition(&
   REAL(8), DIMENSION(lunch_size, 32), INTENT(IN) :: lunch
   REAL(8), DIMENSION(dinner_size, 32), INTENT(IN) :: dinner
   REAL(8), DIMENSION(plan_size, 32), INTENT(INOUT) :: plan
+  REAL(8), DIMENSION(plan_size, 32) :: plan_with_most_nutrition
   INTEGER :: i, j, meal_number
-  LOGICAL :: met_nutrient_requirement, nutrition_met
+  INTEGER :: num_of_nutrition_met, nutrition_met, most_nutrient_met
 
-  DO i = 1, MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED
+  most_nutrient_met = 0
+
+  DO i = 1, MAX_NUMB_OF_MEAL_PLAN_GENERATED
     DO j = 1, plan_size
       meal_number = INT(RAND(0) * breakfast_size) + 1
       SELECT CASE (INT(plan(j,1)))
@@ -151,19 +165,23 @@ SUBROUTINE generate_plan_meeting_nutrition(&
       END SELECT
     END DO
 
-    met_nutrient_requirement = nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
-    IF (met_nutrient_requirement) THEN
+    num_of_nutrition_met = nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
+    IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
       EXIT
+    ELSE IF (num_of_nutrition_met .GT. most_nutrient_met) THEN
+      most_nutrient_met = num_of_nutrition_met
+      plan_with_most_nutrition = plan
     END IF
 
-    IF (i .EQ. MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED) THEN
-      STOP
+    IF (i .EQ. MAX_NUMB_OF_MEAL_PLAN_GENERATED) THEN
+      WRITE(*,*) "Cant find plan that met nutrition, but found best plan"
+      plan = plan_with_most_nutrition
     END IF
   END DO
 
 END SUBROUTINE generate_plan_meeting_nutrition
 
-LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
+INTEGER FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_size)
   IMPLICIT NONE
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
@@ -180,11 +198,7 @@ LOGICAL FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
     END IF
   END DO
   
-  IF (num_of_nutrition_met .EQ. nutrition_req_size) THEN
-    nutrition_met = .TRUE.
-  ELSE
-    nutrition_met = .FALSE.
-  END IF
+  nutrition_met = num_of_nutrition_met
   RETURN
 END FUNCTION
 

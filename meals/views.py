@@ -526,9 +526,10 @@ def form(request):
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
+      temperature_end = float(request.POST['temperature_end'])
 
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+      sim_anneal.sim_anneal(temperature_end, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
       p, created = Plan.objects.get_or_create(
         name = name,
@@ -572,7 +573,7 @@ def form(request):
           else:
             restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
         # The [::-1] reverses the array
-        plan = restored_2d_plan[::-1]
+        plan = restored_2d_plan#[::-1]
 
         for i, meal in enumerate(plan):
           recipe = Recipe.objects.get(id=meal[0])
