@@ -529,6 +529,7 @@ def form(request):
 
       sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
       sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+      print ('plan[:,0]', plan[:,0])
 
       p, created = Plan.objects.get_or_create(
         name = name,

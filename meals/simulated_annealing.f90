@@ -24,17 +24,14 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
 
   TEMPERATURE_END = 0.01d0
   IF (TEMPERATURE_INI .EQ. 1.d0) THEN
-    WRITE(*,*) "Cheapest"
     TEMPERATURE_NUMB_STEP = 20
-    DRAWS = 500000  
+    DRAWS = 10000
   ELSE IF (TEMPERATURE_INI .EQ. 5.5d0) THEN
-    WRITE(*,*) "Cheap"
     TEMPERATURE_NUMB_STEP = 10
-    DRAWS = 100000  
+    DRAWS = 1000
   ELSE IF (TEMPERATURE_INI .EQ. 10.d0) THEN
-    WRITE(*,*) "Normal"
-    TEMPERATURE_NUMB_STEP = 5
-    DRAWS = 10000  
+    TEMPERATURE_NUMB_STEP = 2
+    DRAWS = 1000  
   END IF
 
   temperature = TEMPERATURE_INI
@@ -50,6 +47,7 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
         nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, j, k, DRAWS, TEMPERATURE_NUMB_STEP)
 
       total_cost = plan_cost(new_plan, plan_size)
+      WRITE(*,*) "total_cost: ", total_cost
       
       accept_probability = MIN(1.d0, &
         EXP(-(total_cost - previous_cost) / temperature))
@@ -62,12 +60,16 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
         checkLowestCost: IF (total_cost .LT. lowest_cost) THEN
           lowest_cost = total_cost
           cheapest_plan = new_plan
+          WRITE(*,*) "lowest_cost: ", lowest_cost
+          WRITE(*,*) "cheapest_plan: ", cheapest_plan(:,1)
         END IF checkLowestCost
       END IF determineNewStep
     END DO drawSchedule
     temperature = temperature - (TEMPERATURE_INI - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
   END DO temperatureSchedule
   plan = cheapest_plan
+  WRITE(*,*) "cheapest_plan: ", cheapest_plan(:,1)
+  WRITE(*,*) "plan: ", plan(:,1)
 
 END SUBROUTINE
 
@@ -75,7 +77,7 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
   nutrition_req, breakfast, snack, lunch, dinner, &
   nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP)
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 5000000
+  INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
   INTEGER, INTENT(INOUT) :: temp_num, draw_num
   INTEGER, INTENT(IN) :: TEMPERATURE_NUMB_STEP, DRAWS
@@ -97,7 +99,7 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
       new_plan = plan
       CALL random_number(rand_dummy)
       num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * REAL(plan_size) / 2.d0)
-      num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(temp_num) / (1.5d0 * TEMPERATURE_NUMB_STEP))))
+      num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(draw_num) / (1.5d0 * DRAWS))))
 
       DO j = 1, num_meals_to_change
         CALL random_number(rand_dummy)
@@ -154,7 +156,6 @@ REAL(8) FUNCTION plan_cost(plan, plan_size)
   END DO
 
 END FUNCTION
-
 
 SUBROUTINE generate_plan_meeting_nutrition(&
     plan, nutrition_req, breakfast, snack, lunch, dinner, &
@@ -217,8 +218,12 @@ INTEGER FUNCTION nutrition_met(plan, plan_size, nutrition_req, nutrition_req_siz
   CALL get_nutrition(meals_nutrition, plan, plan_size, nutrition_req_size)
 
   DO i = 1, nutrition_req_size
-    IF ((meals_nutrition(i) .GE. (nutrition_req(i) * 0.8d0)) .AND. &
-        (meals_nutrition(i) .LE. (nutrition_req(i) * 1.2d0))) THEN
+    IF (nutrition_req(i) .NE. 0.d0) THEN
+      IF ((meals_nutrition(i) .GE. (nutrition_req(i) * 0.8d0)) .AND. &
+          (meals_nutrition(i) .LE. (nutrition_req(i) * 1.2d0))) THEN
+        num_of_nutrition_met = num_of_nutrition_met + 1
+      END IF
+    ELSE
       num_of_nutrition_met = num_of_nutrition_met + 1
     END IF
   END DO
