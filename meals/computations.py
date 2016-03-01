@@ -127,10 +127,9 @@ def get_nutrition_req(form):
 
   return nutrition_req
 
-def get_meals(label):
+def get_meals(label, health_labels):
   meals = []
-  labels = MealLabel.objects.filter(label=label)
-
+  labels = MealLabel.objects.filter(label=label, recipe__healthlabel__label__in=health_labels)
 
   for label in labels:
     servings = label.recipe.servings
