@@ -47,7 +47,7 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
     drawSchedule: DO j = 1, DRAWS
       CALL changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_size, &
         nutrition_req, breakfast, snack, lunch, dinner, &
-        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, k, TEMPERATURE_NUMB_STEP)
+        nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, j, k, DRAWS, TEMPERATURE_NUMB_STEP)
 
       total_cost = plan_cost(new_plan, plan_size)
       
@@ -67,17 +67,18 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
     END DO drawSchedule
     temperature = temperature - (TEMPERATURE_INI - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
   END DO temperatureSchedule
+  plan = cheapest_plan
 
 END SUBROUTINE
 
 SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_size, &
   nutrition_req, breakfast, snack, lunch, dinner, &
-  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, temp_num, TEMPERATURE_NUMB_STEP)
+  nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP)
   IMPLICIT NONE
   INTEGER, PARAMETER :: MAX_NUMB_OF_MEAL_PLAN_GENERATED = 5000000
   INTEGER, INTENT(IN) :: plan_size, nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size
-  INTEGER, INTENT(INOUT) :: temp_num
-  INTEGER, INTENT(IN) :: TEMPERATURE_NUMB_STEP
+  INTEGER, INTENT(INOUT) :: temp_num, draw_num
+  INTEGER, INTENT(IN) :: TEMPERATURE_NUMB_STEP, DRAWS
   REAL(8), DIMENSION(plan_size, 32), INTENT(IN) :: plan, meal_types
   REAL(8), DIMENSION(plan_size, 32), INTENT(OUT) :: new_plan
   REAL(8), DIMENSION(nutrition_req_size), INTENT(IN) :: nutrition_req
@@ -135,7 +136,8 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
   ELSE
     WRITE(*,*) "No plan meeting nutritional req :("
     new_plan = plan
-    temp_num = TEMPERATURE_NUMB_STEP
+    draw_num = DRAWS
+    temp_num = TEMPERATURE_NUMB_STEP - 1
   END IF
 
 END SUBROUTINE
