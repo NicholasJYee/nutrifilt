@@ -132,7 +132,7 @@ class Plan(models.Model):
         weight = ingredient.weight
         ingredients[food] += weight
 
-    rounder = lambda el : [el[0], float("%.2f" % round(el[1],2))]
+    rounder = lambda el : [el[0].title(), float("%.2f" % round(el[1],2))]
     return map(rounder, ingredients.items())
 
 class HealthLabel(models.Model):

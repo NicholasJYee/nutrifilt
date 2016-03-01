@@ -1,9 +1,9 @@
 # TO DO
 * Hatim:
-  1. Results page shows nutritional information of the selected meal plan
-  1. Display meal plan cost
+  1. DONE - Results page shows nutritional information of the selected meal plan
+  1. DONE - Display meal plan cost
   1. Set up ranges & around values for users nutritional requirements
-  1. Build a list of ingredients for grocery shopping
+  1. DONE - Build a list of ingredients for grocery shopping
   1. Add game when loading
   1. Make print friendly grocery list
   1. Percentage for nutrition table
