@@ -130,7 +130,13 @@
           {% for ingredient in ingredients %}
             <tr>
               <td>{{ ingredient.0 }}</td>
-              <td>{{ ingredient.1 }}</td>                            
+              <td>
+                {% if ingredient.1 == 0 %}
+                  A Pinch
+                {% else %}
+                  {{ ingredient.1 }}
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}            
         </table>      
