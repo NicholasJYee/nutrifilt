@@ -10,9 +10,10 @@ $(function() {
 
   $('#search').on('click', function(){
     $('#loadForm').load('/meals/search/', function() {
-      $('#loadForm input:lt(4)').attr('required',true);
-      $('#loadForm input').slice(3).attr('pattern','\d+');
-      $('#loadForm p').slice(6).hide(); 
+      $('#loadForm #id_name').attr('required',true);
+      $('#loadForm #id_calories').attr('required',true);
+      $('#loadForm input').slice(5).attr('pattern','\d+');
+      $('#loadForm p').slice(8).hide(); 
 
       var select_for_num_meals = $('select[name="num_of_meals"]');
       meal_dropdown(select_for_num_meals);
@@ -45,11 +46,11 @@ $(function() {
 
   $('body').on('click','#chk', function(){
     if ($(this).text()=="Show more fields") {
-      var num_input = 5 + parseInt($('select[name="num_of_meals"]').val());
+      var num_input = 7 + parseInt($('select[name="num_of_meals"]').val());
       $('#loadForm p').slice(num_input).show();
       $(this).text("Hide extra fields");
     }else {
-      var num_input = 5 + parseInt($('select[name="num_of_meals"]').val());
+      var num_input = 7 + parseInt($('select[name="num_of_meals"]').val());
       $(this).text("Show more fields");  
       $('#loadForm p').slice(num_input).hide();
     }  

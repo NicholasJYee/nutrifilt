@@ -463,8 +463,15 @@ def form(request):
   if request.method == 'POST':
     form = PlanForm(request.POST)
     if form.is_valid():
-      if form.cleaned_data['name'] is not None:
-        name = form.cleaned_data['name']
+      name = form.cleaned_data['name']
+      try:
+        health_labels = form.cleaned_data['health_labels']
+      except KeyError:
+        health_labels = []
+
+      print("health_labels: ", health_labels)
+      raise SystemExit    
+
       global nutrition_req
       global breakfast
       global snack
