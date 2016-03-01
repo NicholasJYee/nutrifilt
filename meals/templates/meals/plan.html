@@ -119,7 +119,7 @@
           {% endfor %}            
         </table>      
     </div>
-    <div class = 'ingredients'>
+    <div class = 'ingredients' id = "ing">
         <strong><h3>Ingredients:</h3></strong>
         <table>
           <tr>
@@ -142,14 +142,18 @@
       <p>Total Cost: </p>
       <hr>
       <p>$ {{ plan.cost }} </p>
+      <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
     </div>
     <br>
     {% else %}
     <strong>No matches found</strong>  
     {% endif %}
+  
   </div>
 </div>
 <div class = "bottom">
     <button class = "btn" onClick="location.href='/'">Back to Main Page</button>
-</div> 
+</div>
+<script src="/static/meals/js/plan.js"></script>
+<script src="/static/meals/js/print.js"></script>  
 {% endblock %} 
