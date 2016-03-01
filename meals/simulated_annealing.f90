@@ -25,12 +25,12 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
   TEMPERATURE_END = 0.01d0
   IF (TEMPERATURE_INI .EQ. 1.d0) THEN
     TEMPERATURE_NUMB_STEP = 20
-    DRAWS = 500000  
+    DRAWS = 10000
   ELSE IF (TEMPERATURE_INI .EQ. 5.5d0) THEN
     TEMPERATURE_NUMB_STEP = 10
-    DRAWS = 10000
+    DRAWS = 1000
   ELSE IF (TEMPERATURE_INI .EQ. 10.d0) THEN
-    TEMPERATURE_NUMB_STEP = 5
+    TEMPERATURE_NUMB_STEP = 2
     DRAWS = 1000  
   END IF
 
@@ -47,6 +47,7 @@ SUBROUTINE sim_anneal(TEMPERATURE_INI, &
         nutrition_req_size, breakfast_size, snack_size, lunch_size, dinner_size, j, k, DRAWS, TEMPERATURE_NUMB_STEP)
 
       total_cost = plan_cost(new_plan, plan_size)
+      WRITE(*,*) "total_cost: ", total_cost
       
       accept_probability = MIN(1.d0, &
         EXP(-(total_cost - previous_cost) / temperature))
@@ -98,7 +99,7 @@ SUBROUTINE changeOneMeal(num_of_reinitialize, meal_types, plan, new_plan, plan_s
       new_plan = plan
       CALL random_number(rand_dummy)
       num_meals_to_change = CEILING((rand_dummy + 0.000001d0) * REAL(plan_size) / 2.d0)
-      num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(temp_num) / (1.5d0 * TEMPERATURE_NUMB_STEP))))
+      num_meals_to_change = CEILING(REAL(num_meals_to_change) * (2.d0 - EXP(REAL(draw_num) / (1.5d0 * DRAWS))))
 
       DO j = 1, num_meals_to_change
         CALL random_number(rand_dummy)
