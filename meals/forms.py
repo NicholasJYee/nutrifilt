@@ -13,8 +13,7 @@ class PlanForm(forms.Form):
     ("Soy-Free", "Soy-Free"),
     ("Tree-Nut-Free", "Tree-Nut-Free"),
     ("Vegan", "Vegan"),
-    ("Vegetarian", "Vegetarian"),
-    ("None", "None")
+    ("Vegetarian", "Vegetarian")
   )
   health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS, required=False)
   weekly_meal_plan = forms.BooleanField(required=False)

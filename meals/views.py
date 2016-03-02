@@ -508,7 +508,7 @@ def form(request):
     if form.is_valid():
       name = form.cleaned_data['name']
       try:
-        if len(form.cleaned_data['health_labels']) == 1:
+        if len(form.cleaned_data['health_labels']) == 0:
           health_labels = []
         else:
           health_labels = form.cleaned_data['health_labels']
