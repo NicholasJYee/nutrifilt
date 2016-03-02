@@ -61,7 +61,7 @@ body {
   text-align: left;
 }
 
-#navBar ul li {
+#navBar ul li{
   list-style: none;
   background: #885F38;
   color:#E4CCA6;
@@ -230,6 +230,10 @@ label[for='id_health_labels_12'] {
   display: none;
 }
 
-#id_health_labels {
-  list-style-type: none;
+li {
+  list-style: none;
+}
+
+#id_health_labels label{
+  width: 20vw;
 }
