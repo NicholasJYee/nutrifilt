@@ -122,33 +122,34 @@
             {% endfor %}            
           </table>      
       </div>
-      <div class = 'ingredients' id = "ing">
-          <strong><h3>Ingredients:</h3></strong>
-          <table>
-            <tr>
-                <th>Name</th>
-                <th>Amount</th>            
-            </tr>  
-            {% for ingredient in plan.ingredients %}
-              <tr>
-                <td>{{ ingredient.0 }}</td>
-                <td>
-                  {% if ingredient.1|slice:":4" == "0.00" %}
-                    A Pinch
-                  {% else %}
-                    {{ ingredient.1 }}
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}            
-          </table>      
-        <p>Total Cost: </p>
-        <hr>
-        <p>$ {{ plan.plan.cost }} </p>
-        <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
-      </div>
       <br>
     {% endfor %}
+
+    <div class = 'ingredients' id = "ing">
+      <strong><h3>Ingredients:</h3></strong>
+      <table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>            
+        </tr>  
+        {% for ingredient in plan.ingredients %}
+          <tr>
+            <td>{{ ingredient.0 }}</td>
+            <td>
+              {% if ingredient.1|slice:":4" == "0.00" %}
+                A Pinch
+              {% else %}
+                {{ ingredient.1 }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}            
+      </table>      
+      <p>Total Cost: </p>
+      <hr>
+      <p>$ {{ weekly_cost }} </p>
+      <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
+    </div>
   
   </div>
 </div>

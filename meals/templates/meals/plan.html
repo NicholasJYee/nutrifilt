@@ -124,25 +124,25 @@
         </table>      
     </div>
     <div class = 'ingredients' id = "ing">
-        <strong><h3>Ingredients:</h3></strong>
-        <table>
+      <strong><h3>Ingredients:</h3></strong>
+      <table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>            
+        </tr>  
+        {% for ingredient in ingredients %}
           <tr>
-              <th>Name</th>
-              <th>Amount</th>            
-          </tr>  
-          {% for ingredient in ingredients %}
-            <tr>
-              <td>{{ ingredient.0 }}</td>
-              <td>
-                {% if ingredient.1|slice:":4" == "0.00" %}
-                  A Pinch
-                {% else %}
-                  {{ ingredient.1 }}
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}            
-        </table>      
+            <td>{{ ingredient.0 }}</td>
+            <td>
+              {% if ingredient.1|slice:":4" == "0.00" %}
+                A Pinch
+              {% else %}
+                {{ ingredient.1 }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}            
+      </table>      
       <p>Total Cost: </p>
       <hr>
       <p>$ {{ plan.cost }} </p>
