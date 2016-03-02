@@ -126,10 +126,7 @@ def weekly_plan(request, plan_id):
   for i, plan in enumerate(plans):
     weekly_plan.append(plan_info(plan))
 
-  print("[plan.cost for plan in plans]: ", [plan.cost() for plan in plans])
   weekly_cost = sum([plan.cost() for plan in plans])
-  print("weekly_cost: ", weekly_cost)
-  raise SystemExit
 
   context = {
     "plans": weekly_plan,
