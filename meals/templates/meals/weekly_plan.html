@@ -3,13 +3,12 @@
 {% block contents %}
 <div class = 'recipes'>
   <div>
-    
-      {{ plan }}
+    {% for plan in plans %}
       <div class='mealplan'>      
-        <strong>Plan name: {{ plan.name }}</strong>
+        <strong>Plan name: {{ plan.plan.name }}</strong>
           <ul>
             <h3>Meals</h3>
-            {% for meal in plan.planrecipe_set.all %}
+            {% for meal in plan.plan.planrecipe_set.all %}
               <li>
                 <img src = "{{ meal.recipe.image }}">
                 <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>
@@ -75,15 +74,15 @@
             </tr>
             <tr>
               <td>Calories (kcal)</td>
-              <td>{{ calories }}</td>
               <td>{{ plan.calories }}</td>
+              <td>{{ plan.plan.calories }}</td>
             </tr>
             <tr>
               <td>Fat (g)</td>
-              <td>{{ fat }}</td>
+              <td>{{ plan.fat }}</td>
               <td>
-                {% if plan.fat > 0 %}
-                {{ plan.fat }}
+                {% if plan.plan.fat > 0 %}
+                {{ plan.plan.fat }}
                 {% else %}
                 {{ "Not specified" }}
                 {% endif %}
@@ -91,10 +90,10 @@
             </tr>
             <tr>
               <td>Carbohydrates (g)</td>
-              <td>{{ carbohydrates }}</td>
+              <td>{{ plan.carbohydrates }}</td>
               <td>
-                {% if plan.carbohydrates > 0 %}
-                {{ plan.carbohydrates }}
+                {% if plan.plan.carbohydrates > 0 %}
+                {{ plan.plan.carbohydrates }}
                 {% else %}
                 {{ "Not specified" }}
                 {% endif %}
@@ -102,16 +101,16 @@
             </tr>  
             <tr>
               <td>Protein (g)</td>
-              <td>{{ protein }}</td>
+              <td>{{ plan.protein }}</td>
               <td>
-                {% if plan.protein > 0 %}
-                {{ plan.protein }}
+                {% if plan.plan.protein > 0 %}
+                {{ plan.plan.protein }}
                 {% else %}
                 {{ "Not specified" }}
                 {% endif %}
               </td>
             </tr>
-            {% for nutrient in extras %}
+            {% for nutrient in plan.extras %}
               <tr>
                 <td>{{ nutrient.0 }}</td>
                 <td>{{ nutrient.2 }}</td>
@@ -127,7 +126,7 @@
                 <th>Name</th>
                 <th>Amount</th>            
             </tr>  
-            {% for ingredient in ingredients %}
+            {% for ingredient in plan.ingredients %}
               <tr>
                 <td>{{ ingredient.0 }}</td>
                 <td>
@@ -142,11 +141,11 @@
           </table>      
         <p>Total Cost: </p>
         <hr>
-        <p>$ {{ plan.cost }} </p>
+        <p>$ {{ plan.plan.cost }} </p>
         <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
       </div>
       <br>
-
+    {% endfor %}
   
   </div>
 </div>
