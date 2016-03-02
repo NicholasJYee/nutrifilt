@@ -11,6 +11,9 @@
           <span class="navText">Search</span>        
         </li>
         <li>
+          <span class="navText">Smart Search</span>        
+        </li>
+        <li>
           <span class="navText">About</span>
         </li>      
       </ul>
@@ -20,6 +23,7 @@
           <p>This app allows you to enter your nutritional requirements and return
           list of recipes that meet your requirements.</p>
           <p>To get started, click on the 'Search' tab </p>
+          <p>You can also use the 'Smart Search' tab for easier quick search if you are not sure of your nutritional requirements. </p>
           <p>Happy searching!</p>
         </div>
         <div id ='search' class = "hidden">          
@@ -33,6 +37,13 @@
             <button type = "submit" class ='btn'>Search</button>  
           </form>
           <div id="loadForm" >                       
+          </div>
+        </div>
+        <div id ='smartsearch' class = "hidden">          
+          <p>This feature allows you to search by age, gender, weight and height</p>          
+          <p>Click the button below to load the form</p>
+          <button id = 'search2' class ='btn loadForm2_open' rel="#sheet">Load form</button>        
+          <div id="loadForm2" >                       
           </div>
         </div>
         <div id ='about' class = "hidden">

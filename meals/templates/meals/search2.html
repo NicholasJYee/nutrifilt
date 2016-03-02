@@ -1,0 +1,40 @@
+  <form action="/meals/form/" method="post" class = "daForm">
+    {% csrf_token %}
+    <select name=num_of_meals>
+      <option value="" disabled="disabled" selected="selected">Please select the number of meals</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option selected="selected" value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
+    <label id="rangeText" />
+    <input type="range" id="rangeInput" name="temperature_ini" min="1" max="10" step="4.5" />
+    <p><label for="age">Age (yrs) :</label> <input pattern = '\d+' id="age" type="text"></p>
+    <p><label for="weight">Weight (kg):</label> <input pattern = '\d+' id="weight" type="text"></p>
+    <p><label for="height">Height (cm):</label> <input pattern = '\d+' id="height" type="text"></p>
+    <p>
+      <label for="gender">Gender:</label> 
+      <select id="gender" name = "gender" style="float:right; width:10vw;" >
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+      </select>
+    </p>
+    <p>
+      <label for="planType">Plan Type:</label> 
+      <select id="planType" name = "planType" style="float:right; width:10vw;" >
+        <option value="1">Maintain</option>
+        <option value="2">Weight Loss</option>
+        <option value="3">Body Building</option>
+      </select>
+    </p>
+    {{ form.as_p }}
+    <button type="submit" id = "smart" class = 'btn' value="Generate Meal Plan">
+      Generate Meal Plan
+    </button>        
+  </form>
+  
