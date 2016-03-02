@@ -15,7 +15,7 @@ $(function() {
       $('#loadForm #id_calories').attr('required',true);
       $('#loadForm p').slice(8).hide(); 
 
-      var select_for_num_meals = $('select[name="num_of_meals"]');
+      var select_for_num_meals = $('#num_of_meals');
       meal_dropdown(select_for_num_meals);
 
       var rangeValues = {
@@ -48,7 +48,7 @@ $(function() {
       $('#loadForm2 #weight').attr('required',true);
       $('#loadForm2 #height').attr('required',true);
       $('#loadForm2 p').slice(6).hide(); 
-      var select_for_num_meals = $('select[name="num_of_meals"]');
+      var select_for_num_meals = $('#num_of_meals2');
       meal_dropdown(select_for_num_meals);
 
       var rangeValues = {
