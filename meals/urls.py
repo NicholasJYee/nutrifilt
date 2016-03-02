@@ -7,6 +7,7 @@ urlpatterns = [
   url(r'^populate/', views.populate, name='populate'),
   url(r'^plan/search/$', views.searchplan, name = 'name'),
   url(r'^plan/(?P<plan_id>\w+)/', views.plan, name='plan'),
+  url(r'^weeklyplan/(?P<plan_id>\w+)/', views.weekly_plan, name='weekly_plan'),
 
   # App homepage
   url(r'^$', views.index, name='index'),

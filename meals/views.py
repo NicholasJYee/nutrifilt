@@ -117,7 +117,11 @@ def searchplan(request):
 #search plan by id
 def plan(request, plan_id):
   plan = Plan.objects.get(id=int(plan_id))
-  return render(request, 'meals/plan.html', plan_info(plan))  
+  return render(request, 'meals/plan.html', plan_info(plan))
+
+def weekly_plan(request, plan_id):
+  plan = Plan.objects.get(id=int(plan_id))
+  return render(request, 'meals/plan.html', plan_info(plan))
 
 class MealPlanStep(object):
   def __call__(self, plan):
@@ -546,62 +550,121 @@ def form(request):
       meal_types = asarray(meal_types, order='F')
       temperature_ini = float(request.POST['temperature_ini'])
 
-      sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-      sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
-      print ('plan[:,0]', plan[:,0])
+      if not form.cleaned_data['weekly_meal_plan']:
+        sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+        sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+        print ('plan[:,0]', plan[:,0])
 
-      p, created = Plan.objects.get_or_create(
-        name = name,
-        calories = nutrition_req[0],
-        fat = nutrition_req[1],
-        sat_fat = nutrition_req[2],
-        trans_fat = nutrition_req[3],
-        mono_unsat_fat = nutrition_req[4],
-        poly_unsat_fat = nutrition_req[5],
-        carbohydrates = nutrition_req[6],
-        fiber = nutrition_req[7],
-        sugar = nutrition_req[8],
-        protein = nutrition_req[9],
-        cholesterol = nutrition_req[10],
-        sodium = nutrition_req[11],
-        calcium = nutrition_req[12],
-        magnesium = nutrition_req[13],
-        potassium = nutrition_req[14],
-        iron = nutrition_req[15],
-        zinc = nutrition_req[16],
-        phosphorus = nutrition_req[17],
-        vit_a = nutrition_req[18],
-        vit_c = nutrition_req[19],
-        thiamin = nutrition_req[20],
-        riboflavin = nutrition_req[21],
-        niacin = nutrition_req[22],
-        vit_b6 = nutrition_req[23],
-        folic_acid = nutrition_req[24],
-        vit_b12 = nutrition_req[25],
-        vit_d = nutrition_req[26],
-        vit_e = nutrition_req[27],
-        vit_k = nutrition_req[28]
-      )
+        p, created = Plan.objects.get_or_create(
+          name = name,
+          calories = nutrition_req[0],
+          fat = nutrition_req[1],
+          sat_fat = nutrition_req[2],
+          trans_fat = nutrition_req[3],
+          mono_unsat_fat = nutrition_req[4],
+          poly_unsat_fat = nutrition_req[5],
+          carbohydrates = nutrition_req[6],
+          fiber = nutrition_req[7],
+          sugar = nutrition_req[8],
+          protein = nutrition_req[9],
+          cholesterol = nutrition_req[10],
+          sodium = nutrition_req[11],
+          calcium = nutrition_req[12],
+          magnesium = nutrition_req[13],
+          potassium = nutrition_req[14],
+          iron = nutrition_req[15],
+          zinc = nutrition_req[16],
+          phosphorus = nutrition_req[17],
+          vit_a = nutrition_req[18],
+          vit_c = nutrition_req[19],
+          thiamin = nutrition_req[20],
+          riboflavin = nutrition_req[21],
+          niacin = nutrition_req[22],
+          vit_b6 = nutrition_req[23],
+          folic_acid = nutrition_req[24],
+          vit_b12 = nutrition_req[25],
+          vit_d = nutrition_req[26],
+          vit_e = nutrition_req[27],
+          vit_k = nutrition_req[28]
+        )
 
-      if created:
-        for i in range(0,5):
-          start = i * 32
-          end = (i + 1) * 32
-          if (i == 0):
-            restored_2d_plan = array(plan[start:end])
-          else:
-            restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-        # The [::-1] reverses the array
-        plan = restored_2d_plan#[::-1]
+        if created:
+          for i in range(0,5):
+            start = i * 32
+            end = (i + 1) * 32
+            if (i == 0):
+              restored_2d_plan = array(plan[start:end])
+            else:
+              restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+          # The [::-1] reverses the array
+          plan = restored_2d_plan#[::-1]
 
-        for i, meal in enumerate(plan):
-          recipe = Recipe.objects.get(id=meal[0])
-          p.planrecipe_set.get_or_create(
-            recipe = recipe,
-            meal_number = i
+          for i, meal in enumerate(plan):
+            recipe = Recipe.objects.get(id=meal[0])
+            p.planrecipe_set.get_or_create(
+              recipe = recipe,
+              meal_number = i
+            )
+
+        return HttpResponseRedirect('/meals/plan/' + str(p.id))
+      else:
+        for day_num in range(0, 7):
+          plan = meal_types
+          sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+          sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+
+          p, created = Plan.objects.get_or_create(
+            name = "Weekly Meal Plan " + "[Day " + str((day_num + 1)) + "]: " + name,
+            calories = nutrition_req[0],
+            fat = nutrition_req[1],
+            sat_fat = nutrition_req[2],
+            trans_fat = nutrition_req[3],
+            mono_unsat_fat = nutrition_req[4],
+            poly_unsat_fat = nutrition_req[5],
+            carbohydrates = nutrition_req[6],
+            fiber = nutrition_req[7],
+            sugar = nutrition_req[8],
+            protein = nutrition_req[9],
+            cholesterol = nutrition_req[10],
+            sodium = nutrition_req[11],
+            calcium = nutrition_req[12],
+            magnesium = nutrition_req[13],
+            potassium = nutrition_req[14],
+            iron = nutrition_req[15],
+            zinc = nutrition_req[16],
+            phosphorus = nutrition_req[17],
+            vit_a = nutrition_req[18],
+            vit_c = nutrition_req[19],
+            thiamin = nutrition_req[20],
+            riboflavin = nutrition_req[21],
+            niacin = nutrition_req[22],
+            vit_b6 = nutrition_req[23],
+            folic_acid = nutrition_req[24],
+            vit_b12 = nutrition_req[25],
+            vit_d = nutrition_req[26],
+            vit_e = nutrition_req[27],
+            vit_k = nutrition_req[28]
           )
 
-      return HttpResponseRedirect('/meals/plan/' + str(p.id))
+          if created:
+            for i in range(0,5):
+              start = i * 32
+              end = (i + 1) * 32
+              if (i == 0):
+                restored_2d_plan = array(plan[start:end])
+              else:
+                restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+            # The [::-1] reverses the array
+            plan = restored_2d_plan#[::-1]
+
+            for i, meal in enumerate(plan):
+              recipe = Recipe.objects.get(id=meal[0])
+              p.planrecipe_set.get_or_create(
+                recipe = recipe,
+                meal_number = i
+              )
+
+        return HttpResponseRedirect('/meals/weeklyplan/' + str(p.id - 6) )
   else:
     form = PlanForm()
 
