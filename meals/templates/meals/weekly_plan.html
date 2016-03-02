@@ -2,6 +2,32 @@
 {% load mathfilters %}
 {% block contents %}
 <div class = 'recipes'>
+  <div class = 'ingredients' id = "ing">
+    <strong><h3>Ingredients:</h3></strong>
+    <table>
+      <tr>
+          <th>Name</th>
+          <th>Amount</th>            
+      </tr>  
+      {% for ingredient in weekly_ingredients %}
+        <tr>
+          <td>{{ ingredient.0 }}</td>
+          <td>
+            {% if ingredient.1|slice:":4" == "0.00" %}
+              A Pinch
+            {% else %}
+              {{ ingredient.1 }}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}            
+    </table>      
+    <p>Total Cost: </p>
+    <hr>
+    <p>$ {{ weekly_cost }} </p>
+    <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
+  </div>
+
   <div>
     {% for plan in plans %}
       <div class='mealplan'>      
@@ -123,32 +149,6 @@
           </table>      
       </div>
     {% endfor %}
-
-    <div class = 'ingredients' id = "ing">
-      <strong><h3>Ingredients:</h3></strong>
-      <table>
-        <tr>
-            <th>Name</th>
-            <th>Amount</th>            
-        </tr>  
-        {% for ingredient in weekly_ingredients %}
-          <tr>
-            <td>{{ ingredient.0 }}</td>
-            <td>
-              {% if ingredient.1|slice:":4" == "0.00" %}
-                A Pinch
-              {% else %}
-                {{ ingredient.1 }}
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}            
-      </table>      
-      <p>Total Cost: </p>
-      <hr>
-      <p>$ {{ weekly_cost }} </p>
-      <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
-    </div>
   
   </div>
 </div>
