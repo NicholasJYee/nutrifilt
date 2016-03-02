@@ -2,16 +2,16 @@ from django import forms
 
 class PlanForm(forms.Form):
   OPTIONS = (
-    ("Dairy", "Dairy-Free"),
-    ("Egg", "Egg-Free"),
-    ("Fish", "Fish-Free"),
-    ("Gluten", "Gluten-Free"),
-    ("Sugar", "Low Sugar"),
+    ("Dairy-Free", "Dairy-Free"),
+    ("Egg-Free", "Egg-Free"),
+    ("Fish-Free", "Fish-Free"),
+    ("Gluten-Free", "Gluten-Free"),
+    ("Low Sugar", "Low Sugar"),
     ("Paleo", "Paleo"),
-    ("Peanut", "Peanut-Free"),
-    ("Shellfish", "Shellfish-Free"),
-    ("Soy", "Soy-Free"),
-    ("Tree-Nut", "Tree-Nut-Free"),
+    ("Peanut-Free", "Peanut-Free"),
+    ("Shellfish-Free", "Shellfish-Free"),
+    ("Soy-Free", "Soy-Free"),
+    ("Tree-Nut-Free", "Tree-Nut-Free"),
     ("Vegan", "Vegan"),
     ("Vegetarian", "Vegetarian")
   )
