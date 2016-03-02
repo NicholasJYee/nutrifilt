@@ -13,7 +13,7 @@ $(function() {
     $('#loadForm').load('/meals/search/', function() {
       $('#loadForm #id_name').attr('required',true);
       $('#loadForm #id_calories').attr('required',true);
-      $('#loadForm p').slice(8).hide(); 
+      $('#loadForm p').slice(8).hide();
 
       var select_for_num_meals = $('#num_of_meals');
       meal_dropdown(select_for_num_meals);
@@ -81,6 +81,8 @@ $(function() {
       smartSearchWeight.on('input change', function () {
         smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
       });
+      
+      $('#id_health_labels_12').prop('checked', true);
 
     });      
   });
