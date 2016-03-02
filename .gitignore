@@ -1,5 +1,4 @@
 *.pyc
-secret.py
 sim_anneal.so
 *.pptx
 *.gif
