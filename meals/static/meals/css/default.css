@@ -229,3 +229,7 @@ th, td {
 label[for='id_health_labels_12'] {
   display: none;
 }
+
+#id_health_labels {
+  list-style-type: none;
+}
