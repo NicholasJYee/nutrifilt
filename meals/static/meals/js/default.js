@@ -49,7 +49,7 @@ $(function() {
       smartSearchAge.attr('required',true);
       smartSearchHeight.attr('required',true);
       smartSearchWeight.attr('required',true);
-      $('#loadForm2 p').slice(6).hide(); 
+      $('#loadForm2 p').slice(8).hide(); 
       var select_for_num_meals = $('#num_of_meals2');
       meal_dropdown(select_for_num_meals);
 

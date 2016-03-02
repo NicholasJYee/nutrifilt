@@ -602,7 +602,7 @@ def form(request):
             else:
               restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
           # The [::-1] reverses the array
-          plan = restored_2d_plan#[::-1]
+          plan = restored_2d_plan[::-1]
 
           for i, meal in enumerate(plan):
             recipe = Recipe.objects.get(id=meal[0])
@@ -667,7 +667,7 @@ def form(request):
               else:
                 restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
             # The [::-1] reverses the array
-            plan = restored_2d_plan#[::-1]
+            plan = restored_2d_plan[::-1]
 
             for i, meal in enumerate(plan):
               recipe = Recipe.objects.get(id=meal[0])
