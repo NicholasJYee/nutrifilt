@@ -29,7 +29,6 @@ $(function() {
       rangeText.text(rangeValues[rangeInput.val()]);
       rangeInput.on('input change', function () {
         rangeText.text(rangeValues[$(this).val()]);
-        console.log(rangeValues[$(this).val()])
       });
 
       select_for_num_meals.change(function() {
@@ -44,9 +43,12 @@ $(function() {
 
   $('#search2').on('click', function(){
     $('#loadForm2').load('/meals/search2/', function() {
-      $('#loadForm2 #age').attr('required',true);
-      $('#loadForm2 #weight').attr('required',true);
-      $('#loadForm2 #height').attr('required',true);
+      var smartSearchAge = $('#age')
+      var smartSearchHeight = $('#height')      
+      var smartSearchWeight = $('#weight')
+      smartSearchAge.attr('required',true);
+      smartSearchHeight.attr('required',true);
+      smartSearchWeight.attr('required',true);
       $('#loadForm2 p').slice(6).hide(); 
       var select_for_num_meals = $('#num_of_meals2');
       meal_dropdown(select_for_num_meals);
@@ -62,13 +64,27 @@ $(function() {
       rangeText.text(rangeValues[rangeInput.val()]);
       rangeInput.on('input change', function () {
         rangeText.text(rangeValues[$(this).val()]);
-        console.log(rangeValues[$(this).val()])
       });
 
       select_for_num_meals.change(function() {
         $('.meal-type').remove();
         meal_dropdown(select_for_num_meals);
       });
+
+      var smartSearchName = $('#smartSearchName');
+      smartSearchAge.on('input change', function () {
+        smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
+        console.log("smartSearchName.val()", smartSearchName.val())
+      });
+      smartSearchHeight.on('input change', function () {
+        smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
+        console.log("smartSearchName.val()", smartSearchName.val())
+      });
+      smartSearchWeight.on('input change', function () {
+        smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
+        console.log("smartSearchName.val()", smartSearchName.val())
+      });
+
 
     });      
   });
