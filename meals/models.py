@@ -147,30 +147,6 @@ class Plan(models.Model):
 
     return ingredients
 
-  def make_weekly_grocery_list(plans):
-    ingredients = {}
-    ingredients = defaultdict(lambda:0, ingredients)
-    for plan in plans:
-      for planrecipe in plan.planrecipe_set.all():
-        recipe = planrecipe.recipe
-        servings = recipe.servings
-        for ingredientrecipe in recipe.ingredientrecipe_set.all():
-          food = ingredientrecipe.ingredient.food
-          weight = ingredientrecipe.weight
-          ingredients[food] += weight / servings
-
-    rounder = lambda el : [el[0].title(), float("%.2f" % round(el[1],2))]
-    ingredients = map(rounder, ingredients.items())
-
-    for ingredient in ingredients:
-      ingredient_obj = Ingredient.objects.get(food__iexact=ingredient[0])
-      unit_conversion_factor = ingredient_obj.unit_conversion_factor
-      unit = ingredient_obj.unit
-      amount = ingredient[1] * unit_conversion_factor
-      ingredient[1] = str("%.2f" % round(amount,2)) + " " + unit
-
-    return ingredients
-
 class HealthLabel(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
   label = models.CharField(max_length=150)

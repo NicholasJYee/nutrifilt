@@ -11,6 +11,30 @@ from .forms import *
 from .computations import *
 import sim_anneal
 
+def make_weekly_grocery_list(plans):
+  ingredients = {}
+  ingredients = defaultdict(lambda:0, ingredients)
+  for plan in plans:
+    for planrecipe in plan.planrecipe_set.all():
+      recipe = planrecipe.recipe
+      servings = recipe.servings
+      for ingredientrecipe in recipe.ingredientrecipe_set.all():
+        food = ingredientrecipe.ingredient.food
+        weight = ingredientrecipe.weight
+        ingredients[food] += weight / servings
+
+  rounder = lambda el : [el[0].title(), float("%.2f" % round(el[1],2))]
+  ingredients = map(rounder, ingredients.items())
+
+  for ingredient in ingredients:
+    ingredient_obj = Ingredient.objects.get(food__iexact=ingredient[0])
+    unit_conversion_factor = ingredient_obj.unit_conversion_factor
+    unit = ingredient_obj.unit
+    amount = ingredient[1] * unit_conversion_factor
+    ingredient[1] = str("%.2f" % round(amount,2)) + " " + unit
+
+  return ingredients
+
 def plan_info(plan):
   try:    
     calories = format(sum(meal.recipe.calories/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
@@ -127,10 +151,12 @@ def weekly_plan(request, plan_id):
     weekly_plan.append(plan_info(plan))
 
   weekly_cost = sum([plan.cost() for plan in plans])
+  weekly_ingredients = make_weekly_grocery_list(plans)
 
   context = {
     "plans": weekly_plan,
-    "weekly_cost": weekly_cost
+    "weekly_cost": weekly_cost,
+    "weekly_ingredients": weekly_ingredients
   }
   return render(request, 'meals/weekly_plan.html', context)
 
