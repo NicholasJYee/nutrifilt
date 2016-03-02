@@ -127,11 +127,59 @@ def get_nutrition_req(form):
 
   return nutrition_req
 
-def get_meals(label):
+def get_meals(label, health_labels):
   meals = []
-  labels = MealLabel.objects.filter(label=label)
+  try:
+    label0 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[0])
+    try:
+      label1 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[1])
+      try:
+        label2 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[2])
+        try:
+          label3 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[3])
+          try:
+            label4 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[4])
+            try:
+              label5 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[5])
+              try:
+                label6 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[6])
+                try:
+                  label7 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[7])
+                  try:
+                    label8 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[8])
+                    try:
+                      label9 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[9])
+                      try:
+                        label10 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[10])
+                        try:
+                          label11 = MealLabel.objects.filter(label=label, recipe__healthlabel__label=health_labels[11])
+                          labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6).intersection(label7).intersection(label8).intersection(label9).intersection(label10).intersection(label11)
+                        except IndexError:
+                          labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6).intersection(label7).intersection(label8).intersection(label9).intersection(label10)
+                      except IndexError:
+                        labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6).intersection(label7).intersection(label8).intersection(label9)
+                    except IndexError:
+                      labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6).intersection(label7).intersection(label8)
+                  except IndexError:
+                    labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6).intersection(label7)
+                except IndexError:
+                  labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5).intersection(label6)
+              except IndexError:
+                labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4).intersection(label5)
+            except IndexError:
+              labels = set(label0).intersection(label1).intersection(label2).intersection(label3).intersection(label4)
+          except IndexError:
+            labels = set(label0).intersection(label1).intersection(label2).intersection(label3)  
+        except IndexError:
+          labels = set(label0).intersection(label1).intersection(label2)  
+      except IndexError:
+        labels = set(label0).intersection(label1)
+    except IndexError:
+      labels = label0
+  except IndexError:
+    labels = MealLabel.objects.filter(label=label)
 
-
+  
   for label in labels:
     servings = label.recipe.servings
     meal_info = [
@@ -169,7 +217,6 @@ def get_meals(label):
       label.recipe.vit_k / servings
     ]
     meals.append(meal_info)
-
 
   return meals
 

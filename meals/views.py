@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from numpy import array, asarray, size, append
 import requests, time
 from scipy import optimize
+from collections import defaultdict
 
 import secret
 
@@ -460,22 +461,40 @@ def select_meal_type(type_of_meal):
     return array([dinner_meal_type], 'd')
 
 def form(request):
+  context = {}
+  context = defaultdict(lambda:"", context)
+  context['plans'] = Plan.objects.all()
+
   if request.method == 'POST':
     form = PlanForm(request.POST)
+    
     if form.is_valid():
-      if form.cleaned_data['name'] is not None:
-        name = form.cleaned_data['name']
+      name = form.cleaned_data['name']
+      try:
+        if len(form.cleaned_data['health_labels']) == 1:
+          health_labels = []
+        else:
+          health_labels = form.cleaned_data['health_labels']
+          health_labels.pop()
+      except KeyError:
+        health_labels = []
+
       global nutrition_req
       global breakfast
       global snack
       global lunch
       global dinner
       nutrition_req = get_nutrition_req(form)
-      breakfast = get_meals('breakfast')
-      snack = get_meals('snack')
-      lunch = get_meals('lunch')
-      dinner = get_meals('dinner')
+      breakfast = get_meals('breakfast', health_labels)
+      snack = get_meals('snack', health_labels)
+      lunch = get_meals('lunch', health_labels)
+      dinner = get_meals('dinner', health_labels)
 
+      if not breakfast or not snack or not lunch or not dinner:
+        context['form'] = form
+        context['no_plan_found'] = "No meal plan could be generated."
+        return render(request, 'meals/index.html', context)
+        
       # # For Basinhopping
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
@@ -586,10 +605,7 @@ def form(request):
   else:
     form = PlanForm()
 
-  context = {
-    'form': form,
-    'plans': Plan.objects.all()
-  }
+  context['form'] = form
   return render(request, 'meals/form.html', context)
 
 def index(request):
