@@ -13,7 +13,8 @@ class PlanForm(forms.Form):
     ("Soy-Free", "Soy-Free"),
     ("Tree-Nut-Free", "Tree-Nut-Free"),
     ("Vegan", "Vegan"),
-    ("Vegetarian", "Vegetarian")
+    ("Vegetarian", "Vegetarian"),
+    ("None", "None")
   )
   health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
   name = forms.CharField(label="Plan name:", max_length=150)

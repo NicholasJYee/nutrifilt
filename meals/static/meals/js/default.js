@@ -36,6 +36,8 @@ $(function() {
         meal_dropdown(select_for_num_meals);
       });
 
+      $('#id_health_labels_12').prop('checked', true);
+
     });      
   });
 
