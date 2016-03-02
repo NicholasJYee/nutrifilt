@@ -57,8 +57,8 @@ $(function() {
         "10": "Meal cost: Normal"
       };
 
-      var rangeInput = $('#rangeInput');
-      var rangeText = $('#rangeText');
+      var rangeInput = $('#rangeInput2');
+      var rangeText = $('#rangeText2');
       rangeText.text(rangeValues[rangeInput.val()]);
       rangeInput.on('input change', function () {
         rangeText.text(rangeValues[$(this).val()]);
