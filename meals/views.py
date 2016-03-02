@@ -476,7 +476,6 @@ def form(request):
         else:
           health_labels = form.cleaned_data['health_labels']
           health_labels.pop()
-          print("health_labels: ", health_labels)
       except KeyError:
         health_labels = []
 
