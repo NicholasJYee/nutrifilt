@@ -97,7 +97,7 @@ $(function() {
     }
     if ($("#planType").val() == "2") { cal -= 500};
 
-    if ($("#planType").val() == "3") { cal += 5000};
+    if ($("#planType").val() == "3") { cal += 500};
     $("#id_calories").val(cal);
     $("#id_fat").val(cal*65/2000);
     $("#id_carbohydrates").val(cal*300/2000);
