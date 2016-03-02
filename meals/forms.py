@@ -16,9 +16,8 @@ class PlanForm(forms.Form):
     ("Vegetarian", "Vegetarian"),
     ("None", "None")
   )
-  health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
-
-  weekly_meal_plan = forms.BooleanField()
+  health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS, required=False)
+  weekly_meal_plan = forms.BooleanField(required=False)
   name = forms.CharField(label="Plan name:", max_length=150)
   calories = forms.FloatField(label="Calories (kcal):")
   fat = forms.FloatField(label="Fat (g):", required=False)
