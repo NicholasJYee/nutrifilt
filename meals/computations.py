@@ -81,7 +81,7 @@ def get_nutrition_req(form):
   else:
     nutrition_req.append(0)
   if form.cleaned_data['vit_a'] is not None:
-    nutrition_req.append(form.cleaned_data['vit_a'])
+    nutrition_req.append(form.cleaned_data['vit_a'] * 0.3)
   else:
     nutrition_req.append(0)
   if form.cleaned_data['vit_c'] is not None:
@@ -113,11 +113,11 @@ def get_nutrition_req(form):
   else:
     nutrition_req.append(0)
   if form.cleaned_data['vit_d'] is not None:
-    nutrition_req.append(form.cleaned_data['vit_d'])
+    nutrition_req.append(form.cleaned_data['vit_d'] * 0.025)
   else:
     nutrition_req.append(0)
   if form.cleaned_data['vit_e'] is not None:
-    nutrition_req.append(form.cleaned_data['vit_e'])
+    nutrition_req.append(form.cleaned_data['vit_e'] * 0.9)
   else:
     nutrition_req.append(0)
   if form.cleaned_data['vit_k'] is not None:
