@@ -14,9 +14,9 @@
     </select>
     <label id="rangeText" />
     <input type="range" id="rangeInput" name="temperature_ini" min="1" max="10" step="4.5" />
-    <p><label for="age">Age (yrs) :</label> <input pattern = '\d+' id="age" type="text"></p>
-    <p><label for="weight">Weight (kg):</label> <input pattern = '\d+' id="weight" type="text"></p>
-    <p><label for="height">Height (cm):</label> <input pattern = '\d+' id="height" type="text"></p>
+    <p><label for="age">Age (yrs) :</label> <input pattern = '\d+' id="age" type="number" min=1></p>
+    <p><label for="weight">Weight (kg):</label> <input pattern = '\d+' id="weight" type="number" min=1 step="0.01"></p>
+    <p><label for="height">Height (cm):</label> <input pattern = '\d+' id="height" type="number" min=1 step="0.01"></p>
     <p>
       <label for="gender">Gender:</label> 
       <select id="gender" name = "gender" style="float:right; width:10vw;" >

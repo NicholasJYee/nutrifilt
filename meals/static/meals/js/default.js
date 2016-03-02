@@ -42,9 +42,11 @@ $(function() {
     });      
   });
 
-   $('#search2').on('click', function(){
+  $('#search2').on('click', function(){
     $('#loadForm2').load('/meals/search2/', function() {
-      $('#loadForm2 input:lt(6)').attr('required',true);
+      $('#loadForm2 #age').attr('required',true);
+      $('#loadForm2 #weight').attr('required',true);
+      $('#loadForm2 #height').attr('required',true);
       $('#loadForm2 p').slice(6).hide(); 
       var select_for_num_meals = $('select[name="num_of_meals"]');
       meal_dropdown(select_for_num_meals);
@@ -81,7 +83,7 @@ $(function() {
     }
     if ($("#planType").val() == "2") { cal -= 500};
 
-    if ($("#planType").val() == "3") { cal = cal * 1.3};
+    if ($("#planType").val() == "3") { cal += 5000};
     $("#id_calories").val(cal);
     $("#id_fat").val(cal*65/2000);
     $("#id_carbohydrates").val(cal*300/2000);
