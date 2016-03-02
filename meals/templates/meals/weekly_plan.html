@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+{% block contents %}
+<div class = 'recipes'>
+  <div>
+    {% if plan %}   
+    <div class='mealplan'>      
+      <strong>Plan name: {{ plan.name }}</strong>
+        <ul>
+          <h3>Meals</h3>
+          {% for meal in plan.planrecipe_set.all %}
+            <li>
+              <img src = "{{ meal.recipe.image }}">
+              <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>
+              <div class = "hidden nutable">
+                <h1>Nutritional Facts</h1>              
+                <p>Servings per Recipe about {{ meal.recipe.servings }}</p>
+                <hr style = "border: 0.5vw solid">
+                <p>Calories {{ meal.recipe.calories|div:meal.recipe.servings|floatformat:"0" }}</p>
+                <hr style = "border: 0.3vw solid">
+                <p style = "text-align:right">% Daily Value</p>
+                <hr>
+                <p>Fat {{ meal.recipe.fat|div:meal.recipe.servings|floatformat:"0" }} g<span style = 'float:right'>{{ meal.recipe.fat|div:meal.recipe.servings|mul:1.54|floatformat:"0" }}%</span></p>
+                <hr>
+                <p>&emsp;Saturated Fat {{ meal.recipe.sat_fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr style = "border: white"><span style = 'float:right'>{{ meal.recipe.sat_fat|add:meal.recipe.trans_fat|div:meal.recipe.servings|mul:5|floatformat:"0" }}%</span>
+                <p>&emsp;+ Trans Fat {{ meal.recipe.trans_fat|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr>    
+                <p>Cholesterol {{ meal.recipe.cholesterol|div:meal.recipe.servings|floatformat:"0" }} mg<span style = 'float:right'>{{ meal.recipe.cholesterol|div:meal.recipe.servings|div:3|floatformat:"0" }}%</span></p>
+                <hr>
+                <p>Sodium {{ meal.recipe.sodium|div:meal.recipe.servings|floatformat:"0" }} mg
+                <span style = 'float:right'>{{ meal.recipe.sodium|div:meal.recipe.servings|mul:0.0147|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Carbohydrate {{ meal.recipe.carbohydrates|div:meal.recipe.servings|floatformat:"0" }} g<span style = 'float:right'>{{ meal.recipe.carbohyrates|div:meal.recipe.servings|div:3|floatformat:"0" }}%</span>
+                </p> 
+                <hr>
+                <p> &emsp; Fiber {{ meal.recipe.fiber|div:meal.recipe.servings|floatformat:"0" }} g
+                  <span style = 'float:right'>{{ meal.recipe.fiber|div:meal.recipe.servings|mul:4|floatformat:"0" }}%</span>    
+                </p>
+                <hr>
+                <p> &emsp; Sugars {{ meal.recipe.sugar|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr>
+                <p>Protein {{ meal.recipe.protein|div:meal.recipe.servings|floatformat:"0" }} g</p>
+                <hr style = "border: 0.5vw solid">
+                <p>Vitamin A 
+                 <span style = 'float:right'>{{ meal.recipe.vit_a|div:meal.recipe.servings|mul:0.1|floatformat:"0" }}%</span>   
+                </p>
+                <hr>
+                <p>Vitamin C 
+                <span style = 'float:right'>{{ meal.recipe.vit_c|div:meal.recipe.servings|mul:1.67|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Calcium
+                <span style = 'float:right'>{{ meal.recipe.calcium|div:meal.recipe.servings|div:11|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>Iron
+                  <span style = 'float:right'>{{ meal.recipe.iron|div:meal.recipe.servings|mul:7.14|floatformat:"0" }}%</span>
+                </p>
+                <hr>
+                <p>* Percent Daily Values are based on a 2000 calorie diet</p>
+              </div>
+            </li>
+            
+          {% endfor %}
+        </ul>
+      <strong>Meal Nutritional Info Summary:</strong>
+        <table>
+          <tr>
+            <th>Unit</th>
+            <th>Generated</th>
+            <th>User entry</th>
+          </tr>
+          <tr>
+            <td>Calories (kcal)</td>
+            <td>{{ calories }}</td>
+            <td>{{ plan.calories }}</td>
+          </tr>
+          <tr>
+            <td>Fat (g)</td>
+            <td>{{ fat }}</td>
+            <td>
+              {% if plan.fat > 0 %}
+              {{ plan.fat }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>Carbohydrates (g)</td>
+            <td>{{ carbohydrates }}</td>
+            <td>
+              {% if plan.carbohydrates > 0 %}
+              {{ plan.carbohydrates }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>  
+          <tr>
+            <td>Protein (g)</td>
+            <td>{{ protein }}</td>
+            <td>
+              {% if plan.protein > 0 %}
+              {{ plan.protein }}
+              {% else %}
+              {{ "Not specified" }}
+              {% endif %}
+            </td>
+          </tr>
+          {% for nutrient in extras %}
+            <tr>
+              <td>{{ nutrient.0 }}</td>
+              <td>{{ nutrient.2 }}</td>
+              <td>{{ nutrient.1 }}</td>              
+            </tr>
+          {% endfor %}            
+        </table>      
+    </div>
+    <div class = 'ingredients' id = "ing">
+        <strong><h3>Ingredients:</h3></strong>
+        <table>
+          <tr>
+              <th>Name</th>
+              <th>Amount</th>            
+          </tr>  
+          {% for ingredient in ingredients %}
+            <tr>
+              <td>{{ ingredient.0 }}</td>
+              <td>
+                {% if ingredient.1|slice:":4" == "0.00" %}
+                  A Pinch
+                {% else %}
+                  {{ ingredient.1 }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}            
+        </table>      
+      <p>Total Cost: </p>
+      <hr>
+      <p>$ {{ plan.cost }} </p>
+      <button class = "btn" onclick = "jQuery('#ing').print({globalStyles: false})" >Print Recipe</button>  
+    </div>
+    <br>
+    {% else %}
+    <strong>No matches found</strong>  
+    {% endif %}
+  
+  </div>
+</div>
+<div class = "bottom">
+    <button class = "btn" onClick="location.href='/'">Back to Main Page</button>
+</div>
+<script src="/static/meals/js/plan.js"></script>
+<script src="/static/meals/js/print.js"></script>  
+{% endblock %} 
