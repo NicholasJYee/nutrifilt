@@ -2,7 +2,6 @@ from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
 from numpy import array, asarray, size, append
 import requests, time
-from scipy import optimize
 from collections import defaultdict
 
 import secret
@@ -533,13 +532,6 @@ def form(request):
         context['no_plan_found'] = "No meal plan could be generated."
         return render(request, 'meals/index.html', context)
         
-      # # For Basinhopping
-      # meals = [breakfast, snack, lunch, snack, dinner]
-      # mealplanstep = MealPlanStep()
-      # x0 = generate_plan_meeting_nutrition(meals, nutrition_req)
-      # plan = optimize.basinhopping(plan_cost, x0, take_step=mealplanstep, niter=3).x
-      # print("Lowest cost: ", plan_cost(plan))
-
       # For Sim Annealing (Fortran)
         # 1 - breakfast
         # 2 - snack
