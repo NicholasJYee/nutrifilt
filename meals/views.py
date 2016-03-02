@@ -545,6 +545,7 @@ def form(request):
       except KeyError:
         pass
 
+      untouched_plan = plan
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
@@ -609,7 +610,14 @@ def form(request):
         return HttpResponseRedirect('/meals/plan/' + str(p.id))
       else:
         for day_num in range(0, 7):
-          plan = meal_types
+          plan = untouched_plan
+          meal_types = plan
+          plan = asarray(plan, order='F')
+          meal_types = asarray(meal_types, order='F')
+
+          print("untouched_plan: ", untouched_plan)
+          print("plan: ", plan)
+          print("meal_types: ", meal_types)
           sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
           sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
