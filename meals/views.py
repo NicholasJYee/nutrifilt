@@ -471,10 +471,12 @@ def form(request):
     if form.is_valid():
       name = form.cleaned_data['name']
       try:
-        if form.cleaned_data['health_labels'][0] == "None":
+        if len(form.cleaned_data['health_labels']) == 1:
           health_labels = []
         else:
           health_labels = form.cleaned_data['health_labels']
+          health_labels.pop()
+          print("health_labels: ", health_labels)
       except KeyError:
         health_labels = []
 

@@ -226,4 +226,6 @@ th, td {
   -webkit-margin-after: -2%;
 }
 
-
+label[for='id_health_labels_12'] {
+  display: none;
+}
