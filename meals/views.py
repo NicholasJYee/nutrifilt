@@ -230,7 +230,7 @@ def populate(request):
     form = PopulateForm()
 
   try_assigning_ingredientrecipe_with_ingredient(IngredientRecipe.objects.filter(ingredient__isnull=True))
-  get_recipe_cost(Recipe.objects.all())#filter(cost__isnull=True))
+  get_recipe_cost(Recipe.objects.filter(cost__isnull=True))
   recipes_without_meal_labels = Recipe.objects.filter(meallabel__isnull=True)
   ingredientrecipe_without_ingredients = IngredientRecipe.objects.filter(ingredient__isnull=True)
   ingredient_without_ingredientvendor = Ingredient.objects.filter(ingredientvendor__isnull=True)
