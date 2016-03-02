@@ -2,6 +2,7 @@ from django import forms
 
 class PlanForm(forms.Form):
   OPTIONS = (
+    ("None", "None"),
     ("Dairy-Free", "Dairy-Free"),
     ("Egg-Free", "Egg-Free"),
     ("Fish-Free", "Fish-Free"),
