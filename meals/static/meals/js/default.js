@@ -53,13 +53,6 @@ $(function() {
       $(this).text("Show more fields");  
       $('#loadForm p').slice(num_input).hide();
     }  
-  });
-
-  $('body').on('mouseenter','.mealplan ul li img', function() {    
-    $(this).closest('li').children('.nutable').show();      
-  });
-  $('body').on('mouseleave','.mealplan ul li img', function() {    
-    $(this).closest('li').children('.nutable').hide();      
   });  
 });
 
