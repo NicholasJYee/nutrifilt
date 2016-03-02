@@ -1,0 +1,10 @@
+<html>
+<head>
+<style>
+body {
+background: url("tablcecloth2.png");
+}
+</style>
+</head>
+<body></body>
+</html>
