@@ -16,7 +16,7 @@ class PlanForm(forms.Form):
     ("Vegan", "Vegan"),
     ("Vegetarian", "Vegetarian")
   )
-  health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
+  health_labels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS, initial=(c[0] for c in OPTIONS))
   name = forms.CharField(label="Plan name:", max_length=150)
   calories = forms.FloatField(label="Calories (kcal):")
   fat = forms.FloatField(label="Fat (g):", required=False)
