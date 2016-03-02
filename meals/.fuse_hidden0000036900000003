@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from numpy import array, asarray, size, append
 import requests, time
 from scipy import optimize
-from collections import defaultdict
 
 import secret
 
@@ -18,7 +17,7 @@ def plan_info(plan):
     carbohydrates = format(sum(meal.recipe.carbohydrates/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')
     protein = format(sum(meal.recipe.protein/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f')    
     extras = []
-    ingredients = plan.make_grocery_list()
+    ingredients = ingredient_info(plan)
     
     if plan.sat_fat > 0:
       extras.append(["Saturated Fat (g)", plan.sat_fat, format(sum(meal.recipe.sat_fat/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
@@ -117,14 +116,7 @@ def searchplan(request):
 #search plan by id
 def plan(request, plan_id):
   plan = Plan.objects.get(id=int(plan_id))
-  return render(request, 'meals/plan.html', plan_info(plan))
-
-def weekly_plan(request, plan_id):
-  weekly_plan = []
-  plans = list(Plan.objects.filter(id__in=range(int(plan_id), int(plan_id) + 7)))
-  for i, plan in enumerate(plans):
-    weekly_plan.append(plan_info(plan))
-  return render(request, 'meals/weekly_plan.html', {"plans": weekly_plan})
+  return render(request, 'meals/plan.html', plan_info(plan))  
 
 class MealPlanStep(object):
   def __call__(self, plan):
@@ -468,40 +460,22 @@ def select_meal_type(type_of_meal):
     return array([dinner_meal_type], 'd')
 
 def form(request):
-  context = {}
-  context = defaultdict(lambda:"", context)
-  context['plans'] = Plan.objects.all()
-
   if request.method == 'POST':
     form = PlanForm(request.POST)
-    
     if form.is_valid():
-      name = form.cleaned_data['name']
-      try:
-        if len(form.cleaned_data['health_labels']) == 1:
-          health_labels = []
-        else:
-          health_labels = form.cleaned_data['health_labels']
-          health_labels.pop()
-      except KeyError:
-        health_labels = []
-
+      if form.cleaned_data['name'] is not None:
+        name = form.cleaned_data['name']
       global nutrition_req
       global breakfast
       global snack
       global lunch
       global dinner
       nutrition_req = get_nutrition_req(form)
-      breakfast = get_meals('breakfast', health_labels)
-      snack = get_meals('snack', health_labels)
-      lunch = get_meals('lunch', health_labels)
-      dinner = get_meals('dinner', health_labels)
+      breakfast = get_meals('breakfast')
+      snack = get_meals('snack')
+      lunch = get_meals('lunch')
+      dinner = get_meals('dinner')
 
-      if not breakfast or not snack or not lunch or not dinner:
-        context['form'] = form
-        context['no_plan_found'] = "No meal plan could be generated."
-        return render(request, 'meals/index.html', context)
-        
       # # For Basinhopping
       # meals = [breakfast, snack, lunch, snack, dinner]
       # mealplanstep = MealPlanStep()
@@ -548,138 +522,72 @@ def form(request):
       except KeyError:
         pass
 
-      untouched_plan = plan
       meal_types = plan
       plan = asarray(plan, order='F')
       meal_types = asarray(meal_types, order='F')
-      temperature_ini = float(request.POST['temperature_ini'])
 
-      if not form.cleaned_data['weekly_meal_plan']:
-        sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-        sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
-        print ('plan[:,0]', plan[:,0])
+      sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+      sim_anneal.sim_anneal(meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
-        p, created = Plan.objects.get_or_create(
-          name = name,
-          calories = nutrition_req[0],
-          fat = nutrition_req[1],
-          sat_fat = nutrition_req[2],
-          trans_fat = nutrition_req[3],
-          mono_unsat_fat = nutrition_req[4],
-          poly_unsat_fat = nutrition_req[5],
-          carbohydrates = nutrition_req[6],
-          fiber = nutrition_req[7],
-          sugar = nutrition_req[8],
-          protein = nutrition_req[9],
-          cholesterol = nutrition_req[10],
-          sodium = nutrition_req[11],
-          calcium = nutrition_req[12],
-          magnesium = nutrition_req[13],
-          potassium = nutrition_req[14],
-          iron = nutrition_req[15],
-          zinc = nutrition_req[16],
-          phosphorus = nutrition_req[17],
-          vit_a = nutrition_req[18],
-          vit_c = nutrition_req[19],
-          thiamin = nutrition_req[20],
-          riboflavin = nutrition_req[21],
-          niacin = nutrition_req[22],
-          vit_b6 = nutrition_req[23],
-          folic_acid = nutrition_req[24],
-          vit_b12 = nutrition_req[25],
-          vit_d = nutrition_req[26],
-          vit_e = nutrition_req[27],
-          vit_k = nutrition_req[28]
-        )
+      p, created = Plan.objects.get_or_create(
+        name = name,
+        calories = nutrition_req[0],
+        fat = nutrition_req[1],
+        sat_fat = nutrition_req[2],
+        trans_fat = nutrition_req[3],
+        mono_unsat_fat = nutrition_req[4],
+        poly_unsat_fat = nutrition_req[5],
+        carbohydrates = nutrition_req[6],
+        fiber = nutrition_req[7],
+        sugar = nutrition_req[8],
+        protein = nutrition_req[9],
+        cholesterol = nutrition_req[10],
+        sodium = nutrition_req[11],
+        calcium = nutrition_req[12],
+        magnesium = nutrition_req[13],
+        potassium = nutrition_req[14],
+        iron = nutrition_req[15],
+        zinc = nutrition_req[16],
+        phosphorus = nutrition_req[17],
+        vit_a = nutrition_req[18],
+        vit_c = nutrition_req[19],
+        thiamin = nutrition_req[20],
+        riboflavin = nutrition_req[21],
+        niacin = nutrition_req[22],
+        vit_b6 = nutrition_req[23],
+        folic_acid = nutrition_req[24],
+        vit_b12 = nutrition_req[25],
+        vit_d = nutrition_req[26],
+        vit_e = nutrition_req[27],
+        vit_k = nutrition_req[28]
+      )
 
-        if created:
-          for i in range(0,5):
-            start = i * 32
-            end = (i + 1) * 32
-            if (i == 0):
-              restored_2d_plan = array(plan[start:end])
-            else:
-              restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-          # The [::-1] reverses the array
-          plan = restored_2d_plan#[::-1]
+      if created:
+        for i in range(0,5):
+          start = i * 32
+          end = (i + 1) * 32
+          if (i == 0):
+            restored_2d_plan = array(plan[start:end])
+          else:
+            restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+        # The [::-1] reverses the array
+        plan = restored_2d_plan#[::-1]
 
-          for i, meal in enumerate(plan):
-            recipe = Recipe.objects.get(id=meal[0])
-            p.planrecipe_set.get_or_create(
-              recipe = recipe,
-              meal_number = i
-            )
-
-        return HttpResponseRedirect('/meals/plan/' + str(p.id))
-      else:
-        for day_num in range(0, 7):
-          plan = untouched_plan
-          meal_types = plan
-          plan = asarray(plan, order='F')
-          meal_types = asarray(meal_types, order='F')
-
-          print("untouched_plan: ", untouched_plan)
-          print("plan: ", plan)
-          print("meal_types: ", meal_types)
-          sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-          sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
-
-          p, created = Plan.objects.get_or_create(
-            name = "Weekly Meal Plan " + "[Day " + str((day_num + 1)) + "]: " + name,
-            calories = nutrition_req[0],
-            fat = nutrition_req[1],
-            sat_fat = nutrition_req[2],
-            trans_fat = nutrition_req[3],
-            mono_unsat_fat = nutrition_req[4],
-            poly_unsat_fat = nutrition_req[5],
-            carbohydrates = nutrition_req[6],
-            fiber = nutrition_req[7],
-            sugar = nutrition_req[8],
-            protein = nutrition_req[9],
-            cholesterol = nutrition_req[10],
-            sodium = nutrition_req[11],
-            calcium = nutrition_req[12],
-            magnesium = nutrition_req[13],
-            potassium = nutrition_req[14],
-            iron = nutrition_req[15],
-            zinc = nutrition_req[16],
-            phosphorus = nutrition_req[17],
-            vit_a = nutrition_req[18],
-            vit_c = nutrition_req[19],
-            thiamin = nutrition_req[20],
-            riboflavin = nutrition_req[21],
-            niacin = nutrition_req[22],
-            vit_b6 = nutrition_req[23],
-            folic_acid = nutrition_req[24],
-            vit_b12 = nutrition_req[25],
-            vit_d = nutrition_req[26],
-            vit_e = nutrition_req[27],
-            vit_k = nutrition_req[28]
+        for i, meal in enumerate(plan):
+          recipe = Recipe.objects.get(id=meal[0])
+          p.planrecipe_set.get_or_create(
+            recipe = recipe,
+            meal_number = i
           )
 
-          if created:
-            for i in range(0,5):
-              start = i * 32
-              end = (i + 1) * 32
-              if (i == 0):
-                restored_2d_plan = array(plan[start:end])
-              else:
-                restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-            # The [::-1] reverses the array
-            plan = restored_2d_plan#[::-1]
-
-            for i, meal in enumerate(plan):
-              recipe = Recipe.objects.get(id=meal[0])
-              p.planrecipe_set.get_or_create(
-                recipe = recipe,
-                meal_number = i
-              )
-
-        return HttpResponseRedirect('/meals/weeklyplan/' + str(p.id - 6) )
+      return HttpResponseRedirect('/meals/plan/' + str(p.id))
   else:
     form = PlanForm()
 
-  context['form'] = form
+  context = {
+    'form': form,
+    'plans': Plan.objects.all()
+  }
   return render(request, 'meals/form.html', context)
 
 def index(request):
@@ -701,19 +609,6 @@ def search(request):
     form = PlanForm()
 
   return render(request, 'meals/search.html', {'form': form})
-
-def search2(request):
-  if request.method == 'POST':
-    form = PlanForm(request.POST)
-    if form.is_valid():
-      name = form.cleaned_data['name']
-      calories = form.cleaned_data['calories']
-
-      return HttpResponseRedirect('/meals/')
-  else:
-    form = PlanForm()
-
-  return render(request, 'meals/search2.html', {'form': form})
 
 def game(request):  
   return render(request, 'meals/game.html') 

@@ -1,49 +1,56 @@
 {% extends "base.html" %}
 {% block contents %}
 <div class ="container">
-  <img id = "bg2" src = '/static/meals/images/bg2.png'></img>
-  <div id = "navBar">
-    <ul>
-      <li class = "active">
-        <span class="navText">Home</span>
-      </li>
-      <li>
-        <span class="navText">Search</span>        
-      </li>
-      <li>
-        <span class="navText">About</span>
-      </li>      
-    </ul>
-    <div class = "contents">
-      <div id ='home'>
-        {% if no_plan_found %}
-          <h1>
-            {{ no_plan_found }}
-          </h1><br /><br />
-        {% endif %}
-        <h2>Welcome to <span><img class = "logo" src = "/static/meals/images/logo.png"></img></span> </h2>
-        <p>This app allows you to enter your nutritional requirements and return
-        list of recipes that meet your requirements.</p>
-        <p>To get started, click on the 'Search' tab </p>
-        <p>Happy searching!</p>
-      </div>
-      <div id ='search' class = "hidden">          
-        <p>There are many input fields to help you refine your search. </p>
-        <p>Enter the weight amount for specific fields.</p>
-        <p>Click the button below to load the form</p>
-        <button id = 'search' class ='btn loadForm_open' rel="#sheet">Load form</button>
-        <p>Alternatively you can search for previously created meal plan by name:</p>
-        <form id = 'searchMealForm' action ='/meals/plan/search' method = 'get'>
-          <input placeholder="Enter Meal Name" name="name" required>
-          <button type = "submit" class ='btn'>Search</button>  
-        </form>
-        <div id="loadForm" >                       
+    <img id = "bg2" src = '/static/meals/images/bg2.png'></img>
+    <div id = "navBar">
+      <ul>
+        <li class = "active">
+          <span class="navText">Home</span>
+        </li>
+        <li>
+          <span class="navText">Search</span>        
+        </li>
+        <li>
+          <span class="navText">Smart Search</span>        
+        </li>
+        <li>
+          <span class="navText">About</span>
+        </li>      
+      </ul>
+      <div class = "contents">
+        <div id ='home'>
+          <h2>Welcome to <span><img class = "logo" src = "/static/meals/images/logo.png"></img></span> </h2>
+          <p>This app allows you to enter your nutritional requirements and return
+          list of recipes that meet your requirements.</p>
+          <p>To get started, click on the 'Search' tab </p>
+          <p>You can also use the 'Smart Search' tab for easier quick search if you are not sure of your nutritional requirements. </p>
+          <p>Happy searching!</p>
         </div>
-      </div>
-      <div id ='about' class = "hidden">
-        <p>This awesome app is made by Natim!</p>
-      </div>
-    </div>
+        <div id ='search' class = "hidden">          
+          <p>There are many input fields to help you refine your search. </p>
+          <p>Enter the weight amount for specific fields.</p>
+          <p>Click the button below to load the form</p>
+          <button id = 'search' class ='btn loadForm_open' rel="#sheet">Load form</button>
+          <p>Alternatively you can search for previously created meal plan by name:</p>
+          <form id = 'searchMealForm' action ='/meals/plan/search' method = 'get'>
+            <input placeholder="Enter Meal Name" name="name" required>
+            <button type = "submit" class ='btn'>Search</button>  
+          </form>
+          <div id="loadForm" >                       
+          </div>
+        </div>
+        <div id ='smartsearch' class = "hidden">          
+          <p>This feature allows you to search by age, gender, weight and height</p>          
+          <p>Click the button below to load the form</p>
+          <button id = 'search2' class ='btn loadForm2_open' rel="#sheet">Load form</button>        
+          <div id="loadForm2" >                       
+          </div>
+        </div>
+        <div id ='about' class = "hidden">
+          <p>This awesome app is made by Natim!</p>
+        </div>
+      </div>  
+    </div>       
   </div>
 </div>
 <script src="/static/meals/js/default.js"></script>

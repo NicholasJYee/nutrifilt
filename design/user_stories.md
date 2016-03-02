@@ -11,7 +11,8 @@
   1. pre-built healthy meal for age, weight, sex
   1. Input form for plan should use common nutrition units (i.e. Vit d uses IU (i think)))
   1. Add more recipes to database
-  1. I want see other ppl meal plans if they have the same nutritional requests so that I don't have to wait
+  1. I want see other ppl meal plans if they have the same nutritional requests so that I don't have to 
+  1. Display Restrictions
 
 * Nick:
   1. DONE - Optimize using Simulated Annealing
