@@ -5,7 +5,10 @@
   <div>
     {% if plan %}   
     <div class='mealplan'>      
-      <strong>Plan name: {{ plan.name }}</strong>
+      <p><strong>Plan Name:</strong><p>
+      <p>{{ plan.name }}</p>
+      <strong>Plan Cost:</strong>
+      <p>{{ plan.cost }}</p>
         <ul>
           <h3>Meals</h3>
           <p>(hover over images to view Nutrition tables)</p>

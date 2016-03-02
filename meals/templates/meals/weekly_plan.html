@@ -5,7 +5,10 @@
   <div>
     {% for plan in plans %}
       <div class='mealplan'>      
-        <strong>Plan name: {{ plan.plan.name }}</strong>
+        <p><strong>Plan Name:</strong></p>
+        <p>{{ plan.plan.name }}</p>
+        <strong>Plan Cost:</strong>
+        <p>{{ plan.plan.cost }}</p>
           <ul>
             <h3>Meals</h3>
             {% for meal in plan.plan.planrecipe_set.all %}
