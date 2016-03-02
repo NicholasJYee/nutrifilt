@@ -146,7 +146,7 @@ def plan(request, plan_id):
 
 def weekly_plan(request, plan_id):
   weekly_plan = []
-  plans = list(Plan.objects.filter(id__in=range(int(plan_id), int(plan_id) + 2)))
+  plans = list(Plan.objects.filter(id__in=range(int(plan_id), int(plan_id) + 7)))
   for i, plan in enumerate(plans):
     weekly_plan.append(plan_info(plan))
 
