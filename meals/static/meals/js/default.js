@@ -74,17 +74,13 @@ $(function() {
       var smartSearchName = $('#smartSearchName');
       smartSearchAge.on('input change', function () {
         smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
-        console.log("smartSearchName.val()", smartSearchName.val())
       });
       smartSearchHeight.on('input change', function () {
         smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
-        console.log("smartSearchName.val()", smartSearchName.val())
       });
       smartSearchWeight.on('input change', function () {
         smartSearchName.val("Age: " + smartSearchAge.val() + " Height: " + smartSearchHeight.val() + " Weight: " + smartSearchWeight.val());
-        console.log("smartSearchName.val()", smartSearchName.val())
       });
-
 
     });      
   });
