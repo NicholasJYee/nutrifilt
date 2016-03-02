@@ -121,7 +121,7 @@ def plan(request, plan_id):
 
 def weekly_plan(request, plan_id):
   weekly_plan = []
-  plans = list(Plan.objects.filter(id__in=range(int(plan_id), int(plan_id) + 7)))
+  plans = list(Plan.objects.filter(id__in=range(int(plan_id), int(plan_id) + 2)))
   for i, plan in enumerate(plans):
     weekly_plan.append(plan_info(plan))
   return render(request, 'meals/weekly_plan.html', {"plans": weekly_plan})
