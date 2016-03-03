@@ -8,6 +8,7 @@ import secret
 
 from .forms import *
 from .computations import *
+from simulated_annealing import *
 # import sim_anneal
 
 def make_weekly_grocery_list(plans):
@@ -573,11 +574,13 @@ def form(request):
 
       untouched_plan = plan
       meal_types = plan
-      plan = asarray(plan, order='F')
-      meal_types = asarray(meal_types, order='F')
+      # plan = asarray(plan, order='F')
+      # meal_types = asarray(meal_types, order='F')
       temperature_ini = float(request.POST['temperature_ini'])
 
       if not form.cleaned_data['weekly_meal_plan']:
+        generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+        raise SystemExit
         # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
         # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
         print ('plan[:,0]', plan[:,0])

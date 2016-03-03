@@ -220,40 +220,40 @@ def get_meals(label, health_labels):
 
   return meals
 
-def generate_plan_meeting_nutrition(meals, nutrition_req):
-  tries = 0
-  while True:
-    tries += 1
+# def generate_plan_meeting_nutrition(meals, nutrition_req):
+#   tries = 0
+#   while True:
+#     tries += 1
 
-    for i, meal in enumerate(meals):
-      if (i==0):
-        selected_meals = array(choice(meal))
-      else:
-        selected_meals = vstack([selected_meals, array(choice(meal))])
+#     for i, meal in enumerate(meals):
+#       if (i==0):
+#         selected_meals = array(choice(meal))
+#       else:
+#         selected_meals = vstack([selected_meals, array(choice(meal))])
 
-    met_nutrient_requirement = nutrition_met(selected_meals, nutrition_req)
-    if met_nutrient_requirement:
-      break
+#     met_nutrient_requirement = nutrition_met(selected_meals, nutrition_req)
+#     if met_nutrient_requirement:
+#       break
 
-    if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
-      break
+#     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
+#       break
 
-  return selected_meals
+#   return selected_meals
 
-def nutrition_met(plan, nutrition_req):
-  meals_nutrition = get_nutrition(plan)
+# def nutrition_met(plan, nutrition_req):
+#   meals_nutrition = get_nutrition(plan)
 
-  num_of_nutrition_met = 0
-  for i, nutrition_req_amount in enumerate(nutrition_req):
-    # Change code here to set up ranges and around values for nutri
-    if meals_nutrition[i] >= nutrition_req_amount:
-      num_of_nutrition_met += 1
-    # End 
+#   num_of_nutrition_met = 0
+#   for i, nutrition_req_amount in enumerate(nutrition_req):
+#     # Change code here to set up ranges and around values for nutri
+#     if meals_nutrition[i] >= nutrition_req_amount:
+#       num_of_nutrition_met += 1
+#     # End 
 
-  if num_of_nutrition_met == len(nutrition_req):
-    return True
-  else:
-    return False
+#   if num_of_nutrition_met == len(nutrition_req):
+#     return True
+#   else:
+#     return False
 
 def get_nutrition(meals):
     meals_nutrition = [0] * 29
