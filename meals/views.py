@@ -530,7 +530,7 @@ def form(request):
 
       if breakfast.size == 0 or snack.size == 0 or lunch.size == 0  or dinner.size == 0:
         context['form'] = form
-        context['no_plan_found'] = "No meal plan could be generated."
+        context['no_plan_found'] = "No meal plan can be generated based on your dietary restriction.  Sorry for the inconvenience."
         return render(request, 'meals/index.html', context)
         
       # For Sim Annealing (Fortran)
