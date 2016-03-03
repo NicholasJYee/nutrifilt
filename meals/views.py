@@ -665,7 +665,6 @@ def form(request):
             vit_k = nutrition_req[28]
           )
 
-          plan = array(plan)[::-1]
           if created:
             for i, meal in enumerate(plan):
               recipe = Recipe.objects.get(id=meal[0])
