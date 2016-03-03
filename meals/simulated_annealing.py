@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, random
 from math import ceil, exp
 from numpy import array
 
@@ -24,14 +24,34 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
   for i in range(0, TEMPERATURE_NUMB_STEP):
     for j in range(0, DRAWS):
       new_plan, num_of_reinitialize, exit_loops = change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, j, i, DRAWS, TEMPERATURE_NUMB_STEP, exit_loops)
-      print("i: ", i)
-      print("j: ", j)
       if exit_loops:
         break
 
+      total_cost = plan_cost(new_plan)
+      print("total_cost: ", total_cost)
+
+      accept_probablity = min(1., exp(-(total_cost - previous_cost) / temperature))
+      rand_accept = random()
+
+      if rand_accept < accept_probablity:
+        plan = array(new_plan)
+        previous_cost = total_cost
+
+        if total_cost < lowest_cost:
+          lowest_cost = total_cost
+          cheapest_plan = array(new_plan)
+          print("lowest_cost: ", lowest_cost)
+          print("cheapest_plan: ", cheapest_plan)
+
     if exit_loops:
       break
-  raise SystemExit
+    temperature -= (temperature_ini - TEMPERATURE_END) / TEMPERATURE_NUMB_STEP
+
+  plan = array(cheapest_plan)
+  print("cheapest_plan: ", cheapest_plan[:,0])
+  print("plan: ", plan[:,0])
+
+  return plan
 
 def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP, exit_loops):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000
