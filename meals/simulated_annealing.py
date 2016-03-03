@@ -1,5 +1,18 @@
 from random import randint
 
+def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner):
+  TEMPERATURE_END = 0.01
+  if temperature_ini == 1.:
+    TEMPERATURE_NUMB_STEP = 20
+    DRAWS = 10000
+  elif temperature_ini == 5.5:
+    TEMPERATURE_NUMB_STEP = 10
+    DRAWS = 1000
+  elif temperature_ini == 10.:
+    TEMPERATURE_NUMB_STEP = 2
+    DRAWS = 10
+
+
 def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000
 
