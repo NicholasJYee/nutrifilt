@@ -8,7 +8,7 @@ import secret
 
 from .forms import *
 from .computations import *
-import sim_anneal
+# import sim_anneal
 
 def make_weekly_grocery_list(plans):
   ingredients = {}
@@ -578,8 +578,8 @@ def form(request):
       temperature_ini = float(request.POST['temperature_ini'])
 
       if not form.cleaned_data['weekly_meal_plan']:
-        sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-        sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+        # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+        # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
         print ('plan[:,0]', plan[:,0])
 
         p, created = Plan.objects.get_or_create(
@@ -644,8 +644,8 @@ def form(request):
           print("untouched_plan: ", untouched_plan)
           print("plan: ", plan)
           print("meal_types: ", meal_types)
-          sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-          sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+          # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+          # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
           p, created = Plan.objects.get_or_create(
             name = "Weekly Meal Plan " + "[Day " + str((day_num + 1)) + "]: " + name,
