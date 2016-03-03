@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
   # Nick's test page
-  url(r'^form/', views.form, name='form'),
+  # url(r'^form/', views.form, name='form'),
+  url(r'^form/', views.index, name='form'),
   url(r'^populate/', views.populate, name='populate'),
   url(r'^plan/search/$', views.searchplan, name = 'name'),
   url(r'^plan/(?P<plan_id>\w+)/', views.plan, name='plan'),
