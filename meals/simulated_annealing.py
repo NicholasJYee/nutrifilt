@@ -1,7 +1,7 @@
 from random import randint
 
 def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner):
-  MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10
+  MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000
 
   most_nutrient_met = 0
 
@@ -21,7 +21,11 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
         plan[j] = dinner[meal_number]
 
     num_of_nutrition_met = nutrition_met(plan, nutrition_req)
-
+    if num_of_nutrition_met == len(nutrition_req):
+      break
+    elif num_of_nutrition_met >= most_nutrient_met:
+      most_nutrient_met = num_of_nutrition_met
+      plan_with_most_nutrition = plan
 
 
 def nutrition_met(plan, nutrition_req):
