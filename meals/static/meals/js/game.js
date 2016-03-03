@@ -1,4 +1,4 @@
-var mouth = $('<img id = "mouth" src = "../staticfiles/static/meals/images/mouthop.png">');
+var mouth = $('<img id = "mouth" src = "../staticfiles/meals/images/mouthop.png">');
 var gameOn = true;
 var foodType = [ "F","P","C"];
 
@@ -92,7 +92,7 @@ function sense(food) {
       (function () {
         var j = i;
         setTimeout(function(){
-          mouth.attr('src', "../staticfiles/static/meals/images/mouthop" + j + ".png");
+          mouth.attr('src', "../staticfiles/meals/images/mouthop" + j + ".png");
           console.log(mouth.attr('src'));
         }, 100*j);
       }());    
