@@ -12,6 +12,16 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
     TEMPERATURE_NUMB_STEP = 2
     DRAWS = 10
 
+  temperature = temperature_ini
+  lowest_cost = plan_cost(plan)
+
+
+def plan_cost(plan):
+  cost = 0.
+  for meal in plan:
+    cost += meal[2]
+    print("Cost: ", cost)
+  return cost
 
 def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000
