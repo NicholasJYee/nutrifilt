@@ -1,1 +1,1 @@
-web: gunicorn final_proj.wsgi
+web: gunicorn final_proj.wsgi --timeout 120
