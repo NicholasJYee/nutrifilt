@@ -238,6 +238,16 @@ li {
   width: 20vw;
 }
 
+.profile {
+ width:20%;
+ border-radius:50%;
+}
+
+.profileTable {
+ font-size: 1.2vw;
+ border: none;
+}
+
 @media screen and (max-width: 800px) {
  body {
    width: 800px;
