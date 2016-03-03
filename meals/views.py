@@ -136,7 +136,29 @@ def plan_info(plan):
 
 #Search plan by name
 def searchplan(request):
-  plan = Plan.objects.get(name=request.GET.get('name', ''))  
+  try:
+    search_weekly_plan = request.GET.get('search_weekly_meal_plan')
+    if search_weekly_plan is None:
+      raise NameError
+    try:
+      plan = Plan.objects.get(name=request.GET.get('name', ''))
+    except:
+      context = {
+        "no_plan_found": "No weekly meal plan was found.  Please try another weekly meal plan name"
+      }
+      return render(request, 'meals/index.html', context)
+    return HttpResponseRedirect('/meals/weeklyplan/' + str(plan.id))
+  except NameError:
+    pass
+
+  try:
+    plan = Plan.objects.get(name=request.GET.get('name', ''))
+  except:
+    context = {
+      "no_plan_found": "No meal plan was found.  Please try another meal plan name"
+    }
+    return render(request, 'meals/index.html', context)
+
   return render(request, 'meals/plan.html', plan_info(plan))
 
 #search plan by id

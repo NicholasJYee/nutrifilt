@@ -35,6 +35,10 @@
           <button id = 'search' class ='btn loadForm_open' rel="#sheet">Load form</button>
           <p>Alternatively you can search for previously created meal plan by name:</p>
           <form id = 'searchMealForm' action ='/meals/plan/search' method = 'get'>
+            <small><p>
+              <label>Weekly meal plan:</label> 
+              <input name="search_weekly_meal_plan" type="checkbox" checked="checked">
+            </p></small>
             <input placeholder="Enter Meal Name" name="name" required>
             <button type = "submit" class ='btn'>Search</button>  
           </form>
