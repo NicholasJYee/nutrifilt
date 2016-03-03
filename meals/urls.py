@@ -20,4 +20,5 @@ urlpatterns = [
 
   url(r'^game/$', views.game, name='game'),
 
+  url(r'^error/$', views.error, name='error'),
 ]

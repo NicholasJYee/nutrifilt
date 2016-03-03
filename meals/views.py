@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-from numpy import array, asarray, size, append
+from numpy import array, size, append
 import requests, time
 from collections import defaultdict
 
@@ -512,7 +512,6 @@ def form(request):
           health_labels = []
         else:
           health_labels = form.cleaned_data['health_labels']
-          print('health_labels', health_labels)
           health_labels.pop()
       except KeyError:
         health_labels = []
@@ -636,9 +635,8 @@ def form(request):
         return HttpResponseRedirect('/meals/plan/' + str(p.id))
       else:
         for day_num in range(0, 7):
+          print("day_num:", day_num)
           plan = array(meal_types)
-          print("plan: ", plan)
-          print("meal_types: ", meal_types)
           plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
           plan = sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
           # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
@@ -697,6 +695,9 @@ def index(request):
     'first_name': "Hatim"
   }
   return render(request, 'meals/index.html', context)
+
+def error(request):
+  return render(request, 'meals/error.html')
 
 #modified demo to reflect in search form
 def search(request):
