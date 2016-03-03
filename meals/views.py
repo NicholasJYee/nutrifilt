@@ -144,7 +144,7 @@ def searchplan(request):
       plan = Plan.objects.get(name=request.GET.get('name', ''))
     except:
       context = {
-        "no_plan_found": "No weekly meal plan was found.  Please try another weekly meal plan name"
+        "no_plan_found": "No weekly meal plan was found.  Please try another weekly meal plan name."
       }
       return render(request, 'meals/index.html', context)
     return HttpResponseRedirect('/meals/weeklyplan/' + str(plan.id))
@@ -155,7 +155,7 @@ def searchplan(request):
     plan = Plan.objects.get(name=request.GET.get('name', ''))
   except:
     context = {
-      "no_plan_found": "No meal plan was found.  Please try another meal plan name"
+      "no_plan_found": "No meal plan was found.  Please try another meal plan name."
     }
     return render(request, 'meals/index.html', context)
 
