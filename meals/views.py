@@ -8,7 +8,8 @@ import secret
 
 from .forms import *
 from .computations import *
-import sim_anneal
+from simulated_annealing import *
+# import sim_anneal
 
 def make_weekly_grocery_list(plans):
   ingredients = {}
@@ -164,52 +165,52 @@ class MealPlanStep(object):
     plan = change_one_meal(plan)
     return plan
 
-def change_one_meal(plan):
-  print("Changing plan")
-  tries = 0
+# def change_one_meal(plan):
+#   print("Changing plan")
+#   tries = 0
 
-  for i in range(0,5):
-    start = i * 32
-    end = (i + 1) * 32
-    if (i == 0):
-      restored_2d_plan = array(plan[start:end])
-    else:
-      restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-  plan = restored_2d_plan
+#   for i in range(0,5):
+#     start = i * 32
+#     end = (i + 1) * 32
+#     if (i == 0):
+#       restored_2d_plan = array(plan[start:end])
+#     else:
+#       restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+#   plan = restored_2d_plan
 
-  original_plan = plan
-  while True:
-    tries += 1
-    changed_meal = randint(0, 4)
+#   original_plan = plan
+#   while True:
+#     tries += 1
+#     changed_meal = randint(0, 4)
 
-    if (changed_meal == 0):
-      plan[changed_meal] = choice(breakfast)
-    elif (changed_meal == 1):
-      plan[changed_meal] = choice(snack)
-    elif (changed_meal == 2):
-      plan[changed_meal] = choice(lunch)
-    elif (changed_meal == 3):
-      plan[changed_meal] = choice(snack)
-    elif (changed_meal == 4):
-      plan[changed_meal] = choice(dinner)
+#     if (changed_meal == 0):
+#       plan[changed_meal] = choice(breakfast)
+#     elif (changed_meal == 1):
+#       plan[changed_meal] = choice(snack)
+#     elif (changed_meal == 2):
+#       plan[changed_meal] = choice(lunch)
+#     elif (changed_meal == 3):
+#       plan[changed_meal] = choice(snack)
+#     elif (changed_meal == 4):
+#       plan[changed_meal] = choice(dinner)
 
-    met_nutrient_requirement = nutrition_met(plan, nutrition_req)
-    if met_nutrient_requirement:
-      break
+#     met_nutrient_requirement = nutrition_met(plan, nutrition_req)
+#     if met_nutrient_requirement:
+#       break
 
-    if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
-        break
-    plan = original_plan
+#     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
+#         break
+#     plan = original_plan
 
-  return plan
+#   return plan
 
-def plan_cost(plan):
-  cost = 0
-  for recipe_num in plan[::32]:
-    recipe = Recipe.objects.get(id=int(recipe_num))
-    cost += recipe.cost / recipe.servings
-  print("Cost: ", float("{0:.2f}".format(cost)))
-  return float("{0:.2f}".format(cost))
+# def plan_cost(plan):
+#   cost = 0
+#   for recipe_num in plan[::32]:
+#     recipe = Recipe.objects.get(id=int(recipe_num))
+#     cost += recipe.cost / recipe.servings
+#   print("Cost: ", float("{0:.2f}".format(cost)))
+#   return float("{0:.2f}".format(cost))
 
 def populate(request):
   if request.method == 'POST':
@@ -516,20 +517,20 @@ def form(request):
       except KeyError:
         health_labels = []
 
-      global nutrition_req
-      global breakfast
-      global snack
-      global lunch
-      global dinner
+      # global nutrition_req
+      # global breakfast
+      # global snack
+      # global lunch
+      # global dinner
       nutrition_req = get_nutrition_req(form)
-      breakfast = get_meals('breakfast', health_labels)
-      snack = get_meals('snack', health_labels)
-      lunch = get_meals('lunch', health_labels)
-      dinner = get_meals('dinner', health_labels)
+      breakfast = array(get_meals('breakfast', health_labels))
+      snack = array(get_meals('snack', health_labels))
+      lunch = array(get_meals('lunch', health_labels))
+      dinner = array(get_meals('dinner', health_labels))
 
-      if not breakfast or not snack or not lunch or not dinner:
+      if breakfast.size == 0 or snack.size == 0 or lunch.size == 0  or dinner.size == 0:
         context['form'] = form
-        context['no_plan_found'] = "No meal plan could be generated."
+        context['no_plan_found'] = "No meal plan can be generated based on your dietary restriction.  Sorry for the inconvenience."
         return render(request, 'meals/index.html', context)
         
       # For Sim Annealing (Fortran)
@@ -571,16 +572,15 @@ def form(request):
       except KeyError:
         pass
 
-      untouched_plan = plan
-      meal_types = plan
-      plan = asarray(plan, order='F')
-      meal_types = asarray(meal_types, order='F')
+      meal_types = array(plan)
       temperature_ini = float(request.POST['temperature_ini'])
 
       if not form.cleaned_data['weekly_meal_plan']:
-        sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-        sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
-        print ('plan[:,0]', plan[:,0])
+        plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
+        plan = sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+        # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+        # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+        
 
         p, created = Plan.objects.get_or_create(
           name = name,
@@ -636,16 +636,13 @@ def form(request):
         return HttpResponseRedirect('/meals/plan/' + str(p.id))
       else:
         for day_num in range(0, 7):
-          plan = untouched_plan
-          meal_types = plan
-          plan = asarray(plan, order='F')
-          meal_types = asarray(meal_types, order='F')
-
-          print("untouched_plan: ", untouched_plan)
+          plan = array(meal_types)
           print("plan: ", plan)
           print("meal_types: ", meal_types)
-          sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
-          sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+          plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
+          plan = sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
+          # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
+          # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
           p, created = Plan.objects.get_or_create(
             name = "Weekly Meal Plan " + "[Day " + str((day_num + 1)) + "]: " + name,
@@ -681,16 +678,6 @@ def form(request):
           )
 
           if created:
-            for i in range(0,5):
-              start = i * 32
-              end = (i + 1) * 32
-              if (i == 0):
-                restored_2d_plan = array(plan[start:end])
-              else:
-                restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-            # The [::-1] reverses the array
-            plan = restored_2d_plan[::-1]
-
             for i, meal in enumerate(plan):
               recipe = Recipe.objects.get(id=meal[0])
               p.planrecipe_set.get_or_create(
