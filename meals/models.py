@@ -172,7 +172,7 @@ class MealLabel(models.Model):
 class IngredientRecipe(models.Model):
   recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
   ingredient = models.ForeignKey(Ingredient, blank=True, null=True)
-  text = models.CharField(max_length=300)
+  text = models.CharField(max_length=1000)
   food = models.CharField(max_length=100)
   weight = models.FloatField()
   created_on = models.DateTimeField(auto_now_add=True)

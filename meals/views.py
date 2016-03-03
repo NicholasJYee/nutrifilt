@@ -243,7 +243,7 @@ def populate(request):
         'app_key': secret.app_key,
         'app_id': secret.app_id,
         'q': terms,
-        'to': 5
+        'to': 10
       }
       recipes = requests.get('https://api.edamam.com/search', params=payload).json()
       store_recipes(recipes)
@@ -331,6 +331,73 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
     if "shallots" in ingredientrecipe.food:
       ingredientrecipe.ingredient = Ingredient.objects.get(food="onion")
       ingredientrecipe.save()
+
+    if "whipping cream" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cream")
+      ingredientrecipe.save()
+
+    if "currants" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="raisin")
+      ingredientrecipe.save()
+
+    if "unsweetened applesauce" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="onion")
+      ingredientrecipe.save()
+
+    if "wheat bran" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="flour")
+      ingredientrecipe.save()
+
+    if "dried apricots" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="raisin")
+      ingredientrecipe.save()
+
+    if "steel cut oats" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="rolled oats")
+      ingredientrecipe.save()
+
+    if "apricots" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="nectarine")
+      ingredientrecipe.save()
+
+    if "whole milk" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="milk")
+      ingredientrecipe.save()
+
+    if "coarse salt" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="salt")
+      ingredientrecipe.save()
+
+    if "oat flour" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="flour")
+      ingredientrecipe.save()
+
+    if "corn flakes" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cornmeal")
+      ingredientrecipe.save()
+
+    if "skim milk" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="milk")
+      ingredientrecipe.save()
+
+    if "rice cereal" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cereal")
+      ingredientrecipe.save()
+
+    if "oat" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="rolled oats")
+      ingredientrecipe.save()
+
+    if "whole grain cereal" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cereal")
+      ingredientrecipe.save()
+
+    if "almond butter" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="butter")
+      ingredientrecipe.save()
+
+
+
 
 
     for ingredient in ingredients:
