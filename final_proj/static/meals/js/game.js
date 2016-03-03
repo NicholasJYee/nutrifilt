@@ -92,7 +92,7 @@ function sense(food) {
       (function () {
         var j = i;
         setTimeout(function(){
-          mouth.attr('src', "static/meals/images/mouthop" + j + ".png");
+          mouth.attr('src', "/static/meals/images/mouthop" + j + ".png");
           console.log(mouth.attr('src'));
         }, 100*j);
       }());    
