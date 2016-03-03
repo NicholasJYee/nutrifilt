@@ -87,7 +87,7 @@ def plan_info(plan):
       extras.append(["Phosphorus (mg)", plan.phosphorus, format(sum(meal.recipe.phosphorus/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
     
     if  plan.vit_a > 0:
-      extras.append(["Vitamin A (IU)", plan.vit_a / 0.3, format(sum(meal.recipe.vit_a/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+      extras.append(["Vitamin A (IU)", plan.vit_a / 0.3, format(sum(meal.recipe.vit_a/meal.recipe.servings for meal in plan.planrecipe_set.all()) / 0.3, '.1f') ])
     
     if  plan.vit_c > 0:
       extras.append(["Vitamin C (mg)", plan.vit_c, format(sum(meal.recipe.vit_c/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
@@ -111,10 +111,10 @@ def plan_info(plan):
       extras.append(["Vitamin B12 (mcg)", plan.vit_b12, format(sum(meal.recipe.vit_b12/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
     
     if  plan.vit_d > 0:
-      extras.append(["Vitamin D (IU)", plan.vit_d / 0.025, format(sum(meal.recipe.vit_d/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+      extras.append(["Vitamin D (IU)", plan.vit_d / 0.025, format(sum(meal.recipe.vit_d/meal.recipe.servings for meal in plan.planrecipe_set.all()) / 0.025, '.1f') ])
     
     if  plan.vit_e > 0:
-      extras.append(["Vitamin E (IU)", plan.vit_e / 0.9, format(sum(meal.recipe.vit_e/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])
+      extras.append(["Vitamin E (IU)", plan.vit_e / 0.9, format(sum(meal.recipe.vit_e/meal.recipe.servings for meal in plan.planrecipe_set.all()) / 0.9, '.1f') ])
     
     if  plan.vit_k > 0:
       extras.append(["Vitamin K (mcg)", plan.vit_k, format(sum(meal.recipe.vit_k/meal.recipe.servings for meal in plan.planrecipe_set.all()), '.1f') ])       
