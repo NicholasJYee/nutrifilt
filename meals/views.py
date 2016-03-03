@@ -308,6 +308,25 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="vinegar")
       ingredientrecipe.save()
 
+    if "goat chese" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cheese")
+      ingredientrecipe.save()
+
+    if "rice wine" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="wine")
+      ingredientrecipe.save()
+
+    if "oyster sauce" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="soy sauce")
+      ingredientrecipe.save()      
+
+    if "heavy cream" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="cream")
+      ingredientrecipe.save()
+
+
+
+
     for ingredient in ingredients:
       if (ingredientrecipe.food == ingredient.food) or (ingredientrecipe.food == ingredient.food + "s"):
         ingredientrecipe.ingredient = ingredient
