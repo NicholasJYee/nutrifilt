@@ -37,7 +37,7 @@
         <p>$ {{ plan.plan.cost }}</p>
           <ul>
             <h3>Meals</h3>
-            {% for meal in plan.plan.planrecipe_set.all %}
+            {% for meal in plan.plan.sorted_planrecipe_set %}
               <li>
                 <img src = "{{ meal.recipe.image }}">
                 <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>

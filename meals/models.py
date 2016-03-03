@@ -101,6 +101,10 @@ class Plan(models.Model):
   def __str__(self):
     return self.name.encode('utf-8')
 
+  @property
+  def sorted_planrecipe_set(self):
+    return self.planrecipe_set.order_by('meal_number')
+
   def cost_of_the_recipes(self):
     cost = 0
     for planrecipe in self.planrecipe_set.all():
