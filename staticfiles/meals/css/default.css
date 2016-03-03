@@ -237,3 +237,62 @@ li {
 #id_health_labels label{
   width: 20vw;
 }
+
+@media screen and (max-width: 800px) {
+ body {
+   width: 800px;
+ }
+
+ .container {
+     font-size: 12px;
+ }
+
+ .contents {
+   height: 190px;
+ }
+
+ .mealplan, .ingredients, .ingredients table, .mealplan ul, .btn, input, label, select {
+   font-size: 10px;
+ }
+
+ #loadForm, #loadForm2 {
+   width: 231.297px;
+   padding: 38.547px;
+ }
+
+ .daForm {
+   width: 240px;
+ }
+
+ select {
+   width: 131.406px;
+   height: 15.4531px;
+   margin-bottom: 10px;
+ }
+
+ #loadForm input, #loadForm2 input {
+   width: 80px;
+   height: 8px;
+ }
+
+ #loadForm input[type = "checkbox"], #loadForm2 input[type = "checkbox"] {
+   width: 77.2969px;
+   height: 7.71875px;
+ }
+
+ #loadForm label, #loadForm2 label {
+   width: 
+ }
+
+ #id_health_labels label {
+   width: 159.797px;    
+ }
+
+ p {
+   margin: 0px;
+ }
+ 
+ p label {
+   margin-top:2%;
+ }
+}
