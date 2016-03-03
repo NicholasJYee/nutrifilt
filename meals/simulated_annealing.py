@@ -27,6 +27,9 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
       most_nutrient_met = num_of_nutrition_met
       plan_with_most_nutrition = plan
 
+    if i == MAX_NUMB_OF_MEAL_PLAN_GENERATED:
+      print("Can't find plan that met nutrition; using best plan")
+      plan = plan_with_most_nutrition
 
 def nutrition_met(plan, nutrition_req):
   num_of_nutrition_met = 0
