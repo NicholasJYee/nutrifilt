@@ -1,6 +1,6 @@
   <form action="/meals/form/" method="post" class = "daForm">
     {% csrf_token %}
-    <select id="num_of_meals" name=num_of_meals>
+    <select required id="num_of_meals" name=num_of_meals required>
       <option value="" disabled="disabled" selected="selected">Select the number of meals</option>
       <option value="1">1 meal</option>
       <option value="2">2 meals</option>
