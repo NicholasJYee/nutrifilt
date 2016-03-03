@@ -572,7 +572,7 @@ def form(request):
       except KeyError:
         pass
 
-      untouched_plan = plan
+      untouched_plan = array(plan)
       meal_types = array(plan)
       # plan = asarray(plan, order='F')
       # meal_types = asarray(meal_types, order='F')

@@ -6,7 +6,6 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
   most_nutrient_met = 0
 
   for i in range(0, MAX_NUMB_OF_MEAL_PLAN_GENERATED):
-    print('meal_types: ', meal_types[:,0])
     for j, meal_type in enumerate(meal_types):
       if meal_type[0] == 1:
         meal_number = randint(0, len(breakfast) - 1)
@@ -23,7 +22,7 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
 
     num_of_nutrition_met = nutrition_met(plan, nutrition_req)
 
-    print('meal_types (end): ', meal_types[:,0])
+
 
 def nutrition_met(plan, nutrition_req):
   num_of_nutrition_met = 0
@@ -36,9 +35,6 @@ def nutrition_met(plan, nutrition_req):
     else:
       num_of_nutrition_met += 1
 
-  # print("calories: ", meals_nutrition[0])
-  # print("required calories: ", nutrition_req[0])
-  # print('num_of_nutrition_met: ', num_of_nutrition_met)
   return num_of_nutrition_met   
 
 def get_nutrition(plan):
