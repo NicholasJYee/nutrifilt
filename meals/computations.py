@@ -255,39 +255,39 @@ def get_meals(label, health_labels):
 #   else:
 #     return False
 
-def get_nutrition(meals):
-    meals_nutrition = [0] * 29
+# def get_nutrition(meals):
+#     meals_nutrition = [0] * 29
 
-    for meal in meals:
-      recipe = Recipe.objects.get(id=meal[0])
-      meals_nutrition[0] += recipe.calories / recipe.servings
-      meals_nutrition[1] += recipe.fat / recipe.servings
-      meals_nutrition[2] += recipe.sat_fat / recipe.servings
-      meals_nutrition[3] += recipe.trans_fat / recipe.servings
-      meals_nutrition[4] += recipe.mono_unsat_fat / recipe.servings
-      meals_nutrition[5] += recipe.poly_unsat_fat / recipe.servings
-      meals_nutrition[6] += recipe.carbohydrates / recipe.servings
-      meals_nutrition[7] += recipe.fiber / recipe.servings
-      meals_nutrition[8] += recipe.sugar / recipe.servings
-      meals_nutrition[9] += recipe.protein / recipe.servings
-      meals_nutrition[10] += recipe.cholesterol / recipe.servings
-      meals_nutrition[11] += recipe.sodium / recipe.servings
-      meals_nutrition[12] += recipe.calcium / recipe.servings
-      meals_nutrition[13] += recipe.magnesium / recipe.servings
-      meals_nutrition[14] += recipe.potassium / recipe.servings
-      meals_nutrition[15] += recipe.iron / recipe.servings
-      meals_nutrition[16] += recipe.zinc / recipe.servings
-      meals_nutrition[17] += recipe.phosphorus / recipe.servings
-      meals_nutrition[18] += recipe.vit_a / recipe.servings
-      meals_nutrition[19] += recipe.vit_c / recipe.servings
-      meals_nutrition[20] += recipe.thiamin / recipe.servings
-      meals_nutrition[21] += recipe.riboflavin / recipe.servings
-      meals_nutrition[22] += recipe.niacin / recipe.servings
-      meals_nutrition[23] += recipe.vit_b6 / recipe.servings
-      meals_nutrition[24] += recipe.folic_acid / recipe.servings
-      meals_nutrition[25] += recipe.vit_b12 / recipe.servings
-      meals_nutrition[26] += recipe.vit_d / recipe.servings
-      meals_nutrition[27] += recipe.vit_e / recipe.servings
-      meals_nutrition[28] += recipe.vit_k / recipe.servings      
+#     for meal in meals:
+#       recipe = Recipe.objects.get(id=meal[0])
+#       meals_nutrition[0] += recipe.calories / recipe.servings
+#       meals_nutrition[1] += recipe.fat / recipe.servings
+#       meals_nutrition[2] += recipe.sat_fat / recipe.servings
+#       meals_nutrition[3] += recipe.trans_fat / recipe.servings
+#       meals_nutrition[4] += recipe.mono_unsat_fat / recipe.servings
+#       meals_nutrition[5] += recipe.poly_unsat_fat / recipe.servings
+#       meals_nutrition[6] += recipe.carbohydrates / recipe.servings
+#       meals_nutrition[7] += recipe.fiber / recipe.servings
+#       meals_nutrition[8] += recipe.sugar / recipe.servings
+#       meals_nutrition[9] += recipe.protein / recipe.servings
+#       meals_nutrition[10] += recipe.cholesterol / recipe.servings
+#       meals_nutrition[11] += recipe.sodium / recipe.servings
+#       meals_nutrition[12] += recipe.calcium / recipe.servings
+#       meals_nutrition[13] += recipe.magnesium / recipe.servings
+#       meals_nutrition[14] += recipe.potassium / recipe.servings
+#       meals_nutrition[15] += recipe.iron / recipe.servings
+#       meals_nutrition[16] += recipe.zinc / recipe.servings
+#       meals_nutrition[17] += recipe.phosphorus / recipe.servings
+#       meals_nutrition[18] += recipe.vit_a / recipe.servings
+#       meals_nutrition[19] += recipe.vit_c / recipe.servings
+#       meals_nutrition[20] += recipe.thiamin / recipe.servings
+#       meals_nutrition[21] += recipe.riboflavin / recipe.servings
+#       meals_nutrition[22] += recipe.niacin / recipe.servings
+#       meals_nutrition[23] += recipe.vit_b6 / recipe.servings
+#       meals_nutrition[24] += recipe.folic_acid / recipe.servings
+#       meals_nutrition[25] += recipe.vit_b12 / recipe.servings
+#       meals_nutrition[26] += recipe.vit_d / recipe.servings
+#       meals_nutrition[27] += recipe.vit_e / recipe.servings
+#       meals_nutrition[28] += recipe.vit_k / recipe.servings      
 
-    return meals_nutrition
+#     return meals_nutrition
