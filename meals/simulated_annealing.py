@@ -23,7 +23,7 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
   for i in range(0, TEMPERATURE_NUMB_STEP):
     for j in range(0, DRAWS):
       new_plan, i, j = change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, j, i, DRAWS, TEMPERATURE_NUMB_STEP)
-
+      raise SystemExit
 
 def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000
@@ -35,16 +35,20 @@ def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakf
 
       for j in range(0, num_meals_to_change):
         which_meal_to_change = randint(0, len(plan) - 1)
-        print("which_meal_to_change: ", which_meal_to_change)
+        print("new_plan: ", new_plan[:,0])
         if int(meal_types[which_meal_to_change, 0]) == 1:
-          print("changing breakfast")
+          new_recipe = randint(0, len(breakfast) - 1)
+          new_plan[which_meal_to_change,:] = breakfast[new_recipe,:]
         elif int(meal_types[which_meal_to_change, 0]) == 2:
-          print("changing snack")
+          new_recipe = randint(0, len(snack) - 1)
+          new_plan[which_meal_to_change,:] = snack[new_recipe,:]
         elif int(meal_types[which_meal_to_change, 0]) == 3:
-          print("changing lunch")
+          new_recipe = randint(0, len(lunch) - 1)
+          new_plan[which_meal_to_change,:] = lunch[new_recipe,:]
         elif int(meal_types[which_meal_to_change, 0]) == 4:
-          print("changing dinner")
-    raise SystemExit
+          new_recipe = randint(0, len(dinner) - 1)
+          new_plan[which_meal_to_change,:] = dinner[new_recipe,:]
+
 
 
   return new_plan, temp_num, draw_num

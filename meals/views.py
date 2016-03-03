@@ -523,12 +523,12 @@ def form(request):
       # global lunch
       # global dinner
       nutrition_req = get_nutrition_req(form)
-      breakfast = get_meals('breakfast', health_labels)
-      snack = get_meals('snack', health_labels)
-      lunch = get_meals('lunch', health_labels)
-      dinner = get_meals('dinner', health_labels)
+      breakfast = array(get_meals('breakfast', health_labels))
+      snack = array(get_meals('snack', health_labels))
+      lunch = array(get_meals('lunch', health_labels))
+      dinner = array(get_meals('f', health_labels))
 
-      if not breakfast or not snack or not lunch or not dinner:
+      if breakfast.size == 0 or snack.size == 0 or lunch.size == 0  or dinner.size == 0:
         context['form'] = form
         context['no_plan_found'] = "No meal plan could be generated."
         return render(request, 'meals/index.html', context)
