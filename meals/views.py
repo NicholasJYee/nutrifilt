@@ -165,52 +165,52 @@ class MealPlanStep(object):
     plan = change_one_meal(plan)
     return plan
 
-def change_one_meal(plan):
-  print("Changing plan")
-  tries = 0
+# def change_one_meal(plan):
+#   print("Changing plan")
+#   tries = 0
 
-  for i in range(0,5):
-    start = i * 32
-    end = (i + 1) * 32
-    if (i == 0):
-      restored_2d_plan = array(plan[start:end])
-    else:
-      restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-  plan = restored_2d_plan
+#   for i in range(0,5):
+#     start = i * 32
+#     end = (i + 1) * 32
+#     if (i == 0):
+#       restored_2d_plan = array(plan[start:end])
+#     else:
+#       restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
+#   plan = restored_2d_plan
 
-  original_plan = plan
-  while True:
-    tries += 1
-    changed_meal = randint(0, 4)
+#   original_plan = plan
+#   while True:
+#     tries += 1
+#     changed_meal = randint(0, 4)
 
-    if (changed_meal == 0):
-      plan[changed_meal] = choice(breakfast)
-    elif (changed_meal == 1):
-      plan[changed_meal] = choice(snack)
-    elif (changed_meal == 2):
-      plan[changed_meal] = choice(lunch)
-    elif (changed_meal == 3):
-      plan[changed_meal] = choice(snack)
-    elif (changed_meal == 4):
-      plan[changed_meal] = choice(dinner)
+#     if (changed_meal == 0):
+#       plan[changed_meal] = choice(breakfast)
+#     elif (changed_meal == 1):
+#       plan[changed_meal] = choice(snack)
+#     elif (changed_meal == 2):
+#       plan[changed_meal] = choice(lunch)
+#     elif (changed_meal == 3):
+#       plan[changed_meal] = choice(snack)
+#     elif (changed_meal == 4):
+#       plan[changed_meal] = choice(dinner)
 
-    met_nutrient_requirement = nutrition_met(plan, nutrition_req)
-    if met_nutrient_requirement:
-      break
+#     met_nutrient_requirement = nutrition_met(plan, nutrition_req)
+#     if met_nutrient_requirement:
+#       break
 
-    if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
-        break
-    plan = original_plan
+#     if tries == MAX_NUMB_OF_INITIAL_MEAL_PLAN_GENERATED:
+#         break
+#     plan = original_plan
 
-  return plan
+#   return plan
 
-def plan_cost(plan):
-  cost = 0
-  for recipe_num in plan[::32]:
-    recipe = Recipe.objects.get(id=int(recipe_num))
-    cost += recipe.cost / recipe.servings
-  print("Cost: ", float("{0:.2f}".format(cost)))
-  return float("{0:.2f}".format(cost))
+# def plan_cost(plan):
+#   cost = 0
+#   for recipe_num in plan[::32]:
+#     recipe = Recipe.objects.get(id=int(recipe_num))
+#     cost += recipe.cost / recipe.servings
+#   print("Cost: ", float("{0:.2f}".format(cost)))
+#   return float("{0:.2f}".format(cost))
 
 def populate(request):
   if request.method == 'POST':
@@ -517,11 +517,11 @@ def form(request):
       except KeyError:
         health_labels = []
 
-      global nutrition_req
-      global breakfast
-      global snack
-      global lunch
-      global dinner
+      # global nutrition_req
+      # global breakfast
+      # global snack
+      # global lunch
+      # global dinner
       nutrition_req = get_nutrition_req(form)
       breakfast = get_meals('breakfast', health_labels)
       snack = get_meals('snack', health_labels)

@@ -1,4 +1,6 @@
 from random import randint
+from math import ceil, exp
+from numpy import array
 
 def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner):
   TEMPERATURE_END = 0.01
@@ -14,13 +16,33 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
 
   temperature = temperature_ini
   lowest_cost = plan_cost(plan)
+  previous_cost = lowest_cost
+  cheapest_plan = array(plan)
+  num_of_reinitialize = 0
 
+  for i in range(0, TEMPERATURE_NUMB_STEP):
+    for j in range(0, DRAWS):
+      new_plan, i, j = change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, j, i, DRAWS, TEMPERATURE_NUMB_STEP)
+    raise SystemExit
+
+def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP):
+  MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000
+  if num_of_reinitialize < 3:
+    for i in range(0, MAX_NUMB_OF_MEAL_PLAN_GENERATED):
+      new_plan = array(plan)
+      num_meals_to_change = randint(1, ceil(float(len(plan)) / 2.))
+      num_meals_to_change = attenuator(num_meals_to_change, draw_num, DRAWS)
+      print('num_meals_to_change: ', num_meals_to_change)
+
+  return new_plan, temp_num, draw_num
+
+def attenuator(num_meals_to_change, iter, max_iter):
+  return ceil(num_meals_to_change * (2. - exp(float(iter) / (1.5 * max_iter))))
 
 def plan_cost(plan):
   cost = 0.
   for meal in plan:
     cost += meal[2]
-    print("Cost: ", cost)
   return cost
 
 def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner):
@@ -48,11 +70,11 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
       break
     elif num_of_nutrition_met >= most_nutrient_met:
       most_nutrient_met = num_of_nutrition_met
-      plan_with_most_nutrition = plan
+      plan_with_most_nutrition = array(plan)
 
     if i == MAX_NUMB_OF_MEAL_PLAN_GENERATED:
       print("Can't find plan that met nutrition; using best plan")
-      plan = plan_with_most_nutrition
+      plan = array(plan_with_most_nutrition)
 
 def nutrition_met(plan, nutrition_req):
   num_of_nutrition_met = 0
