@@ -19,13 +19,21 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
   previous_cost = lowest_cost
   cheapest_plan = array(plan)
   num_of_reinitialize = 0
+  exit_loops = False
 
   for i in range(0, TEMPERATURE_NUMB_STEP):
     for j in range(0, DRAWS):
-      new_plan, i, j = change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, j, i, DRAWS, TEMPERATURE_NUMB_STEP)
-      raise SystemExit
+      new_plan, num_of_reinitialize, exit_loops = change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, j, i, DRAWS, TEMPERATURE_NUMB_STEP, exit_loops)
+      print("i: ", i)
+      print("j: ", j)
+      if exit_loops:
+        break
 
-def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP):
+    if exit_loops:
+      break
+  raise SystemExit
+
+def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP, exit_loops):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000
   if num_of_reinitialize < 3:
     for i in range(0, MAX_NUMB_OF_MEAL_PLAN_GENERATED):
@@ -48,9 +56,21 @@ def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakf
           new_recipe = randint(0, len(dinner) - 1)
           new_plan[which_meal_to_change,:] = dinner[new_recipe,:]
 
+      num_of_nutrition_met = nutrition_met(new_plan, nutrition_req)
+      if num_of_nutrition_met == len(nutrition_req):
+        break
 
+      if i == MAX_NUMB_OF_MEAL_PLAN_GENERATED - 1:
+        print("Couldn't generate another similar plan; trying a new start point")
+        new_plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
+        num_of_reinitialize += 1
+        break
+  else:
+    print("No plan meeting nutritional req :(")
+    new_plan = plan
+    exit_loops = True
 
-  return new_plan, temp_num, draw_num
+  return new_plan, num_of_reinitialize, exit_loops
 
 def attenuator(num_meals_to_change, iter, max_iter):
   return int(ceil(float(num_meals_to_change) * (2. - exp(float(iter) / (1.5 * float(max_iter))))))
@@ -61,7 +81,7 @@ def plan_cost(plan):
     cost += meal[2]
   return cost
 
-def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner):
+def generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner):
   MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000
 
   most_nutrient_met = 0
@@ -88,9 +108,11 @@ def generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_
       most_nutrient_met = num_of_nutrition_met
       plan_with_most_nutrition = array(plan)
 
-    if i == MAX_NUMB_OF_MEAL_PLAN_GENERATED:
+    if i == MAX_NUMB_OF_MEAL_PLAN_GENERATED - 1:
       print("Can't find plan that met nutrition; using best plan")
       plan = array(plan_with_most_nutrition)
+
+  return plan
 
 def nutrition_met(plan, nutrition_req):
   num_of_nutrition_met = 0

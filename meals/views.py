@@ -577,7 +577,7 @@ def form(request):
       temperature_ini = float(request.POST['temperature_ini'])
 
       if not form.cleaned_data['weekly_meal_plan']:
-        generate_plan_meeting_nutrition(plan, meal_types, untouched_plan, nutrition_req, breakfast, snack, lunch, dinner)
+        generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
         sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
         raise SystemExit
         # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
