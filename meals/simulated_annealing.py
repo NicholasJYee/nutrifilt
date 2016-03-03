@@ -5,11 +5,11 @@ from numpy import array
 def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner):
   TEMPERATURE_END = 0.01
   if temperature_ini == 1.:
-    TEMPERATURE_NUMB_STEP = 20
-    DRAWS = 10000
-  elif temperature_ini == 5.5:
     TEMPERATURE_NUMB_STEP = 10
     DRAWS = 1000
+  elif temperature_ini == 5.5:
+    TEMPERATURE_NUMB_STEP = 5
+    DRAWS = 100
   elif temperature_ini == 10.:
     TEMPERATURE_NUMB_STEP = 2
     DRAWS = 10
@@ -49,7 +49,7 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
   return plan
 
 def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner, draw_num, temp_num, DRAWS, TEMPERATURE_NUMB_STEP, exit_loops):
-  MAX_NUMB_OF_MEAL_PLAN_GENERATED = 1000000
+  MAX_NUMB_OF_MEAL_PLAN_GENERATED = 10000
   if num_of_reinitialize < 3:
     for i in range(0, MAX_NUMB_OF_MEAL_PLAN_GENERATED):
       new_plan = array(plan)
