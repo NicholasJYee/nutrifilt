@@ -1,37 +1,36 @@
 var mouth = $('<img id = "mouth" src = "/static/meals/images/mouthop.png">');
+var animation = [
+  $('<img id = "mouth" src = "/static/meals/images/mouthop2.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop3.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop4.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop5.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop6.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop7.png">'),
+  $('<img id = "mouth" src = "/static/meals/images/mouthop8.png">'),
+];
 var gameOn = true;
 var foodType = [ "F","P","C"];
-
-
 $(function() {
-  newGame();
+  $('#gameWindow').append(mouth);
+  play();
   $('body').on('keydown', function(e){    
     var pos = parseInt(mouth.css('margin-top'));    
     switch(e.which) {
     //up
     case 38:
       if (pos > 0){
-        mouth.css('margin-top',(pos-100)+'px')
+        $('#mouth').css('margin-top',(pos-100)+'px')
       }
       break;
     //down
     case 40: 
       if (pos < 200){
-        mouth.css('margin-top',pos+100+'px')
+        $('#mouth').css('margin-top',pos+100+'px')
       }
       break;
     }            
   })
 });
-
-function newGame() {
-  $('#gameWindow').empty();
-  $('#gameWindow').append(mouth);
-  $('.lvl').width(50);
-  gameOn = true;
-  play();
-}
-
 function play() {  
   if (gameOn) {
     setTimeout(function(){    
@@ -42,11 +41,11 @@ function play() {
         if ($(lvl).width() > 0 && $(lvl).width() < 100) {
           $(lvl).width($(lvl).width()-2);
         }else {
-          $('#gameWindow').empty();          
+          $('#gameWindow').html("");          
           $('#gameWindow').append($('<h1>').text("Game Over"));
           var btn = $('<button>');
           btn.text('New Game');
-          btn.attr('onClick', 'newGame()');
+          btn.attr('onClick', 'location.href=""');
           btn.addClass('btn');          
           $('#gameWindow').append(btn);
           gameOn = false;
@@ -55,9 +54,7 @@ function play() {
     }, 1000);    
   }    
 };
-
 function render(food) {
-
   var r = Math.floor(((Math.random() * 255) + 1));
   var g = Math.floor(((Math.random() * 255) + 1));
   var b = Math.floor(((Math.random() * 255) + 1));
@@ -81,18 +78,19 @@ function render(food) {
     }  
   );
 }
-
 function sense(food) {
   var pos = parseInt(food.css('margin-left')); 
   var ftop = parseInt(food.css('margin-top'))-22;
   var mtop = parseInt(mouth.css('margin-top'));     
   if ( pos < 105 && ftop == mtop ) {
-
-    for (i=2; i<9; i++) {
+    for (i=0; i<7; i++) {
       (function () {
         var j = i;
         setTimeout(function(){
-          // mouth.attr('src', "/static/meals/images/mouthop" + j + ".png");
+          mouth.remove();
+          mouth = animation[j].css("margin-top", mouth.css("margin-top"));
+          $("#gameWindow").append(mouth);
+          console.log(mouth.attr('src'));
         }, 100*j);
       }());    
     }     
@@ -104,4 +102,3 @@ function sense(food) {
     $('#lvl' + lvl).width(width); 
   }
 }
-//progress
