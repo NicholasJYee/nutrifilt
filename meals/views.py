@@ -308,7 +308,7 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="vinegar")
       ingredientrecipe.save()
 
-    if "goat chese" in ingredientrecipe.food:
+    if "goat cheese" in ingredientrecipe.food:
       ingredientrecipe.ingredient = Ingredient.objects.get(food="cheese")
       ingredientrecipe.save()
 
@@ -324,7 +324,13 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="cream")
       ingredientrecipe.save()
 
+    if "oil" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="olive oil")
+      ingredientrecipe.save()
 
+    if "shallots" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="onion")
+      ingredientrecipe.save()
 
 
     for ingredient in ingredients:
