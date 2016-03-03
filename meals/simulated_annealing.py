@@ -6,7 +6,7 @@ def sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snac
   TEMPERATURE_END = 0.01
   if temperature_ini == 1.:
     TEMPERATURE_NUMB_STEP = 3
-    DRAWS = 1
+    DRAWS = 1000
   elif temperature_ini == 5.5:
     TEMPERATURE_NUMB_STEP = 2
     DRAWS = 100
