@@ -396,9 +396,49 @@ def try_assigning_ingredientrecipe_with_ingredient(ingredientrecipes):
       ingredientrecipe.ingredient = Ingredient.objects.get(food="butter")
       ingredientrecipe.save()
 
+    if "horseradish" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="sweet pickle relish")
+      ingredientrecipe.save()
 
+    if "ground allspice" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="salt")
+      ingredientrecipe.save()
 
+    if "ground cloves" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="garlic")
+      ingredientrecipe.save()
 
+    if "ground nutmeg" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="nutmeg")
+      ingredientrecipe.save()
+
+    if "apple cider" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="apple cider vinegar")
+      ingredientrecipe.save()
+
+    if "cloves" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="garlic")
+      ingredientrecipe.save()
+
+    if "fresh sage" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="fresh basil")
+      ingredientrecipe.save()
+
+    if "brandy" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="wine")
+      ingredientrecipe.save()
+
+    if "pork loin chops" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="pork")
+      ingredientrecipe.save()
+
+    if "egg white" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="egg")
+      ingredientrecipe.save()
+
+    if "puff pastry" in ingredientrecipe.food:
+      ingredientrecipe.ingredient = Ingredient.objects.get(food="pie crust")
+      ingredientrecipe.save()
 
     for ingredient in ingredients:
       if (ingredientrecipe.food == ingredient.food) or (ingredientrecipe.food == ingredient.food + "s"):
