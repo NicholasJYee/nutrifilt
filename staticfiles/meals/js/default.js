@@ -124,35 +124,35 @@ $(function() {
 var meal_dropdown = function(select_for_num_meals) {
   if (select_for_num_meals.val() == 5) {
     var meal_dropdown_html =
-      "<p class='meal-type'><select name=meal0>\n" +
+      "<p class='meal-type'><select name=meal0 required>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
       "  <option selected='selected' value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p class='meal-type'><select name=meal1>\n" +
+      "<p class='meal-type'><select name=meal1 required>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option selected='selected' value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p class='meal-type'><select name=meal2>\n" +
+      "<p class='meal-type'><select name=meal2 required>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
       "  <option selected='selected' value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p class='meal-type'><select name=meal3>\n" +
+      "<p class='meal-type'><select name=meal3 required>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option selected='selected' value='2'>Snack</option>\n" +
       "  <option value='3'>Lunch</option>\n" +
       "  <option value='4'>Dinner</option>\n" +
       "</select></p>\n" +
-      "<p class='meal-type'><select name=meal4>\n" +
+      "<p class='meal-type'><select name=meal4 required>\n" +
       "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
       "  <option value='1'>Breakfast</option>\n" +
       "  <option value='2'>Snack</option>\n" +
@@ -163,7 +163,7 @@ var meal_dropdown = function(select_for_num_meals) {
   } else {
     for (var i = select_for_num_meals.val() - 1; i >= 0; i--) {
       var meal_dropdown_html =
-        "<select name=meal" + i + ">\n" +
+        "<select name=meal" + i + " required>\n" +
         "  <option value='' disabled='disabled' selected='selected'>Select the type of meal</option>\n" +
         "  <option value='1'>Breakfast</option>\n" +
         "  <option value='2'>Snack</option>\n" +
