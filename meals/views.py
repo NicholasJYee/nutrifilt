@@ -697,10 +697,7 @@ def index(request):
   return render(request, 'meals/index.html', context)
 
 def error(request):
-  context = {
-    'no_plan_found': "No weekly meal plan can be generated for your nutritional requirements.  Sorry for the inconvenience."
-  }
-  return render(request, 'meals/index.html', context)
+  return render(request, 'meals/error.html')
 
 #modified demo to reflect in search form
 def search(request):
