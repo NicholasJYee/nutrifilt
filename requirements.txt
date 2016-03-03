@@ -31,5 +31,6 @@ tornado==4.3
 Twisted==13.2.0
 virtualenv==14.0.6
 wheel==0.26.0
+whitenoise==2.0.6
 xattr==0.6.4
 zope.interface==4.1.1
