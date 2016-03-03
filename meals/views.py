@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseRedirect
-from numpy import array, asarray, size, append
+from numpy import array, size, append
 import requests, time
 from collections import defaultdict
 
