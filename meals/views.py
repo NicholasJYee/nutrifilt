@@ -526,7 +526,7 @@ def form(request):
       breakfast = array(get_meals('breakfast', health_labels))
       snack = array(get_meals('snack', health_labels))
       lunch = array(get_meals('lunch', health_labels))
-      dinner = array(get_meals('f', health_labels))
+      dinner = array(get_meals('dinner', health_labels))
 
       if breakfast.size == 0 or snack.size == 0 or lunch.size == 0  or dinner.size == 0:
         context['form'] = form

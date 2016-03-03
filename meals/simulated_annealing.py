@@ -35,7 +35,6 @@ def change_one_meal(num_of_reinitialize, meal_types, plan, nutrition_req, breakf
 
       for j in range(0, num_meals_to_change):
         which_meal_to_change = randint(0, len(plan) - 1)
-        print("new_plan: ", new_plan[:,0])
         if int(meal_types[which_meal_to_change, 0]) == 1:
           new_recipe = randint(0, len(breakfast) - 1)
           new_plan[which_meal_to_change,:] = breakfast[new_recipe,:]
