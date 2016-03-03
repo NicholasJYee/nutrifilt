@@ -572,17 +572,12 @@ def form(request):
       except KeyError:
         pass
 
-      untouched_plan = array(plan)
       meal_types = array(plan)
       temperature_ini = float(request.POST['temperature_ini'])
 
       if not form.cleaned_data['weekly_meal_plan']:
-        print ('plan[:,0]', plan[:,0])
         plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
-        print ('plan[:,0]', plan[:,0])
         plan = sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
-        print ('plan[:,0]', plan[:,0])
-        raise SystemExit
         # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
         # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
         
@@ -641,14 +636,11 @@ def form(request):
         return HttpResponseRedirect('/meals/plan/' + str(p.id))
       else:
         for day_num in range(0, 7):
-          plan = untouched_plan
-          meal_types = plan
-          plan = asarray(plan, order='F')
-          meal_types = asarray(meal_types, order='F')
-
-          print("untouched_plan: ", untouched_plan)
+          plan = array(meal_types)
           print("plan: ", plan)
           print("meal_types: ", meal_types)
+          plan = generate_plan_meeting_nutrition(plan, meal_types, nutrition_req, breakfast, snack, lunch, dinner)
+          plan = sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
           # sim_anneal.generate_plan_meeting_nutrition(plan, nutrition_req, breakfast, snack, lunch, dinner)
           # sim_anneal.sim_anneal(temperature_ini, meal_types, plan, nutrition_req, breakfast, snack, lunch, dinner)
 
@@ -686,16 +678,6 @@ def form(request):
           )
 
           if created:
-            for i in range(0,5):
-              start = i * 32
-              end = (i + 1) * 32
-              if (i == 0):
-                restored_2d_plan = array(plan[start:end])
-              else:
-                restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-            # The [::-1] reverses the array
-            plan = restored_2d_plan[::-1]
-
             for i, meal in enumerate(plan):
               recipe = Recipe.objects.get(id=meal[0])
               p.planrecipe_set.get_or_create(
