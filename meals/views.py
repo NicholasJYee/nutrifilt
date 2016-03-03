@@ -700,7 +700,7 @@ def form(request):
     form = PlanForm()
 
   context['form'] = form
-  return render(request, 'meals/form.html', context)
+  return render(request, 'meals/index.html', context)
 
 def index(request):
   context = {
