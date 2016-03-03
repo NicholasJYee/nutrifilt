@@ -8,11 +8,11 @@
       <p><strong>Plan Name:</strong><p>
       <p>{{ plan.name }}</p>
       <strong>Plan Cost:</strong>
-      <p>${{ plan.cost }}</p>
+      <p>$ {{ plan.cost }}</p>
         <ul>
           <h3>Meals</h3>
           <p>(hover over images to view Nutrition tables)</p>
-          {% for meal in plan.planrecipe_set.all %}
+          {% for meal in plan.sorted_planrecipe_set %}
             <li>
               <img src = "{{ meal.recipe.image }}">
               <a href="{{ meal.recipe.url }}">{{ meal.recipe.label }}</a>

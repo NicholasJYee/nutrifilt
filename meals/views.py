@@ -615,16 +615,6 @@ def form(request):
         )
 
         if created:
-          for i in range(0,5):
-            start = i * 32
-            end = (i + 1) * 32
-            if (i == 0):
-              restored_2d_plan = array(plan[start:end])
-            else:
-              restored_2d_plan = vstack([restored_2d_plan, array(plan[start:end])])
-          # The [::-1] reverses the array
-          plan = restored_2d_plan[::-1]
-
           for i, meal in enumerate(plan):
             recipe = Recipe.objects.get(id=meal[0])
             p.planrecipe_set.get_or_create(
