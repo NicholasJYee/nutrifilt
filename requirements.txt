@@ -15,7 +15,7 @@ gunicorn==19.4.5
 macholib==1.5.1
 modulegraph==0.10.4
 nose==1.3.7
-numpy==1.9.2
+numpy==1.21.0
 psycopg2==2.6.1
 py2app==0.7.3
 pyOpenSSL==0.13.1
